@@ -8,6 +8,11 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Routes
+const workoutRoutes = require('./src/routes/workoutRoutes');
+
+app.use('/api/workouts', workoutRoutes);
+
 // Test Route
 app.get('/', (req, res) => {
   res.send('Spin Tracker API is running 🚴');
