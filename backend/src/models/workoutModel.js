@@ -38,6 +38,16 @@ const createWorkout = async (workoutData) => {
   return result.rows[0];
 };
 
+const getAllWorkouts = async () => {
+  const result = await pool.query(
+    `SELECT * FROM workouts
+     ORDER BY created_at DESC`
+  );
+
+  return result.rows;
+};
+
 module.exports = {
   createWorkout,
+  getAllWorkouts,
 };

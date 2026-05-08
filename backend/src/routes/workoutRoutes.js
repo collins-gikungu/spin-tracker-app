@@ -5,5 +5,7 @@ const workoutController = require('../controllers/workoutController');
 
 // POST workout
 router.post('/', workoutController.createWorkout);
+//GET all workouts
+router.get('/', workoutController.getAllWorkouts);
 
 module.exports = router;
