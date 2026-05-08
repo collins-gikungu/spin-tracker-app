@@ -43,7 +43,26 @@ const createWorkout = async (req, res) => {
     });
   }
 };
+const getAllWorkouts = async (req, res) => {
+  try {
+    const workouts =
+      await workoutModel.getAllWorkouts();
+
+    res.status(200).json({
+      count: workouts.length,
+      workouts,
+    });
+
+  } catch (error) {
+    console.error(error);
+
+    res.status(500).json({
+      message: 'Server error',
+    });
+  }
+};
 
 module.exports = {
   createWorkout,
+  getAllWorkouts,
 };
