@@ -74,7 +74,26 @@ const getAllWorkouts = async (req, res) => {
   }
 };
 
+const getWorkoutStats = async (req, res) => {
+  try {
+    const stats =
+      await workoutModel.getWorkoutStats();
+
+    res.status(200).json({
+      stats,
+    });
+
+  } catch (error) {
+    console.error(error);
+
+    res.status(500).json({
+      message: 'Server error',
+    });
+  }
+};
+
 module.exports = {
   createWorkout,
   getAllWorkouts,
+  getWorkoutStats,
 };
