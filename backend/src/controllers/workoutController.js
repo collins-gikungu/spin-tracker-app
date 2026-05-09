@@ -54,7 +54,6 @@ const createWorkout = async (req, res) => {
     });
   }
 };
-
 const getAllWorkouts = async (req, res) => {
   try {
     const workouts =
@@ -73,7 +72,6 @@ const getAllWorkouts = async (req, res) => {
     });
   }
 };
-
 const getWorkoutStats = async (req, res) => {
   try {
     const stats =
@@ -91,9 +89,46 @@ const getWorkoutStats = async (req, res) => {
     });
   }
 };
+const getWeeklySummary = async (req, res) => {
+  try {
+    const weeklySummary =
+      await workoutModel.getWeeklySummary();
+
+    res.status(200).json({
+      weeklySummary,
+    });
+
+  } catch (error) {
+    console.error(error);
+
+    res.status(500).json({
+      message: 'Server error',
+    });
+  }
+};
+
+const getMonthlySummary = async (req, res) => {
+  try {
+    const monthlySummary =
+      await workoutModel.getMonthlySummary();
+
+    res.status(200).json({
+      monthlySummary,
+    });
+
+  } catch (error) {
+    console.error(error);
+
+    res.status(500).json({
+      message: 'Server error',
+    });
+  }
+};
 
 module.exports = {
   createWorkout,
   getAllWorkouts,
   getWorkoutStats,
+  getWeeklySummary,
+  getMonthlySummary,
 };
