@@ -1,7 +1,29 @@
+import { useEffect, useState } from 'react';
+
 import WorkoutForm from '../components/WorkoutForm';
 import WorkoutHistory from '../components/WorkoutHistory';
 
+import API from '../services/api';
+
 const Dashboard = () => {
+  const [workouts, setWorkouts] = useState([]);
+
+  useEffect(() => {
+    fetchWorkouts();
+  }, []);
+
+  const fetchWorkouts = async () => {
+    try {
+      const response =
+        await API.get('/workouts');
+
+      setWorkouts(response.data.workouts);
+
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div
       style={{
@@ -28,9 +50,13 @@ const Dashboard = () => {
           gap: '20px',
         }}
       >
-        <WorkoutForm />
+        <WorkoutForm
+          fetchWorkouts={fetchWorkouts}
+        />
 
-        <WorkoutHistory />
+        <WorkoutHistory
+          workouts={workouts}
+        />
       </div>
     </div>
   );
