@@ -1,4 +1,5 @@
 import WorkoutForm from '../components/WorkoutForm';
+import WorkoutHistory from '../components/WorkoutHistory';
 
 const Dashboard = () => {
   return (
@@ -6,6 +7,8 @@ const Dashboard = () => {
       <h1>Spin Tracker Dashboard 🚴</h1>
 
       <WorkoutForm />
+
+      <WorkoutHistory />
     </div>
   );
 };
