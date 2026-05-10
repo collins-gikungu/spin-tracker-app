@@ -2,14 +2,17 @@ import { useEffect, useState } from 'react';
 
 import WorkoutForm from '../components/WorkoutForm';
 import WorkoutHistory from '../components/WorkoutHistory';
+import StatsCards from '../components/StatsCards';
 
 import API from '../services/api';
 
 const Dashboard = () => {
   const [workouts, setWorkouts] = useState([]);
+  const [stats, setStats] = useState({});
 
   useEffect(() => {
     fetchWorkouts();
+    fetchStats();
   }, []);
 
   const fetchWorkouts = async () => {
@@ -23,6 +26,18 @@ const Dashboard = () => {
       console.error(error);
     }
   };
+
+  const fetchStats = async () => {
+  try {
+    const response =
+      await API.get('/workouts/stats');
+
+    setStats(response.data.stats);
+
+  } catch (error) {
+    console.error(error);
+  }
+};
 
   return (
     <div
@@ -42,6 +57,8 @@ const Dashboard = () => {
         Spin Tracker Dashboard 🚴
       </h1>
 
+      <StatsCards stats={stats} />
+
       <div
         style={{
           display: 'grid',
@@ -51,8 +68,9 @@ const Dashboard = () => {
         }}
       >
         <WorkoutForm
-          fetchWorkouts={fetchWorkouts}
-        />
+  fetchWorkouts={fetchWorkouts}
+  fetchStats={fetchStats}
+/>
 
         <WorkoutHistory
           workouts={workouts}

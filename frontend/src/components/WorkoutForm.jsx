@@ -1,7 +1,10 @@
 import { useState } from 'react';
 import API from '../services/api';
 
-const WorkoutForm = ({ fetchWorkouts }) => {
+const WorkoutForm = ({
+  fetchWorkouts,
+  fetchStats,
+}) => {
   const [formData, setFormData] = useState({
     duration_minutes: '',
     duration_seconds: '',
@@ -49,6 +52,7 @@ const WorkoutForm = ({ fetchWorkouts }) => {
 
       alert('Workout added successfully 🚴');
       fetchWorkouts();
+      fetchStats();
 
       // Reset form
       setFormData({
