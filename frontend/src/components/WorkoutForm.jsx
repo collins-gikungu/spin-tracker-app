@@ -69,7 +69,15 @@ const WorkoutForm = () => {
   };
 
   return (
-    <div>
+  <div
+    style={{
+      background: 'white',
+      padding: '20px',
+      borderRadius: '12px',
+      boxShadow:
+        '0 2px 8px rgba(0,0,0,0.1)',
+    }}
+  >
       <h2>Add Workout</h2>
 
       <form onSubmit={handleSubmit}>
@@ -81,6 +89,13 @@ const WorkoutForm = () => {
           value={formData.duration_minutes}
           onChange={handleChange}
           required
+          style={{
+            width: '100%',
+            padding: '10px',
+            marginBottom: '12px',
+            borderRadius: '8px',
+            border: '1px solid #ccc',
+       }}
         />
 
         <input
@@ -90,6 +105,13 @@ const WorkoutForm = () => {
           value={formData.duration_seconds}
           onChange={handleChange}
           required
+          style={{
+            width: '100%',
+            padding: '10px',
+            marginBottom: '12px',
+            borderRadius: '8px',
+            border: '1px solid #ccc',
+         }}
         />
 
         <input
@@ -100,12 +122,26 @@ const WorkoutForm = () => {
           value={formData.distance}
           onChange={handleChange}
           required
+          style={{
+             width: '100%',
+             padding: '10px',
+             marginBottom: '12px',
+             borderRadius: '8px',
+             border: '1px solid #ccc',
+            }}
         />
 
         <select
           name="distance_unit"
           value={formData.distance_unit}
           onChange={handleChange}
+          style={{
+           width: '100%',
+            padding: '10px',
+            marginBottom: '12px',
+            borderRadius: '8px',
+             border: '1px solid #ccc',
+            }}
         >
           <option value="km">KM</option>
           <option value="miles">Miles</option>
@@ -118,6 +154,13 @@ const WorkoutForm = () => {
           placeholder="Calories"
           value={formData.calories}
           onChange={handleChange}
+          style={{
+            width: '100%',
+             padding: '10px',
+             marginBottom: '12px',
+             borderRadius: '8px',
+             border: '1px solid #ccc',
+            }}
         />
 
         <input
@@ -127,6 +170,13 @@ const WorkoutForm = () => {
           placeholder="Odometer"
           value={formData.odometer}
           onChange={handleChange}
+          style={{
+            width: '100%',
+             padding: '10px',
+             marginBottom: '12px',
+             borderRadius: '8px',
+             border: '1px solid #ccc',
+            }}
         />
 
         <input
@@ -135,6 +185,13 @@ const WorkoutForm = () => {
           placeholder="RPM"
           value={formData.rpm}
           onChange={handleChange}
+          style={{
+            width: '100%',
+             padding: '10px',
+             marginBottom: '12px',
+             borderRadius: '8px',
+             border: '1px solid #ccc',
+            }}
         />
 
         <input
@@ -143,11 +200,31 @@ const WorkoutForm = () => {
           placeholder="Power"
           value={formData.power}
           onChange={handleChange}
+          style={{
+        width: '100%',
+        padding: '10px',
+        marginBottom: '12px',
+         borderRadius: '8px',
+         border: '1px solid #ccc',
+         }}
         />
 
-        <button type="submit">
-          Save Workout
-        </button>
+       <button
+  type="submit"
+  style={{
+    width: '100%',
+    padding: '12px',
+    backgroundColor: '#1565c0',
+    color: 'white',
+    border: 'none',
+    borderRadius: '8px',
+    cursor: 'pointer',
+    fontSize: '16px',
+    fontWeight: 'bold',
+  }}
+>
+  Save Workout
+</button>
 
       </form>
     </div>

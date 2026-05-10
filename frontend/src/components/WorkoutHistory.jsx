@@ -28,7 +28,15 @@ const WorkoutHistory = () => {
   };
 
   return (
-    <div>
+    <div
+  style={{
+    background: 'white',
+    padding: '20px',
+    borderRadius: '12px',
+    boxShadow:
+      '0 2px 8px rgba(0,0,0,0.1)',
+  }}
+>
       <h2>Workout History</h2>
 
       {workouts.length === 0 ? (
@@ -37,12 +45,13 @@ const WorkoutHistory = () => {
         workouts.map((workout) => (
           <div
             key={workout.id}
-            style={{
-              border: '1px solid #ccc',
-              padding: '10px',
-              marginBottom: '10px',
-              borderRadius: '8px',
-            }}
+           style={{
+         border: '1px solid #e0e0e0',
+         padding: '15px',
+         marginBottom: '15px',
+         borderRadius: '10px',
+         backgroundColor: '#fafafa',
+}}
           >
             <p>
               <strong>Date:</strong>{' '}
