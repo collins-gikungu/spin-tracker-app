@@ -4,6 +4,7 @@ import API from '../services/api';
 const WorkoutForm = ({
   fetchWorkouts,
   fetchStats,
+  fetchWeeklyData,
 }) => {
   const [formData, setFormData] = useState({
     duration_minutes: '',
@@ -53,6 +54,7 @@ const WorkoutForm = ({
       alert('Workout added successfully 🚴');
       fetchWorkouts();
       fetchStats();
+      fetchWeeklyData();
 
       // Reset form
       setFormData({

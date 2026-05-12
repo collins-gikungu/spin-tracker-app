@@ -3,16 +3,18 @@ import { useEffect, useState } from 'react';
 import WorkoutForm from '../components/WorkoutForm';
 import WorkoutHistory from '../components/WorkoutHistory';
 import StatsCards from '../components/StatsCards';
-
+import ProgressChart from '../components/ProgressChart';
 import API from '../services/api';
 
 const Dashboard = () => {
   const [workouts, setWorkouts] = useState([]);
   const [stats, setStats] = useState({});
+  const [weeklyData, setWeeklyData] = useState([]);
 
   useEffect(() => {
     fetchWorkouts();
     fetchStats();
+    fetchWeeklyData();
   }, []);
 
   const fetchWorkouts = async () => {
@@ -39,6 +41,20 @@ const Dashboard = () => {
   }
 };
 
+const fetchWeeklyData = async () => {
+  try {
+    const response =
+      await API.get('/workouts/weekly');
+
+    setWeeklyData(
+      response.data.weeklySummary
+    );
+
+  } catch (error) {
+    console.error(error);
+  }
+};
+
   return (
     <div
       style={{
@@ -58,6 +74,7 @@ const Dashboard = () => {
       </h1>
 
       <StatsCards stats={stats} />
+      <ProgressChart data={weeklyData} />
 
       <div
         style={{
@@ -70,6 +87,7 @@ const Dashboard = () => {
         <WorkoutForm
   fetchWorkouts={fetchWorkouts}
   fetchStats={fetchStats}
+  fetchWeeklyData={fetchWeeklyData}
 />
 
         <WorkoutHistory
