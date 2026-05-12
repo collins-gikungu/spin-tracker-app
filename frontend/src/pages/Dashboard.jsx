@@ -57,40 +57,20 @@ const fetchWeeklyData = async () => {
 };
 
   return (
-    <div
-      style={{
-        maxWidth: '1000px',
-        margin: '0 auto',
-        padding: '20px',
-      }}
-    >
-      <h1
-        style={{
-          textAlign: 'center',
-          color: '#1565c0',
-          marginBottom: '30px',
-        }}
-      >
+    <div className="dashboard-container">
+      
+     <h1 className="dashboard-title">
         Spin Tracker Dashboard 🚴
       </h1>
 
       <StatsCards stats={stats} />
       <ProgressChart data={weeklyData} />
-
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns:
-            '1fr 1fr',
-          gap: '20px',
-        }}
-      >
+      <div className="dashboard-grid">
         <WorkoutForm
   fetchWorkouts={fetchWorkouts}
   fetchStats={fetchStats}
   fetchWeeklyData={fetchWeeklyData}
 />
-
         <WorkoutHistory
           workouts={workouts}
         />

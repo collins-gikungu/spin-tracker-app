@@ -35,7 +35,12 @@ const ProgressChart = ({ data }) => {
     >
       <h2>Weekly Distance Progress</h2>
 
-      <div style={{ width: '100%', height: 300 }}>
+      <div
+       style={{
+          width: '100%',
+          height: '300px',
+  }}
+>
         <ResponsiveContainer>
           <LineChart data={formattedData}>
             <CartesianGrid strokeDasharray="3 3" />

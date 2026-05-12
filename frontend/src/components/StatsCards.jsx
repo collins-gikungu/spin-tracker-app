@@ -19,7 +19,7 @@ const StatsCards = ({ stats }) => {
       style={{
         display: 'grid',
         gridTemplateColumns:
-          'repeat(4, 1fr)',
+         'repeat(auto-fit, minmax(180px, 1fr))',
         gap: '15px',
         marginBottom: '25px',
       }}
