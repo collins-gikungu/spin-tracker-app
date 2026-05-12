@@ -5,6 +5,7 @@ import WorkoutHistory from '../components/WorkoutHistory';
 import StatsCards from '../components/StatsCards';
 import ProgressChart from '../components/ProgressChart';
 import API from '../services/api';
+import '../styles/dashboard.css';
 
 const Dashboard = () => {
   const [workouts, setWorkouts] = useState([]);
