@@ -11,6 +11,7 @@ const Dashboard = () => {
   const [workouts, setWorkouts] = useState([]);
   const [stats, setStats] = useState({});
   const [weeklyData, setWeeklyData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchWorkouts();
@@ -19,6 +20,7 @@ const Dashboard = () => {
   }, []);
 
   const fetchWorkouts = async () => {
+    setLoading(true);
     try {
       const response =
         await API.get('/workouts');
@@ -28,6 +30,7 @@ const Dashboard = () => {
     } catch (error) {
       console.error(error);
     }
+    setLoading(false);
   };
 
   const fetchStats = async () => {
@@ -56,6 +59,18 @@ const fetchWeeklyData = async () => {
   }
 };
 
+if (loading) {
+  return (
+    <div
+      style={{
+        textAlign: 'center',
+        marginTop: '50px',
+      }}
+    >
+      <h2>Loading dashboard...</h2>
+    </div>
+  );
+}
   return (
     <div className="dashboard-container">
       

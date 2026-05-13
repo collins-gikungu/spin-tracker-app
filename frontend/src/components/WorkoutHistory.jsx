@@ -20,7 +20,20 @@ const WorkoutHistory = ({ workouts }) => {
       <h2>Workout History</h2>
 
       {workouts.length === 0 ? (
-        <p>No workouts recorded yet.</p>
+        <div
+  style={{
+    textAlign: 'center',
+    padding: '30px',
+    color: '#777',
+  }}
+>
+  <h3>No workouts yet 🚴</h3>
+
+  <p>
+    Start tracking your spin sessions
+    to see progress here.
+  </p>
+</div>
       ) : (
         workouts.map((workout) => (
           <div

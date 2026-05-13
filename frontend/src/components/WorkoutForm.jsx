@@ -17,6 +17,9 @@ const WorkoutForm = ({
     power: '',
   });
 
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState('');
+
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -26,6 +29,7 @@ const WorkoutForm = ({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     try {
       let payload = {
@@ -51,7 +55,7 @@ const WorkoutForm = ({
 
       console.log(response.data);
 
-      alert('Workout added successfully 🚴');
+     setMessage('Workout saved successfully 🚴');
       fetchWorkouts();
       fetchStats();
       fetchWeeklyData();
@@ -71,8 +75,11 @@ const WorkoutForm = ({
     } catch (error) {
       console.error(error);
 
-      alert('Failed to add workout');
+     setMessage('Failed to save workout');
     }
+    finally {
+  setLoading(false);
+}
   };
 
   return (
@@ -87,6 +94,19 @@ const WorkoutForm = ({
   >
       <h2>Add Workout</h2>
 
+      {message && (
+  <p
+    style={{
+      backgroundColor: '#e3f2fd',
+      padding: '10px',
+      borderRadius: '8px',
+      color: '#1565c0',
+      marginBottom: '15px',
+    }}
+  >
+    {message}
+  </p>
+)}
       <form onSubmit={handleSubmit}>
 
         <input
@@ -218,19 +238,26 @@ const WorkoutForm = ({
 
        <button
   type="submit"
+  disabled={loading}
   style={{
     width: '100%',
     padding: '12px',
-    backgroundColor: '#1565c0',
+    backgroundColor: loading
+      ? '#90caf9'
+      : '#1565c0',
     color: 'white',
     border: 'none',
     borderRadius: '8px',
-    cursor: 'pointer',
+    cursor: loading
+      ? 'not-allowed'
+      : 'pointer',
     fontSize: '16px',
     fontWeight: 'bold',
   }}
 >
-  Save Workout
+  {loading
+    ? 'Saving Workout...'
+    : 'Save Workout'}
 </button>
 
       </form>
