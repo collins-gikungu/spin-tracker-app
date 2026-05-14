@@ -1,4 +1,4 @@
-const WorkoutHistory = ({ workouts }) => {
+const WorkoutHistory = ({ workouts, darkMode }) => {
 
   const formatDuration = (seconds) => {
     const mins = Math.floor(seconds / 60);
@@ -10,11 +10,13 @@ const WorkoutHistory = ({ workouts }) => {
   return (
     <div
       style={{
-        background: 'white',
+        background: darkMode
+  ? '#1e1e1e'
+  : 'white',
         padding: '20px',
         borderRadius: '12px',
         boxShadow:
-          '0 2px 8px rgba(0,0,0,0.1)',
+          '0 2px 8px rgba(0,0,0,0.1)', 
       }}
     >
       <h2>Workout History</h2>
@@ -24,7 +26,9 @@ const WorkoutHistory = ({ workouts }) => {
   style={{
     textAlign: 'center',
     padding: '30px',
-    color: '#777',
+   color: darkMode
+  ? '#f5f5f5'
+  : '#000',
   }}
 >
   <h3>No workouts yet 🚴</h3>
@@ -43,7 +47,9 @@ const WorkoutHistory = ({ workouts }) => {
               padding: '15px',
               marginBottom: '15px',
               borderRadius: '10px',
-              backgroundColor: '#fafafa',
+              background: darkMode
+  ? '#1e1e1e'
+  : 'white',
             }}
           >
             <p>

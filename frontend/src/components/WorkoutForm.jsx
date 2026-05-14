@@ -5,6 +5,7 @@ const WorkoutForm = ({
   fetchWorkouts,
   fetchStats,
   fetchWeeklyData,
+  darkMode,
 }) => {
   const [formData, setFormData] = useState({
     duration_minutes: '',
@@ -85,7 +86,9 @@ const WorkoutForm = ({
   return (
   <div
     style={{
-      background: 'white',
+      background: darkMode
+  ? '#1e1e1e'
+  : 'white',
       padding: '20px',
       borderRadius: '12px',
       boxShadow:
@@ -100,7 +103,9 @@ const WorkoutForm = ({
       backgroundColor: '#e3f2fd',
       padding: '10px',
       borderRadius: '8px',
-      color: '#1565c0',
+     color: darkMode
+  ? '#f5f5f5'
+  : '#000',
       marginBottom: '15px',
     }}
   >
@@ -245,7 +250,9 @@ const WorkoutForm = ({
     backgroundColor: loading
       ? '#90caf9'
       : '#1565c0',
-    color: 'white',
+    color: darkMode
+  ? '#f5f5f5'
+  : '#000',
     border: 'none',
     borderRadius: '8px',
     cursor: loading

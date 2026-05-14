@@ -1,4 +1,4 @@
-const StatsCards = ({ stats }) => {
+const StatsCards = ({ stats, darkMode }) => {
 
   const formatDuration = (seconds) => {
     const totalSeconds = Number(seconds);
@@ -25,15 +25,15 @@ const StatsCards = ({ stats }) => {
       }}
     >
 
-      <div style={cardStyle}>
+      <div style={getCardStyle(darkMode)}>
         <h3>Total Workouts</h3>
 
-        <p style={valueStyle}>
+        <p style={valueStyle(darkMode)}>
           {stats.total_workouts || 0}
         </p>
       </div>
 
-      <div style={cardStyle}>
+      <div style={getCardStyle(darkMode)}>
         <h3>Total Calories</h3>
 
         <p style={valueStyle}>
@@ -43,7 +43,7 @@ const StatsCards = ({ stats }) => {
         </p>
       </div>
 
-      <div style={cardStyle}>
+      <div style={getCardStyle(darkMode)}>
         <h3>Total Distance</h3>
 
         <p style={valueStyle}>
@@ -53,7 +53,7 @@ const StatsCards = ({ stats }) => {
         </p>
       </div>
 
-      <div style={cardStyle}>
+      <div style={getCardStyle(darkMode)}>
         <h3>Total Time</h3>
 
         <p style={valueStyle}>
@@ -67,19 +67,20 @@ const StatsCards = ({ stats }) => {
   );
 };
 
-const cardStyle = {
-  background: 'white',
+const getCardStyle = (darkMode) => ({
+  background: darkMode ? '#1e1e1e' : 'white',
   padding: '20px',
   borderRadius: '12px',
-  boxShadow:
-    '0 2px 8px rgba(0,0,0,0.1)',
+  boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
   textAlign: 'center',
-};
+});
 
-const valueStyle = {
+const valueStyle = (darkMode) => ({
   fontSize: '24px',
   fontWeight: 'bold',
-  color: '#1565c0',
-};
+  color: darkMode
+  ? '#f5f5f5'
+  : '#000',
+});
 
 export default StatsCards;

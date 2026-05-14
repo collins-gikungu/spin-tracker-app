@@ -8,7 +8,7 @@ import {
   ResponsiveContainer,
 } from 'recharts';
 
-const ProgressChart = ({ data }) => {
+const ProgressChart = ({ data, darkMode }) => {
 
   const formattedData = data.map(
     (item) => ({
@@ -25,7 +25,9 @@ const ProgressChart = ({ data }) => {
   return (
     <div
       style={{
-        background: 'white',
+        background: darkMode
+  ? '#1e1e1e'
+  : 'white',
         padding: '20px',
         borderRadius: '12px',
         boxShadow:
