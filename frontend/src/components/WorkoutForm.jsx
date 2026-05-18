@@ -5,7 +5,7 @@ const WorkoutForm = ({
   fetchWorkouts,
   fetchStats,
   fetchWeeklyData,
-  darkMode,
+  theme,
 }) => {
   const [formData, setFormData] = useState({
     duration_minutes: '',
@@ -83,12 +83,21 @@ const WorkoutForm = ({
 }
   };
 
+  const inputStyle = {
+  width: '100%',
+  padding: '10px',
+  marginBottom: '12px',
+  borderRadius: '8px',
+  border: `1px solid ${theme.border}`,
+  backgroundColor: theme.input,
+  color: theme.text,
+};
+
   return (
   <div
     style={{
-      background: darkMode
-  ? '#1e1e1e'
-  : 'white',
+      background: theme.card,
+      color: theme.text,
       padding: '20px',
       borderRadius: '12px',
       boxShadow:
@@ -99,15 +108,7 @@ const WorkoutForm = ({
 
       {message && (
   <p
-    style={{
-      backgroundColor: '#e3f2fd',
-      padding: '10px',
-      borderRadius: '8px',
-     color: darkMode
-  ? '#f5f5f5'
-  : '#000',
-      marginBottom: '15px',
-    }}
+    style={inputStyle}
   >
     {message}
   </p>
@@ -121,13 +122,7 @@ const WorkoutForm = ({
           value={formData.duration_minutes}
           onChange={handleChange}
           required
-          style={{
-            width: '100%',
-            padding: '10px',
-            marginBottom: '12px',
-            borderRadius: '8px',
-            border: '1px solid #ccc',
-       }}
+          style={inputStyle}
         />
 
         <input
@@ -137,13 +132,7 @@ const WorkoutForm = ({
           value={formData.duration_seconds}
           onChange={handleChange}
           required
-          style={{
-            width: '100%',
-            padding: '10px',
-            marginBottom: '12px',
-            borderRadius: '8px',
-            border: '1px solid #ccc',
-         }}
+          style={inputStyle}
         />
 
         <input
@@ -154,26 +143,14 @@ const WorkoutForm = ({
           value={formData.distance}
           onChange={handleChange}
           required
-          style={{
-             width: '100%',
-             padding: '10px',
-             marginBottom: '12px',
-             borderRadius: '8px',
-             border: '1px solid #ccc',
-            }}
+          style={inputStyle}
         />
 
         <select
           name="distance_unit"
           value={formData.distance_unit}
           onChange={handleChange}
-          style={{
-           width: '100%',
-            padding: '10px',
-            marginBottom: '12px',
-            borderRadius: '8px',
-             border: '1px solid #ccc',
-            }}
+          style={inputStyle}
         >
           <option value="km">KM</option>
           <option value="miles">Miles</option>
@@ -186,13 +163,7 @@ const WorkoutForm = ({
           placeholder="Calories"
           value={formData.calories}
           onChange={handleChange}
-          style={{
-            width: '100%',
-             padding: '10px',
-             marginBottom: '12px',
-             borderRadius: '8px',
-             border: '1px solid #ccc',
-            }}
+          style={inputStyle}
         />
 
         <input
@@ -202,13 +173,7 @@ const WorkoutForm = ({
           placeholder="Odometer"
           value={formData.odometer}
           onChange={handleChange}
-          style={{
-            width: '100%',
-             padding: '10px',
-             marginBottom: '12px',
-             borderRadius: '8px',
-             border: '1px solid #ccc',
-            }}
+          style={inputStyle}
         />
 
         <input
@@ -217,13 +182,7 @@ const WorkoutForm = ({
           placeholder="RPM"
           value={formData.rpm}
           onChange={handleChange}
-          style={{
-            width: '100%',
-             padding: '10px',
-             marginBottom: '12px',
-             borderRadius: '8px',
-             border: '1px solid #ccc',
-            }}
+          style={inputStyle}
         />
 
         <input
@@ -232,13 +191,7 @@ const WorkoutForm = ({
           placeholder="Power"
           value={formData.power}
           onChange={handleChange}
-          style={{
-        width: '100%',
-        padding: '10px',
-        marginBottom: '12px',
-         borderRadius: '8px',
-         border: '1px solid #ccc',
-         }}
+          style={inputStyle}
         />
 
        <button
@@ -248,11 +201,12 @@ const WorkoutForm = ({
     width: '100%',
     padding: '12px',
     backgroundColor: loading
-      ? '#90caf9'
-      : '#1565c0',
-    color: darkMode
-  ? '#f5f5f5'
-  : '#000',
+  ? '#777'
+  : theme.primary,
+
+color: theme.background === '#121212'
+  ? '#121212'
+  : '#ffffff',
     border: 'none',
     borderRadius: '8px',
     cursor: loading
