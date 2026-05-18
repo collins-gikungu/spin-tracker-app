@@ -8,7 +8,7 @@ import {
   ResponsiveContainer,
 } from 'recharts';
 
-const ProgressChart = ({ data, darkMode }) => {
+const ProgressChart = ({ data, theme,}) => {
 
   const formattedData = data.map(
     (item) => ({
@@ -25,9 +25,8 @@ const ProgressChart = ({ data, darkMode }) => {
   return (
     <div
       style={{
-        background: darkMode
-  ? '#1e1e1e'
-  : 'white',
+        background: theme.card,
+        color: theme.text,
         padding: '20px',
         borderRadius: '12px',
         boxShadow:
@@ -45,20 +44,27 @@ const ProgressChart = ({ data, darkMode }) => {
 >
         <ResponsiveContainer>
           <LineChart data={formattedData}>
-            <CartesianGrid strokeDasharray="3 3" />
+            <CartesianGrid
+  stroke={theme.border}
+/>
 
-            <XAxis dataKey="week" />
+<XAxis
+  dataKey="week"
+  stroke={theme.text}
+/>
 
-            <YAxis />
+<YAxis
+  stroke={theme.text}
+/>
 
-            <Tooltip />
+<Tooltip />
 
-            <Line
-              type="monotone"
-              dataKey="distance"
-              stroke="#1565c0"
-              strokeWidth={3}
-            />
+<Line
+  type="monotone"
+  dataKey="distance"
+  stroke={theme.primary}
+  strokeWidth={3}
+/>
           </LineChart>
         </ResponsiveContainer>
       </div>
