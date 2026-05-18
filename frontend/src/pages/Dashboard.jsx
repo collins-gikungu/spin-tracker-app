@@ -6,6 +6,7 @@ import StatsCards from '../components/StatsCards';
 import ProgressChart from '../components/ProgressChart';
 import API from '../services/api';
 import '../styles/dashboard.css';
+import {lightTheme,darkTheme,} from '../styles/theme';
 
 const Dashboard = () => {
   const [workouts, setWorkouts] = useState([]);
@@ -15,6 +16,9 @@ const Dashboard = () => {
   const [darkMode, setDarkMode] = useState(() => {
   return localStorage.getItem('darkMode') === 'true';
 });
+const theme = darkMode
+  ? darkTheme
+  : lightTheme;
 
   useEffect(() => {
     fetchWorkouts();
@@ -89,23 +93,16 @@ if (loading) {
     <div
   className="dashboard-container"
   style={{
-    backgroundColor: darkMode
-      ? '#121212'
-      : '#f4f7fb',
-
-    minHeight: '100vh',
-
-    transition:
-      'background-color 0.3s ease',
-  }}
+  backgroundColor: theme.background,
+  minHeight: '100vh',
+  transition: 'all 0.3s ease',
+}}
 >
       
      <h1
   className="dashboard-title"
   style={{
-    color: darkMode
-      ? '#90caf9'
-      : '#1565c0',
+    color: theme.primary
   }}
 >
         Spin Tracker Dashboard 🚴
@@ -123,12 +120,8 @@ if (loading) {
       border: 'none',
       borderRadius: '8px',
       cursor: 'pointer',
-      backgroundColor: darkMode
-        ? '#90caf9'
-        : '#1565c0',
-      color: darkMode
-        ? '#121212'
-        : 'white',
+      backgroundColor: theme.background,
+      color: theme.primary,
       fontWeight: 'bold',
     }}
   >
@@ -140,21 +133,21 @@ if (loading) {
 
       <StatsCards
   stats={stats}
-  darkMode={darkMode}
+  theme={theme}
 />
       <ProgressChart
   data={weeklyData}
-  darkMode={darkMode}
+  theme={theme}
 />
       <div className="dashboard-grid">
         <WorkoutForm
-        darkMode={darkMode}
+        theme={theme}
   fetchWorkouts={fetchWorkouts}
   fetchStats={fetchStats}
   fetchWeeklyData={fetchWeeklyData}
 />
         <WorkoutHistory
-        darkMode={darkMode}
+        theme={theme}
           workouts={workouts}
         />
       </div>
