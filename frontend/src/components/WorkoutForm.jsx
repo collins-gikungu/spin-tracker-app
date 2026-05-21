@@ -53,13 +53,18 @@ const WorkoutForm = ({
         '/workouts',
         payload
       );
-
       console.log(response.data);
 
-     setMessage('Workout saved successfully 🚴');
-      fetchWorkouts();
-      fetchStats();
-      fetchWeeklyData();
+setMessage('');
+setMessage(
+  'Workout saved successfully 🚴'
+);
+
+await Promise.all([
+  fetchWorkouts(),
+  fetchStats(),
+  fetchWeeklyData(),
+]);
 
       // Reset form
       setFormData({

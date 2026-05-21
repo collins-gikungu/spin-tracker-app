@@ -10,10 +10,29 @@ import {lightTheme,darkTheme,} from '../styles/theme';
 
 const Dashboard = () => {
   const [workouts, setWorkouts] = useState(() => {
-  const saved = localStorage.getItem('workouts');
-  return saved
-    ? JSON.parse(saved)
-    : [];
+
+  try {
+
+    const saved =
+      localStorage.getItem(
+        'workouts'
+      );
+
+    const parsed =
+      saved
+        ? JSON.parse(saved)
+        : [];
+
+    return Array.isArray(parsed)
+      ? parsed
+      : [];
+
+  } catch {
+
+    return [];
+
+  }
+
 });
 const [stats, setStats] = useState(() => {
   const saved = localStorage.getItem('stats');
@@ -143,9 +162,11 @@ const toggleTheme = () => {
 };
 
 if (
-  loading &&
-  workouts.length === 0
-) {
+ loading &&
+ (!workouts ||
+  workouts.length === 0)
+)
+{
   return (
     <div
       style={{
