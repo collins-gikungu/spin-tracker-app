@@ -37,10 +37,37 @@ const theme = darkMode
   : lightTheme;
 
   useEffect(() => {
-    fetchWorkouts();
-    fetchStats();
-    fetchWeeklyData();
-  }, []);
+
+  const loadDashboard = async () => {
+
+    setLoading(true);
+
+    try {
+
+      await Promise.all([
+        fetchWorkouts(),
+        fetchStats(),
+        fetchWeeklyData(),
+      ]);
+
+    } catch (error) {
+
+      console.error(
+        'Dashboard load failed:',
+        error
+      );
+
+    } finally {
+
+      setLoading(false);
+
+    }
+
+  };
+
+  loadDashboard();
+
+}, []);
 
   const fetchWorkouts = async () => {
     setLoading(true);
