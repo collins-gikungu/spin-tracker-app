@@ -44,8 +44,8 @@ const ProgressChart = ({ data, theme,}) => {
 >
         <ResponsiveContainer>
           <LineChart data={formattedData}>
-            <CartesianGrid
-  stroke={theme.border}
+           <CartesianGrid
+  stroke="#444"
 />
 
 <XAxis
