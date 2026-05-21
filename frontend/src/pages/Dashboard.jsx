@@ -9,9 +9,25 @@ import '../styles/dashboard.css';
 import {lightTheme,darkTheme,} from '../styles/theme';
 
 const Dashboard = () => {
-  const [workouts, setWorkouts] = useState([]);
-  const [stats, setStats] = useState({});
-  const [weeklyData, setWeeklyData] = useState([]);
+  const [workouts, setWorkouts] = useState(() => {
+  const saved = localStorage.getItem('workouts');
+  return saved
+    ? JSON.parse(saved)
+    : [];
+});
+const [stats, setStats] = useState(() => {
+  const saved = localStorage.getItem('stats');
+  return saved
+    ? JSON.parse(saved)
+    : {};
+});
+const [weeklyData, setWeeklyData] = useState(() => {
+  const saved =
+    localStorage.getItem('weeklyData');
+  return saved
+    ? JSON.parse(saved)
+    : [];
+});
   const [loading, setLoading] = useState(true);
   const [darkMode, setDarkMode] = useState(() => {
   return localStorage.getItem('darkMode') === 'true';
