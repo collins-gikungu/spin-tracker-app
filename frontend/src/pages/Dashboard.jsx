@@ -70,22 +70,28 @@ const theme = darkMode
 }, []);
 
   const fetchWorkouts = async () => {
-    setLoading(true);
-    try {
-      const response =
-        await API.get('/workouts');
 
-      setWorkouts(response.data.workouts);
-      localStorage.setItem(
-  'workouts',
-  JSON.stringify(response.data)
-);
+  try {
 
-    } catch (error) {
-      console.error(error);
-    }
-    setLoading(false);
-  };
+    const response =
+      await API.get('/workouts');
+
+    setWorkouts(
+      response.data.workouts
+    );
+
+    localStorage.setItem(
+      'workouts',
+      JSON.stringify(response.data)
+    );
+
+  } catch (error) {
+
+    console.error(error);
+
+  }
+
+};
 
   const fetchStats = async () => {
   try {
