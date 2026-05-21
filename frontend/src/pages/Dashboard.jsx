@@ -81,9 +81,11 @@ const theme = darkMode
     );
 
     localStorage.setItem(
-      'workouts',
-      JSON.stringify(response.data)
-    );
+  'workouts',
+  JSON.stringify(
+    response.data.workouts
+  )
+);
 
   } catch (error) {
 
@@ -101,7 +103,9 @@ const theme = darkMode
     setStats(response.data.stats);
     localStorage.setItem(
   'stats',
-  JSON.stringify(response.data)
+  JSON.stringify(
+    response.data.stats
+  )
 );
 
   } catch (error) {
@@ -117,7 +121,9 @@ const fetchWeeklyData = async () => {
     setWeeklyData(response.data.weeklySummary);
     localStorage.setItem(
   'weeklyData',
-  JSON.stringify(response.data)
+  JSON.stringify(
+    response.data.weeklySummary
+  )
 );
 
   } catch (error) {
@@ -136,7 +142,10 @@ const toggleTheme = () => {
   );
 };
 
-if (loading) {
+if (
+  loading &&
+  workouts.length === 0
+) {
   return (
     <div
       style={{
