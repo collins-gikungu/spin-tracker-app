@@ -49,6 +49,10 @@ const theme = darkMode
         await API.get('/workouts');
 
       setWorkouts(response.data.workouts);
+      localStorage.setItem(
+  'workouts',
+  JSON.stringify(response.data)
+);
 
     } catch (error) {
       console.error(error);
@@ -62,6 +66,10 @@ const theme = darkMode
       await API.get('/workouts/stats');
 
     setStats(response.data.stats);
+    localStorage.setItem(
+  'stats',
+  JSON.stringify(response.data)
+);
 
   } catch (error) {
     console.error(error);
@@ -73,9 +81,11 @@ const fetchWeeklyData = async () => {
     const response =
       await API.get('/workouts/weekly');
 
-    setWeeklyData(
-      response.data.weeklySummary
-    );
+    setWeeklyData(response.data.weeklySummary);
+    localStorage.setItem(
+  'weeklyData',
+  JSON.stringify(response.data)
+);
 
   } catch (error) {
     console.error(error);
