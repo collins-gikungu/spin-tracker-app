@@ -19,8 +19,7 @@ const WorkoutForm = ({
   });
 
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState('');
-
+ 
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -55,11 +54,6 @@ const WorkoutForm = ({
       );
       console.log(response.data);
 
-setMessage('');
-setMessage(
-  'Workout saved successfully 🚴'
-);
-
 await Promise.all([
   fetchWorkouts(),
   fetchStats(),
@@ -81,7 +75,6 @@ await Promise.all([
     } catch (error) {
       console.error(error);
 
-     setMessage('Failed to save workout');
     }
     finally {
   setLoading(false);
@@ -110,14 +103,6 @@ await Promise.all([
     }}
   >
       <h2>Add Workout</h2>
-
-      {message && (
-  <p
-    style={inputStyle}
-  >
-    {message}
-  </p>
-)}
       <form onSubmit={handleSubmit}>
 
         <input
