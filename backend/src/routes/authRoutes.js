@@ -7,7 +7,7 @@ const bcrypt =
   require('bcrypt');
 
 const pool =
-  require('../db');
+  require('../config/db');
 
 router.post(
 '/register',
