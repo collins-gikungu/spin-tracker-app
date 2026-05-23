@@ -140,5 +140,151 @@ message:
 
 );
 
+router.post(
+
+'/login',
+
+async(req,res)=>{
+
+try{
+
+const{
+email,
+password
+}=req.body;
+
+if(
+!email||
+!password
+){
+
+return res
+.status(400)
+.json({
+
+message:
+'Email and password required'
+
+});
+
+}
+
+const user=
+await pool.query(
+
+`
+SELECT *
+FROM users
+WHERE email=$1
+`,
+
+[email]
+
+);
+
+if(
+!user.rows.length
+){
+
+return res
+.status(401)
+.json({
+
+message:
+'Invalid credentials'
+
+});
+
+}
+
+const foundUser=
+user.rows[0];
+
+const validPassword=
+await bcrypt.compare(
+
+password,
+
+foundUser.password_hash
+
+);
+
+if(
+!validPassword
+){
+
+return res
+.status(401)
+.json({
+
+message:
+'Invalid credentials'
+
+});
+
+}
+
+const token=
+jwt.sign(
+
+{
+id:
+foundUser.id,
+
+email:
+foundUser.email
+
+},
+
+process.env.JWT_SECRET,
+
+{
+expiresIn:'7d'
+}
+
+);
+
+res.json({
+
+message:
+'Login successful',
+
+token,
+
+user:{
+
+id:
+foundUser.id,
+
+username:
+foundUser.username,
+
+email:
+foundUser.email
+
+}
+
+});
+
+}
+
+catch(error){
+
+console.error(error);
+
+res
+.status(500)
+.json({
+
+message:
+'Server error'
+
+});
+
+}
+
+}
+
+);
 module.exports =
 router;
