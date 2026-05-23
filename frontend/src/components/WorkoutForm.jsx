@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import API from '../services/api';
+import { toast } from 'react-toastify';
 
 const WorkoutForm = ({
   fetchWorkouts,
@@ -53,6 +54,9 @@ const WorkoutForm = ({
         payload
       );
       console.log(response.data);
+      toast.success(
+'Workout saved 🚴'
+);
 
 await Promise.all([
   fetchWorkouts(),
@@ -74,7 +78,7 @@ await Promise.all([
 
     } catch (error) {
       console.error(error);
-
+      toast.error('Failed to save workout');
     }
     finally {
   setLoading(false);
