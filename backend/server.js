@@ -3,6 +3,7 @@ const cors = require('cors');
 require('dotenv').config();
 
 const app = express();
+const authRoutes = require('./routes/authRoutes');
 
 // Middleware
 app.use(cors());
@@ -12,6 +13,7 @@ app.use(express.json());
 const workoutRoutes = require('./src/routes/workoutRoutes');
 
 app.use('/api/workouts', workoutRoutes);
+app.use('/api/auth', authRoutes);
 
 // Test Route
 app.get('/', (req, res) => {
