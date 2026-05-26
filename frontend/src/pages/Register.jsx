@@ -1,5 +1,8 @@
 import { useState } from 'react';
 import API from '../services/api';
+import {
+ Link
+} from 'react-router-dom';
 
 const Register=({onRegister})=>{
 
@@ -144,6 +147,20 @@ type="submit"
 Create Account
 
 </button>
+<p>
+
+Already have
+an account?
+
+<Link
+to="/login"
+>
+
+ Login
+
+</Link>
+
+</p>
 
 </form>
 

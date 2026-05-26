@@ -1,5 +1,8 @@
 import { useState } from 'react';
 import API from '../services/api';
+import {
+ Link
+} from 'react-router-dom';
 
 const Login = ({ onLogin }) => {
 
@@ -138,13 +141,23 @@ required
 
 />
 
-<button
-type="submit"
+<button type="submit">
+ Login
+</button>
+
+<p>
+
+No account yet?
+
+<Link
+to="/register"
 >
 
-Login
+ Register
 
-</button>
+</Link>
+
+</p>
 
 </form>
 
