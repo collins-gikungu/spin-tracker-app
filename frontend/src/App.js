@@ -98,66 +98,35 @@ handleLogin
 }
 
 />
-
 <Route
-
-path="/register"
-
-element={
-
-user
-
-?
-
-<Navigate
-to="/"
+  path="/register"
+  element={
+    user ? (
+      <Navigate to="/" />
+    ) : (
+      <Register
+        onRegister={() =>
+          window.location.href='/login'
+        }
+      />
+    )
+  }
 />
-
-:
-
-<Register
-onRegister={()=>
-
-window.location
-.href='/login'
-
-}
-/>
-
-}
-
-/>
-
-/{'>'}
-
 <Route
-
-path="/"
-
-element={
-
-user
-
-?
-
-<Dashboard
-user={user}
-onLogout={
-handleLogout
-}
+  path="/"
+  element={
+    user ? (
+      <Dashboard
+        user={user}
+        onLogout={handleLogout}
+      />
+    ) : (
+      <Navigate
+        to="/login"
+      />
+    )
+  }
 />
-
-:
-
-<Navigate
-to="/login"
-/>
-
-}
-
-/>
-
-/{'>'}
 
 </Routes>
 
