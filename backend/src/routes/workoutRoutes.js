@@ -1,18 +1,52 @@
 const express = require('express');
+
 const router = express.Router();
 
 const workoutController =
-  require('../controllers/workoutController');
+require('../controllers/workoutController');
+
+const authMiddleware =
+require('../middleware/authMiddleware');
+
 
 // GET workout stats
-router.get('/stats', workoutController.getWorkoutStats);
-// GET weekly and monthly summaries
-router.get('/weekly', workoutController.getWeeklySummary);
-router.get('/monthly', workoutController.getMonthlySummary);
+router.get(
+'/stats',
+authMiddleware,
+workoutController.getWorkoutStats
+);
+
+
+// GET weekly summary
+router.get(
+'/weekly',
+authMiddleware,
+workoutController.getWeeklySummary
+);
+
+
+// GET monthly summary
+router.get(
+'/monthly',
+authMiddleware,
+workoutController.getMonthlySummary
+);
+
+
 // GET all workouts
-router.get('/', workoutController.getAllWorkouts);
+router.get(
+'/',
+authMiddleware,
+workoutController.getAllWorkouts
+);
+
+
 // POST workout
-router.post('/', workoutController.createWorkout);
+router.post(
+'/',
+authMiddleware,
+workoutController.createWorkout
+);
 
 
 module.exports = router;
