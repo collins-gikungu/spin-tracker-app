@@ -8,7 +8,10 @@ import API from '../services/api';
 import '../styles/dashboard.css';
 import {lightTheme,darkTheme,} from '../styles/theme';
 
-const Dashboard = () => {
+const Dashboard = ({
+user,
+onLogout
+}) => {
   const [workouts, setWorkouts] = useState(() => {
 
   try {
