@@ -352,5 +352,81 @@ message:
 }
 
 );
+router.put(
+
+'/profile',
+
+authMiddleware,
+
+async(req,res)=>{
+
+try{
+
+const{
+username,
+email
+}=req.body;
+
+const updatedUser=
+await pool.query(
+
+`
+UPDATE users
+
+SET
+
+username=$1,
+email=$2
+
+WHERE id=$3
+
+RETURNING
+
+id,
+username,
+email,
+created_at
+`,
+
+[
+username,
+email,
+req.user.id
+]
+
+);
+
+res.json({
+
+message:
+'Profile updated successfully',
+
+user:
+updatedUser.rows[0]
+
+});
+
+}
+
+catch(error){
+
+console.error(
+error
+);
+
+res
+.status(500)
+.json({
+
+message:
+'Server error'
+
+});
+
+}
+
+}
+
+);
 module.exports =
 router;
