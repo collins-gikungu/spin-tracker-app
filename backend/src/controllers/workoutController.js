@@ -106,8 +106,15 @@ userId
 };
 const getWeeklySummary = async (req, res) => {
   try {
-    const weeklySummary =
-      await workoutModel.getWeeklySummary();
+    const userId =
+req.user.id;
+
+const weeklySummary =
+
+await workoutModel
+.getWeeklySummary(
+userId
+);
 
     res.status(200).json({
       weeklySummary,
