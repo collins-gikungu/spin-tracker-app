@@ -17,6 +17,9 @@ from './pages/Login';
 import Register
 from './pages/Register';
 
+import Profile
+from './pages/Profile';
+
 import {
 ToastContainer
 }
@@ -98,6 +101,7 @@ handleLogin
 }
 
 />
+
 <Route
   path="/register"
   element={
@@ -112,6 +116,7 @@ handleLogin
     )
   }
 />
+
 <Route
   path="/"
   element={
@@ -126,6 +131,28 @@ handleLogin
       />
     )
   }
+/>
+
+<Route
+
+path="/profile"
+
+element={
+
+user
+
+?
+
+<Profile />
+
+:
+
+<Navigate
+to="/login"
+/>
+
+}
+
 />
 
 </Routes>
