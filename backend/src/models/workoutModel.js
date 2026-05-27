@@ -111,35 +111,62 @@ WHERE user_id=$1
 return result.rows[0];
 
 };
-const getWeeklySummary = async () => {
-  const result = await pool.query(`
-    SELECT
-      DATE_TRUNC('week', workout_date) AS week_start,
-      COUNT(*) AS total_workouts,
-      COALESCE(SUM(calories), 0) AS total_calories,
-      COALESCE(SUM(distance_km), 0) AS total_distance_km,
-      COALESCE(SUM(duration_seconds), 0) AS total_duration_seconds
-    FROM workouts
-    GROUP BY week_start
-    ORDER BY week_start DESC
-  `);
+const getWeeklySummary =
+async (userId) => {
 
-  return result.rows;
-};
-const getMonthlySummary = async () => {
-  const result = await pool.query(`
-    SELECT
-      DATE_TRUNC('month', workout_date) AS month_start,
-      COUNT(*) AS total_workouts,
-      COALESCE(SUM(calories), 0) AS total_calories,
-      COALESCE(SUM(distance_km), 0) AS total_distance_km,
-      COALESCE(SUM(duration_seconds), 0) AS total_duration_seconds
-    FROM workouts
-    GROUP BY month_start
-    ORDER BY month_start DESC
-  `);
+const result =
+await pool.query(
 
-  return result.rows;
+`
+SELECT
+
+DATE_TRUNC(
+'week',
+workout_date
+)
+
+AS week_start,
+
+COUNT(*)
+AS total_workouts,
+
+COALESCE(
+SUM(calories),
+0
+)
+
+AS total_calories,
+
+COALESCE(
+SUM(distance_km),
+0
+)
+
+AS total_distance_km,
+
+COALESCE(
+SUM(duration_seconds),
+0
+)
+
+AS total_duration_seconds
+
+FROM workouts
+
+WHERE user_id=$1
+
+GROUP BY week_start
+
+ORDER BY week_start DESC
+
+`,
+
+[userId]
+
+);
+
+return result.rows;
+
 };
 
 module.exports = {
