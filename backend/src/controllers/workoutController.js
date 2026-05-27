@@ -131,8 +131,15 @@ userId
 
 const getMonthlySummary = async (req, res) => {
   try {
-    const monthlySummary =
-      await workoutModel.getMonthlySummary();
+   const userId =
+req.user.id;
+
+const monthlySummary =
+
+await workoutModel
+.getMonthlySummary(
+userId
+);
 
     res.status(200).json({
       monthlySummary,
