@@ -12,6 +12,7 @@ const createWorkout = async (req, res) => {
       rpm,
       power,
     } = req.body;
+    const userId = req.user.id;
 
     // Convert total duration to seconds
     const totalSeconds =
@@ -32,14 +33,15 @@ const createWorkout = async (req, res) => {
     }
 
     const newWorkout = await workoutModel.createWorkout({
-      duration_seconds: totalSeconds,
-      distance_miles: distanceMiles,
-      distance_km: distanceKm,
-      calories,
-      odometer,
-      rpm,
-      power,
-    });
+  duration_seconds: totalSeconds,
+  distance_miles: distanceMiles,
+  distance_km: distanceKm,
+  calories,
+  odometer,
+  rpm,
+  power,
+  user_id: userId,
+});
 
     res.status(201).json({
       message: 'Workout session created successfully',
