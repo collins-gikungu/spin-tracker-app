@@ -7,6 +7,10 @@ import ProgressChart from '../components/ProgressChart';
 import API from '../services/api';
 import '../styles/dashboard.css';
 import {lightTheme,darkTheme,} from '../styles/theme';
+import {
+Link
+}
+from 'react-router-dom';
 
 const Dashboard = ({
 user,
@@ -236,7 +240,38 @@ Welcome,
 🚴
 
 </p>
+<Link
+to="/profile"
+>
 
+<button
+
+style={{
+
+padding:'10px',
+
+marginRight:'10px',
+
+border:'none',
+
+borderRadius:'8px',
+
+cursor:'pointer',
+
+background:
+theme.primary,
+
+color:'white'
+
+}}
+
+>
+
+My Profile
+
+</button>
+
+</Link>
 <button
 
 onClick={
