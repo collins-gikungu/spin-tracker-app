@@ -58,9 +58,15 @@ const createWorkout = async (req, res) => {
 };
 const getAllWorkouts = async (req, res) => {
   try {
-    const workouts =
-      await workoutModel.getAllWorkouts();
+    const userId =
+req.user.id;
 
+const workouts =
+
+await workoutModel
+.getAllWorkouts(
+userId
+);
     res.status(200).json({
       count: workouts.length,
       workouts,
