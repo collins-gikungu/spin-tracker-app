@@ -82,8 +82,15 @@ userId
 };
 const getWorkoutStats = async (req, res) => {
   try {
-    const stats =
-      await workoutModel.getWorkoutStats();
+    const userId =
+req.user.id;
+
+const stats =
+
+await workoutModel
+.getWorkoutStats(
+userId
+);
 
     res.status(200).json({
       stats,
