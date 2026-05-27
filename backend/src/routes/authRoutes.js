@@ -3,6 +3,11 @@ const express = require('express');
 const router =
   express.Router();
 
+  const authMiddleware =
+require(
+'../middleware/authMiddleware'
+);
+
 const bcrypt =
   require('bcrypt');
 
@@ -271,6 +276,67 @@ foundUser.email
 catch(error){
 
 console.error(error);
+
+res
+.status(500)
+.json({
+
+message:
+'Server error'
+
+});
+
+}
+
+}
+
+);
+router.get(
+
+'/profile',
+
+authMiddleware,
+
+async(req,res)=>{
+
+try{
+
+const user=
+await pool.query(
+
+`
+SELECT
+
+id,
+username,
+email,
+created_at
+
+FROM users
+
+WHERE id=$1
+`,
+
+[
+req.user.id
+]
+
+);
+
+res.json({
+
+user:
+user.rows[0]
+
+});
+
+}
+
+catch(error){
+
+console.error(
+error
+);
 
 res
 .status(500)
