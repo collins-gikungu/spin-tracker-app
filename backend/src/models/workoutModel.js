@@ -168,6 +168,63 @@ ORDER BY week_start DESC
 return result.rows;
 
 };
+const getMonthlySummary =
+async (userId) => {
+
+const result =
+await pool.query(
+
+`
+SELECT
+
+DATE_TRUNC(
+'month',
+workout_date
+)
+
+AS month_start,
+
+COUNT(*)
+AS total_workouts,
+
+COALESCE(
+SUM(calories),
+0
+)
+
+AS total_calories,
+
+COALESCE(
+SUM(distance_km),
+0
+)
+
+AS total_distance_km,
+
+COALESCE(
+SUM(duration_seconds),
+0
+)
+
+AS total_duration_seconds
+
+FROM workouts
+
+WHERE user_id=$1
+
+GROUP BY month_start
+
+ORDER BY month_start DESC
+
+`,
+
+[userId]
+
+);
+
+return result.rows;
+
+};
 
 module.exports = {
   createWorkout,
