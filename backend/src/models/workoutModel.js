@@ -9,6 +9,7 @@ const createWorkout = async (workoutData) => {
     odometer,
     rpm,
     power,
+    user_id,
   } = workoutData;
 
   const result = await pool.query(
@@ -21,8 +22,9 @@ const createWorkout = async (workoutData) => {
       odometer,
       rpm,
       power
+      user_id
     )
-    VALUES ($1, $2, $3, $4, $5, $6, $7)
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
     RETURNING *`,
     [
       duration_seconds,
@@ -32,18 +34,33 @@ const createWorkout = async (workoutData) => {
       odometer,
       rpm,
       power,
+      user_id,
     ]
   );
 
   return result.rows[0];
 };
-const getAllWorkouts = async () => {
-  const result = await pool.query(
-    `SELECT * FROM workouts
-     ORDER BY created_at DESC`
+const getAllWorkouts = async (
+  userId
+) => {
+
+  const result =
+  await pool.query(
+
+  `SELECT *
+
+   FROM workouts
+
+   WHERE user_id=$1
+
+   ORDER BY created_at DESC`,
+
+   [userId]
+
   );
 
   return result.rows;
+
 };
 const getWorkoutStats = async () => {
   const result = await pool.query(`
