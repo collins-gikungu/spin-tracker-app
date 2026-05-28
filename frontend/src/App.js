@@ -143,7 +143,9 @@ user
 
 ?
 
-<Profile />
+<Profile
+onLogout={handleLogout}
+/>
 
 :
 
