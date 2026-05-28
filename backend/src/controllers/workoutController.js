@@ -153,6 +153,48 @@ userId
     });
   }
 };
+const getPersonalRecords =
+async (req,res) => {
+
+try {
+
+const userId =
+req.user.id;
+
+const records =
+
+await workoutModel
+.getPersonalRecords(
+userId
+);
+
+res.status(200)
+.json({
+
+records
+
+});
+
+}
+
+catch(error){
+
+console.error(
+error
+);
+
+res
+.status(500)
+.json({
+
+message:
+'Server error'
+
+});
+
+}
+
+};
 
 module.exports = {
   createWorkout,
@@ -160,4 +202,5 @@ module.exports = {
   getWorkoutStats,
   getWeeklySummary,
   getMonthlySummary,
+  getPersonalRecords,
 };

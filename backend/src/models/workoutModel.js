@@ -225,6 +225,44 @@ ORDER BY month_start DESC
 return result.rows;
 
 };
+const getPersonalRecords =
+async (userId) => {
+
+const result =
+await pool.query(
+
+`
+
+SELECT
+
+MAX(duration_seconds)
+AS longest_workout,
+
+MAX(calories)
+AS highest_calories,
+
+MAX(rpm)
+AS highest_rpm,
+
+MAX(power)
+AS highest_power,
+
+MAX(distance_km)
+AS longest_distance
+
+FROM workouts
+
+WHERE user_id=$1
+
+`,
+
+[userId]
+
+);
+
+return result.rows[0];
+
+};
 
 module.exports = {
   createWorkout,
@@ -232,4 +270,5 @@ module.exports = {
   getWorkoutStats,
   getWeeklySummary,
   getMonthlySummary,
+  getPersonalRecords,
 };

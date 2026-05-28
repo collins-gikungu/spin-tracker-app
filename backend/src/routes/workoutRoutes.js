@@ -16,6 +16,16 @@ authMiddleware,
 workoutController.getWorkoutStats
 );
 
+router.get(
+
+'/records',
+
+authMiddleware,
+
+workoutController
+.getPersonalRecords
+
+);
 
 // GET weekly summary
 router.get(
