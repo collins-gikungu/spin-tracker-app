@@ -405,6 +405,20 @@ Weekly Progress
   theme={theme}
 />
 
+<div className="page-section">
+
+<h2 className="section-title">
+
+Monthly Analytics
+
+</h2>
+
+<MonthlyChart
+data={monthlyData}
+theme={theme}
+/>
+
+</div>
 </div>
       <div className="dashboard-grid">
 
