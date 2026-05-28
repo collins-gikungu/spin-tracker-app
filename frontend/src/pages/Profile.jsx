@@ -12,8 +12,17 @@ const Profile = () => {
 const [profile,setProfile]=
 useState(null);
 
+const [username,setUsername]=
+useState('');
+
+const [email,setEmail]=
+useState('');
+
 const [loading,setLoading]=
 useState(true);
+
+const [message,setMessage]=
+useState('');
 
 useEffect(()=>{
 
@@ -35,6 +44,14 @@ setProfile(
 response.data.user
 );
 
+setUsername(
+response.data.user.username
+);
+
+setEmail(
+response.data.user.email
+);
+
 }
 
 catch(error){
@@ -46,6 +63,61 @@ error
 }
 
 setLoading(false);
+
+};
+
+const handleSubmit=
+async(e)=>{
+
+e.preventDefault();
+
+setMessage('');
+
+try{
+
+const response=
+await API.put(
+
+'/auth/profile',
+
+{
+username,
+email
+}
+
+);
+
+setProfile(
+response.data.user
+);
+
+setMessage(
+'Profile updated successfully 🚴'
+);
+
+localStorage.setItem(
+
+'user',
+
+JSON.stringify(
+response.data.user
+)
+
+);
+
+}
+
+catch(error){
+
+console.error(
+error
+);
+
+setMessage(
+'Update failed'
+);
+
+}
 
 };
 
@@ -87,29 +159,75 @@ boxShadow:
 My Profile 🚴
 </h1>
 
-<p>
-
-<strong>
-Username:
-</strong>
-
-{' '}
-
-{profile.username}
-
-</p>
+{message&&(
 
 <p>
 
-<strong>
-Email:
-</strong>
-
-{' '}
-
-{profile.email}
+{message}
 
 </p>
+
+)}
+
+<form
+onSubmit={handleSubmit}
+>
+
+<label>
+Username
+</label>
+
+<input
+
+type="text"
+
+value={username}
+
+onChange={(e)=>
+
+setUsername(
+e.target.value
+)
+
+}
+
+required
+
+style={{
+width:'100%',
+padding:'10px',
+marginBottom:'20px'
+}}
+
+/>
+
+<label>
+Email
+</label>
+
+<input
+
+type="email"
+
+value={email}
+
+onChange={(e)=>
+
+setEmail(
+e.target.value
+)
+
+}
+
+required
+
+style={{
+width:'100%',
+padding:'10px',
+marginBottom:'20px'
+}}
+
+/>
 
 <p>
 
@@ -124,6 +242,30 @@ profile.created_at
 ).toLocaleDateString()}
 
 </p>
+
+<button
+
+type="submit"
+
+style={{
+
+padding:'12px 20px',
+
+border:'none',
+
+borderRadius:'8px',
+
+cursor:'pointer'
+
+}}
+
+>
+
+Save Changes
+
+</button>
+
+</form>
 
 </div>
 
