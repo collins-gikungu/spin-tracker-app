@@ -6,6 +6,7 @@ import StatsCards from '../components/StatsCards';
 import ProgressChart from '../components/ProgressChart';
 import API from '../services/api';
 import '../styles/dashboard.css';
+import Sidebar from '../components/Sidebar';
 import {lightTheme,darkTheme,} from '../styles/theme';
 import {
 Link
@@ -186,12 +187,31 @@ if (
   );
 }
   return (
-    <div
-  className="dashboard-container"
-  style={{
-  backgroundColor: theme.background,
-  minHeight: '100vh',
-  transition: 'all 0.3s ease',
+
+<div
+style={{
+
+display:'flex',
+
+backgroundColor:
+theme.background,
+
+minHeight:'100vh'
+
+}}
+>
+
+<Sidebar
+onLogout={onLogout}
+/>
+
+<div
+style={{
+
+flex:1,
+
+padding:'20px'
+
 }}
 >
       
@@ -323,6 +343,7 @@ Logout
           workouts={workouts}
         />
       </div>
+    </div>
     </div>
   );
 };
