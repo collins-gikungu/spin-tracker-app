@@ -5,14 +5,12 @@ import WorkoutHistory from '../components/WorkoutHistory';
 import StatsCards from '../components/StatsCards';
 import ProgressChart from '../components/ProgressChart';
 import MonthlyChart from '../components/MonthlyChart';
+import PersonalRecords from '../components/PersonalRecords';
 import API from '../services/api';
 import '../styles/dashboard.css';
 import Sidebar from '../components/Sidebar';
 import {lightTheme,darkTheme,} from '../styles/theme';
-import {
-Link
-}
-from 'react-router-dom';
+import {Link} from 'react-router-dom';
 
 const Dashboard = ({
 user,
@@ -49,6 +47,8 @@ const [stats, setStats] = useState(() => {
     ? JSON.parse(saved)
     : {};
 });
+const [records, setRecords] = useState({});
+
 const [weeklyData, setWeeklyData] = useState(() => {
   const saved =
     localStorage.getItem('weeklyData');
@@ -70,14 +70,12 @@ const theme = darkMode
 
   useEffect(() => {
   const loadDashboard = async () => {
-
     setLoading(true);
-
     try {
-
       await Promise.all([
         fetchWorkouts(),
         fetchStats(),
+        fetchRecords(),
         fetchWeeklyData(),
         fetchMonthlyData(),
       ]);
@@ -143,6 +141,32 @@ const theme = darkMode
   } catch (error) {
     console.error(error);
   }
+};
+
+const fetchRecords =
+async () => {
+
+try {
+
+const response =
+await API.get(
+'/workouts/records'
+);
+
+setRecords(
+response.data.records
+);
+
+}
+
+catch(error){
+
+console.error(
+error
+);
+
+}
+
 };
 
 const fetchWeeklyData = async () => {
@@ -420,7 +444,23 @@ theme={theme}
 
 </div>
 </div>
-      <div className="dashboard-grid">
+
+<div className="page-section">
+
+<h2 className="section-title">
+
+Personal Records 🏆
+
+</h2>
+
+<PersonalRecords
+records={records}
+theme={theme}
+/>
+
+</div>
+
+<div className="dashboard-grid">
 
 <div className="page-section">
 
