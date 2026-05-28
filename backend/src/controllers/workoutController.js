@@ -195,6 +195,48 @@ message:
 }
 
 };
+const getWorkoutStreaks =
+async (req,res) => {
+
+try {
+
+const userId =
+req.user.id;
+
+const streaks =
+
+await workoutModel
+.getWorkoutStreaks(
+userId
+);
+
+res.status(200)
+.json({
+
+streaks
+
+});
+
+}
+
+catch(error){
+
+console.error(
+error
+);
+
+res
+.status(500)
+.json({
+
+message:
+'Server error'
+
+});
+
+}
+
+};
 
 module.exports = {
   createWorkout,
@@ -203,4 +245,5 @@ module.exports = {
   getWeeklySummary,
   getMonthlySummary,
   getPersonalRecords,
+  getWorkoutStreaks,
 };

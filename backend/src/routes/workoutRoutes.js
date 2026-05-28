@@ -27,6 +27,17 @@ workoutController
 
 );
 
+router.get(
+
+'/streaks',
+
+authMiddleware,
+
+workoutController
+.getWorkoutStreaks
+
+);
+
 // GET weekly summary
 router.get(
 '/weekly',

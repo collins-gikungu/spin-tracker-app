@@ -263,6 +263,108 @@ WHERE user_id=$1
 return result.rows[0];
 
 };
+const getWorkoutStreaks =
+async (userId) => {
+
+const result =
+await pool.query(
+
+`
+
+SELECT DISTINCT
+DATE(created_at)
+AS workout_day
+
+FROM workouts
+
+WHERE user_id=$1
+
+ORDER BY workout_day ASC
+
+`,
+
+[userId]
+
+);
+
+const workoutDays =
+result.rows.map(
+row => new Date(row.workout_day)
+);
+
+if(workoutDays.length===0){
+
+return {
+
+currentStreak:0,
+longestStreak:0,
+activeDays:0
+
+};
+
+}
+
+let currentStreak = 1;
+let longestStreak = 1;
+
+for(
+let i=1;
+i<workoutDays.length;
+i++
+){
+
+const previous =
+new Date(
+workoutDays[i-1]
+);
+
+const current =
+new Date(
+workoutDays[i]
+);
+
+const diffTime =
+current - previous;
+
+const diffDays =
+diffTime /
+(1000*60*60*24);
+
+if(diffDays===1){
+
+currentStreak++;
+
+if(
+currentStreak >
+longestStreak
+){
+
+longestStreak =
+currentStreak;
+
+}
+
+}
+
+else{
+
+currentStreak = 1;
+
+}
+
+}
+
+return {
+
+currentStreak,
+longestStreak,
+
+activeDays:
+workoutDays.length
+
+};
+
+};
 
 module.exports = {
   createWorkout,
@@ -271,4 +373,5 @@ module.exports = {
   getWeeklySummary,
   getMonthlySummary,
   getPersonalRecords,
+  getWorkoutStreaks,
 };
