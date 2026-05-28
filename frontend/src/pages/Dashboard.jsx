@@ -55,6 +55,10 @@ const [weeklyData, setWeeklyData] = useState(() => {
     ? JSON.parse(saved)
     : [];
 });
+const [monthlyData,
+setMonthlyData] =
+useState([]);
+
   const [loading, setLoading] = useState(true);
   const [darkMode, setDarkMode] = useState(() => {
   return localStorage.getItem('darkMode') === 'true';
@@ -64,7 +68,6 @@ const theme = darkMode
   : lightTheme;
 
   useEffect(() => {
-
   const loadDashboard = async () => {
 
     setLoading(true);
@@ -75,6 +78,7 @@ const theme = darkMode
         fetchWorkouts(),
         fetchStats(),
         fetchWeeklyData(),
+        fetchMonthlyData(),
       ]);
 
     } catch (error) {
@@ -156,6 +160,58 @@ const fetchWeeklyData = async () => {
   } catch (error) {
     console.error(error);
   }
+};
+
+const fetchMonthlyData =
+async () => {
+
+try {
+
+const response =
+await API.get(
+'/workouts/monthly'
+);
+
+const formattedData =
+
+response.data
+.monthlySummary
+.map(item => ({
+
+month:
+
+new Date(
+item.month_start
+)
+
+.toLocaleString(
+'default',
+{
+month:'short'
+}
+),
+
+distance:
+Number(
+item.total_distance_km
+)
+
+}));
+
+setMonthlyData(
+formattedData
+);
+
+}
+
+catch(error){
+
+console.error(
+error
+);
+
+}
+
 };
 
 const toggleTheme = () => {
