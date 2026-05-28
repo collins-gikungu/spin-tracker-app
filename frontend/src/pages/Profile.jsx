@@ -3,11 +3,14 @@ useEffect,
 useState
 }
 from 'react';
-
+import Sidebar
+from '../components/Sidebar';
 import API
 from '../services/api';
 
-const Profile = () => {
+const Profile = ({
+onLogout
+}) => {
 
 const [profile,setProfile]=
 useState(null);
@@ -146,6 +149,32 @@ return(
 
 <div
 style={{
+
+display:'flex',
+
+minHeight:'100vh',
+
+background:'#f5f7fb'
+
+}}
+>
+
+<Sidebar
+onLogout={onLogout}
+/>
+
+<div
+style={{
+
+flex:1,
+
+padding:'40px'
+
+}}
+>
+
+<div
+style={{
 maxWidth:'600px',
 margin:'40px auto',
 padding:'30px',
@@ -268,7 +297,8 @@ Save Changes
 </form>
 
 </div>
-
+</div>
+</div>
 );
 
 };
