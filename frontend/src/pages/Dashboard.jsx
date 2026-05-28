@@ -321,28 +321,67 @@ Logout
 
 </div>
 
-      <StatsCards
+ <div className="page-section">
+
+<h2 className="section-title">
+
+Workout Overview
+
+</h2>
+
+<StatsCards
   stats={stats}
   theme={theme}
 />
-      <ProgressChart
+
+</div>
+      <div className="page-section">
+
+<h2 className="section-title">
+
+Weekly Progress
+
+</h2>
+
+<ProgressChart
   data={weeklyData}
   theme={theme}
 />
+
+</div>
       <div className="dashboard-grid">
+
+<div className="page-section">
+
+<h2 className="section-title">
+
+Add Workout
+
+</h2>
+
         <WorkoutForm
         theme={theme}
   fetchWorkouts={fetchWorkouts}
   fetchStats={fetchStats}
   fetchWeeklyData={fetchWeeklyData}
 />
+</div>
+
+<div className="page-section">
+
+<h2 className="section-title">
+
+Workout History
+
+</h2>
         <WorkoutHistory
         theme={theme}
           workouts={workouts}
         />
       </div>
     </div>
-    </div>
+  </div>
+  </div>
   );
 };
 
