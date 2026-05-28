@@ -4,6 +4,7 @@ import WorkoutForm from '../components/WorkoutForm';
 import WorkoutHistory from '../components/WorkoutHistory';
 import StatsCards from '../components/StatsCards';
 import ProgressChart from '../components/ProgressChart';
+import MonthlyChart from '../components/MonthlyChart';
 import API from '../services/api';
 import '../styles/dashboard.css';
 import Sidebar from '../components/Sidebar';
