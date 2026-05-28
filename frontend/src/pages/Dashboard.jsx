@@ -6,6 +6,7 @@ import StatsCards from '../components/StatsCards';
 import ProgressChart from '../components/ProgressChart';
 import MonthlyChart from '../components/MonthlyChart';
 import PersonalRecords from '../components/PersonalRecords';
+import WorkoutStreaks from '../components/WorkoutStreaks';
 import API from '../services/api';
 import '../styles/dashboard.css';
 import Sidebar from '../components/Sidebar';
@@ -48,6 +49,7 @@ const [stats, setStats] = useState(() => {
     : {};
 });
 const [records, setRecords] = useState({});
+const [streaks, setStreaks] = useState({});
 
 const [weeklyData, setWeeklyData] = useState(() => {
   const saved =
@@ -56,9 +58,7 @@ const [weeklyData, setWeeklyData] = useState(() => {
     ? JSON.parse(saved)
     : [];
 });
-const [monthlyData,
-setMonthlyData] =
-useState([]);
+const [monthlyData, setMonthlyData] = useState([]);
 
   const [loading, setLoading] = useState(true);
   const [darkMode, setDarkMode] = useState(() => {
@@ -76,6 +76,7 @@ const theme = darkMode
         fetchWorkouts(),
         fetchStats(),
         fetchRecords(),
+        fetchStreaks(),
         fetchWeeklyData(),
         fetchMonthlyData(),
       ]);
@@ -155,6 +156,32 @@ await API.get(
 
 setRecords(
 response.data.records
+);
+
+}
+
+catch(error){
+
+console.error(
+error
+);
+
+}
+
+};
+
+const fetchStreaks =
+async () => {
+
+try {
+
+const response =
+await API.get(
+'/workouts/streaks'
+);
+
+setStreaks(
+response.data.streaks
 );
 
 }
@@ -455,6 +482,21 @@ Personal Records 🏆
 
 <PersonalRecords
 records={records}
+theme={theme}
+/>
+
+</div>
+
+<div className="page-section">
+
+<h2 className="section-title">
+
+Workout Consistency 🔥
+
+</h2>
+
+<WorkoutStreaks
+streaks={streaks}
 theme={theme}
 />
 
