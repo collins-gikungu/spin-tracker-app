@@ -1,4 +1,9 @@
 import {
+useState
+}
+from 'react';
+
+import {
 Link,
 useLocation
 }
@@ -7,7 +12,8 @@ from 'react-router-dom';
 const Sidebar = ({
 onLogout
 }) => {
-
+const [isOpen,setIsOpen]=
+useState(false);
 const location =
 useLocation();
 
@@ -49,8 +55,28 @@ transition:
 });
 
 return(
+    <>
+
+<button
+
+onClick={()=>
+setIsOpen(!isOpen)
+}
+
+className="mobile-menu-btn"
+
+>
+
+☰
+
+</button>
 
 <div
+className={
+isOpen
+? 'sidebar open'
+: 'sidebar'
+}
 style={{
 
 width:'250px',
@@ -135,6 +161,7 @@ Logout
 
 </div>
 
+</>
 );
 
 };
