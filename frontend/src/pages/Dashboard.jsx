@@ -206,12 +206,10 @@ onLogout={onLogout}
 />
 
 <div
+className="dashboard-content"
 style={{
-
 flex:1,
-
 padding:'20px'
-
 }}
 >
       
