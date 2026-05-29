@@ -7,6 +7,7 @@ import MonthlyChart from '../components/MonthlyChart';
 import PersonalRecords from '../components/PersonalRecords';
 import WorkoutStreaks from '../components/WorkoutStreaks';
 import DashboardHero from '../components/DashboardHero';
+import GoalTracker from '../components/GoalTracker';
 import API from '../services/api';
 import '../styles/dashboard.css';
 import Sidebar from '../components/Sidebar';
@@ -237,6 +238,11 @@ const Dashboard = ({ user, onLogout }) => {
           <h2 className="section-title">Workout Consistency 🔥</h2>
           <WorkoutStreaks streaks={streaks} theme={theme} />
         </div>
+
+        <div className="page-section">
+<h2 className="section-title">Goal Tracking 🎯</h2>
+<GoalTracker stats={stats} theme={theme} />
+</div>
 
         <div className="dashboard-grid">
           <div className="page-section">
