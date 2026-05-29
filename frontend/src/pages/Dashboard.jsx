@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
 import WorkoutForm from '../components/WorkoutForm';
 import WorkoutHistory from '../components/WorkoutHistory';
 import StatsCards from '../components/StatsCards';
@@ -202,12 +203,48 @@ const Dashboard = ({ user, onLogout }) => {
           </button>
         </div>
 
-        <div className="page-section">
+        <motion.div
+
+className="page-section"
+
+initial={{
+opacity:0,
+y:30
+}}
+
+animate={{
+opacity:1,
+y:0
+}}
+
+transition={{
+duration:0.5
+}}
+
+>
           <h2 className="section-title">Workout Overview</h2>
           <StatsCards stats={stats} theme={theme} />
-        </div>
+        </motion.div>
         
-        <div className="page-section">
+        <motion.div
+
+className="page-section"
+
+initial={{
+opacity:0,
+y:30
+}}
+
+animate={{
+opacity:1,
+y:0
+}}
+
+transition={{
+duration:0.5
+}}
+
+>
   <h2 className="section-title">
     Weekly Progress
   </h2>
@@ -216,9 +253,27 @@ const Dashboard = ({ user, onLogout }) => {
     data={weeklyData}
     theme={theme}
   />
-</div>
+</motion.div>
 
-<div className="page-section">
+<motion.div
+
+className="page-section"
+
+initial={{
+opacity:0,
+y:30
+}}
+
+animate={{
+opacity:1,
+y:0
+}}
+
+transition={{
+duration:0.5
+}}
+
+>
   <h2 className="section-title">
     Monthly Analytics
   </h2>
@@ -227,25 +282,97 @@ const Dashboard = ({ user, onLogout }) => {
     data={monthlyData}
     theme={theme}
   />
-</div>
+</motion.div>
 
-        <div className="page-section">
+        <motion.div
+
+className="page-section"
+
+initial={{
+opacity:0,
+y:30
+}}
+
+animate={{
+opacity:1,
+y:0
+}}
+
+transition={{
+duration:0.5
+}}
+
+>
           <h2 className="section-title">Personal Records 🏆</h2>
           <PersonalRecords records={records} theme={theme} />
-        </div>
+        </motion.div>
 
-        <div className="page-section">
+        <motion.div
+
+className="page-section"
+
+initial={{
+opacity:0,
+y:30
+}}
+
+animate={{
+opacity:1,
+y:0
+}}
+
+transition={{
+duration:0.5
+}}
+
+>
           <h2 className="section-title">Workout Consistency 🔥</h2>
           <WorkoutStreaks streaks={streaks} theme={theme} />
-        </div>
+        </motion.div>
 
-        <div className="page-section">
+        <motion.div
+
+className="page-section"
+
+initial={{
+opacity:0,
+y:30
+}}
+
+animate={{
+opacity:1,
+y:0
+}}
+
+transition={{
+duration:0.5
+}}
+
+>
 <h2 className="section-title">Goal Tracking 🎯</h2>
 <GoalTracker stats={stats} theme={theme} />
-</div>
+</motion.div>
 
         <div className="dashboard-grid">
-          <div className="page-section">
+          <motion.div
+
+className="page-section"
+
+initial={{
+opacity:0,
+y:30
+}}
+
+animate={{
+opacity:1,
+y:0
+}}
+
+transition={{
+duration:0.5
+}}
+
+>
             <h2 className="section-title">Add Workout</h2>
             <WorkoutForm
               theme={theme}
@@ -253,12 +380,30 @@ const Dashboard = ({ user, onLogout }) => {
               fetchStats={fetchStats}
               fetchWeeklyData={fetchWeeklyData}
             />
-          </div>
+          </motion.div>
           
-          <div className="page-section">
+          <motion.div
+
+className="page-section"
+
+initial={{
+opacity:0,
+y:30
+}}
+
+animate={{
+opacity:1,
+y:0
+}}
+
+transition={{
+duration:0.5
+}}
+
+>
             <h2 className="section-title">Workout History</h2>
             <WorkoutHistory theme={theme} workouts={workouts} />
-          </div>
+          </motion.div>
         </div>
       </div>
     </div>
