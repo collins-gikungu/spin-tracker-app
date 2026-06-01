@@ -250,7 +250,10 @@ await workoutModel
 .getWorkoutInsightsData(
 userId
 );
-
+const totalDistance =
+Number(
+data.stats.total_distance_km
+);
 const insights = [];
 
 const avgRPM =
@@ -289,11 +292,37 @@ insights.push(
 );
 
 }
+if(totalWorkouts >= 25){
+
+insights.push(
+'🚴 Incredible dedication! You have completed more than 25 workouts.'
+);
+
+}
+
+if(totalDistance >= 100){
+
+insights.push(
+'🌍 Milestone reached! You have ridden more than 100 km in total.'
+);
+
+}
+
+if(
+avgRPM >= 90 &&
+totalWorkouts >= 10
+){
+
+insights.push(
+'⚡ Strong rider profile! You combine excellent cadence with consistent training.'
+);
+
+}
 
 if(insights.length === 0){
 
 insights.push(
-'🚴 Complete a few more rides to unlock personalized insights.'
+'🚴 Keep riding. The more workouts you log, the smarter your coaching insights become.'
 );
 
 }

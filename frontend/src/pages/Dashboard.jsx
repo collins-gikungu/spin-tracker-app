@@ -40,7 +40,6 @@ const Dashboard = ({ user, onLogout }) => {
   });
 
   const [insights, setInsights] = useState([]);
-
   const [monthlyData, setMonthlyData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [darkMode, setDarkMode] = useState(() => {
@@ -109,31 +108,14 @@ const Dashboard = ({ user, onLogout }) => {
     }
   };
 
-const fetchInsights =
-async () => {
-
-try {
-
-const response =
-await API.get(
-'/workouts/insights'
-);
-
-setInsights(
-response.data.insights
-);
-
-}
-
-catch(error){
-
-console.error(
-error
-);
-
-}
-
-};
+  const fetchInsights = async () => {
+    try {
+      const response = await API.get('/workouts/insights');
+      setInsights(response.data.insights);
+    } catch(error) {
+      console.error(error);
+    }
+  };
 
   const fetchWeeklyData = async () => {
     try {
@@ -295,43 +277,25 @@ error
           <GoalTracker stats={stats} theme={theme} />
         </motion.div>
 
-<motion.div
-className="page-section"
-initial={{
-opacity:0,
-y:30
-}}
-animate={{
-opacity:1,
-y:0
-}}
-transition={{
-duration:0.5,
-delay:0.7
-}}
->
-
-<h2 className="section-title">
-
-💡 Fitness Insights
-
-</h2>
-
-<FitnessInsights
-insights={insights}
-theme={theme}
-/>
-
-</motion.div>
+        {/* Section 7 - Fitness Insights (delay: 0.7) */}
+        <motion.div
+          className="page-section"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.7 }}
+        >
+          <h2 className="section-title">Fitness Insights 💡</h2>
+          <FitnessInsights insights={insights} theme={theme} />
+        </motion.div>
 
         {/* Grid sections with progressive delays */}
         <div className="dashboard-grid">
-          {/* Section 7 - Add Workout (delay: 0.7) */}
+          {/* Section 8 - Add Workout (delay: 0.8) */}
           <motion.div
             className="page-section"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.7 }}
+            transition={{ duration: 0.5, delay: 0.8 }}
           >
             <h2 className="section-title">Add Workout</h2>
             <WorkoutForm
@@ -342,12 +306,12 @@ theme={theme}
             />
           </motion.div>
           
-          {/* Section 8 - Workout History (delay: 0.8) */}
+          {/* Section 9 - Workout History (delay: 0.9) */}
           <motion.div
             className="page-section"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.8 }}
+            transition={{ duration: 0.5, delay: 0.9 }}
           >
             <h2 className="section-title">Workout History</h2>
             <WorkoutHistory theme={theme} workouts={workouts} />
