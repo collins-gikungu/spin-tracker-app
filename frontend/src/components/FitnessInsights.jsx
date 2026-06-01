@@ -1,3 +1,46 @@
+const getCategory = (insight) => {
+
+if(
+insight.includes('🔥')
+){
+
+return {
+title:'Motivation',
+emoji:'🔥'
+};
+
+}
+
+if(
+insight.includes('⚡')
+){
+
+return {
+title:'Performance',
+emoji:'⚡'
+};
+
+}
+
+if(
+insight.includes('🏆') ||
+insight.includes('🌍') ||
+insight.includes('🚴')
+){
+
+return {
+title:'Achievement',
+emoji:'🏆'
+};
+
+}
+
+return {
+title:'Insight',
+emoji:'💡'
+};
+
+};
 const FitnessInsights = ({
 insights,
 theme
@@ -16,7 +59,14 @@ gap:'15px'
 >
 
 {insights.map(
-(insight,index)=>(
+(insight,index)=>{
+
+const category =
+getCategory(
+insight
+);
+
+return (
 
 <div
 
@@ -30,17 +80,73 @@ background:
 theme.cardBackground,
 
 color:
-theme.text
+theme.text,
+
+padding:'20px',
+
+borderRadius:'16px',
+
+boxShadow:
+'0 8px 24px rgba(0,0,0,0.12)',
+
+border:
+'1px solid rgba(255,255,255,0.08)',
+
+transition:
+'all 0.3s ease'
 
 }}
+>
+<div
+style={{
 
+width:'50px',
+
+height:'4px',
+
+borderRadius:'999px',
+
+marginBottom:'12px',
+
+background:
+theme.primary
+
+}}
+/>
+<h4
+style={{
+
+marginBottom:'12px',
+
+fontSize:'0.85rem',
+
+fontWeight:'700',
+
+letterSpacing:'1px',
+
+textTransform:'uppercase',
+
+opacity:0.8
+
+}}
 >
 
+{category.emoji}
+{' '}
+{category.title}
+
+</h4>
 <p
 style={{
+
 margin:0,
-fontSize:'1rem',
-lineHeight:'1.6'
+
+fontSize:'1.05rem',
+
+fontWeight:'500',
+
+lineHeight:'1.8'
+
 }}
 >
 
@@ -50,7 +156,9 @@ lineHeight:'1.6'
 
 </div>
 
-))
+);
+
+})
 
 }
 

@@ -265,10 +265,6 @@ const totalWorkouts =
 Number(
 data.stats.total_workouts
 );
-const totalDistance =
-Number(
-data.stats.total_distance_km
-);
 
 const activeDays =
 data.workoutDays.length;
