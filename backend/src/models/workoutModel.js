@@ -365,6 +365,40 @@ workoutDays.length
 };
 
 };
+const getWorkoutInsightsData =
+async (userId) => {
+
+  const statsResult =
+  await pool.query(
+    `
+    SELECT
+      COUNT(*) AS total_workouts,
+      COALESCE(AVG(rpm),0) AS average_rpm,
+      COALESCE(SUM(distance_km),0) AS total_distance_km
+    FROM workouts
+    WHERE user_id = $1
+    `,
+    [userId]
+  );
+
+  const streakResult =
+  await pool.query(
+    `
+    SELECT DISTINCT
+    DATE(created_at) AS workout_day
+    FROM workouts
+    WHERE user_id = $1
+    ORDER BY workout_day ASC
+    `,
+    [userId]
+  );
+
+  return {
+    stats: statsResult.rows[0],
+    workoutDays: streakResult.rows
+  };
+
+};
 
 module.exports = {
   createWorkout,
@@ -374,4 +408,5 @@ module.exports = {
   getMonthlySummary,
   getPersonalRecords,
   getWorkoutStreaks,
+  getWorkoutInsightsData,
 };

@@ -53,12 +53,17 @@ authMiddleware,
 workoutController.getMonthlySummary
 );
 
-
 // GET all workouts
 router.get(
 '/',
 authMiddleware,
 workoutController.getAllWorkouts
+);
+
+router.get(
+'/insights',
+authMiddleware,
+workoutController.getWorkoutInsights
 );
 
 

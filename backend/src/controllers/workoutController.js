@@ -237,6 +237,84 @@ message:
 }
 
 };
+const getWorkoutInsights =
+async (req,res) => {
+
+try {
+
+const userId =
+req.user.id;
+
+const data =
+await workoutModel
+.getWorkoutInsightsData(
+userId
+);
+
+const insights = [];
+
+const avgRPM =
+Number(
+data.stats.average_rpm
+);
+
+const totalWorkouts =
+Number(
+data.stats.total_workouts
+);
+
+const activeDays =
+data.workoutDays.length;
+
+if(activeDays >= 3){
+
+insights.push(
+'🔥 Great consistency! You are building a strong riding habit.'
+);
+
+}
+
+if(avgRPM >= 90){
+
+insights.push(
+'⚡ Excellent cadence. Your average RPM is above 90.'
+);
+
+}
+
+if(totalWorkouts >= 10){
+
+insights.push(
+'🏆 Congratulations! You have completed more than 10 workouts.'
+);
+
+}
+
+if(insights.length === 0){
+
+insights.push(
+'🚴 Complete a few more rides to unlock personalized insights.'
+);
+
+}
+
+res.status(200).json({
+insights
+});
+
+}
+
+catch(error){
+
+console.error(error);
+
+res.status(500).json({
+message:'Server error'
+});
+
+}
+
+};
 
 module.exports = {
   createWorkout,
@@ -246,4 +324,5 @@ module.exports = {
   getMonthlySummary,
   getPersonalRecords,
   getWorkoutStreaks,
+  getWorkoutInsights,
 };
