@@ -6,6 +6,8 @@ import {
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
+  Area,
+  AreaChart
 } from 'recharts';
 
 const ProgressChart = ({ data, theme,}) => {
@@ -42,31 +44,86 @@ const ProgressChart = ({ data, theme,}) => {
           height: '300px',
   }}
 >
-        <ResponsiveContainer>
-          <LineChart data={formattedData}>
-           <CartesianGrid
-  stroke="#444"
+        <ResponsiveContainer
+width="100%"
+height={320}
+>
+
+<AreaChart
+data={data}
+>
+
+<defs>
+
+<linearGradient
+id="colorDistance"
+x1="0"
+y1="0"
+x2="0"
+y2="1"
+>
+
+<stop
+offset="5%"
+stopColor="#42a5f5"
+stopOpacity={0.8}
+/>
+
+<stop
+offset="95%"
+stopColor="#42a5f5"
+stopOpacity={0.05}
+/>
+
+</linearGradient>
+
+</defs>
+
+<CartesianGrid
+strokeDasharray="3 3"
+opacity={0.15}
 />
 
 <XAxis
-  dataKey="week"
-  stroke={theme.text}
+dataKey="week_start"
 />
 
-<YAxis
-  stroke={theme.text}
+<YAxis />
+
+<Tooltip
+contentStyle={{
+
+borderRadius:'14px',
+
+border:'none',
+
+boxShadow:
+'0 8px 24px rgba(0,0,0,0.12)'
+
+}}
 />
 
-<Tooltip />
+<Area
 
-<Line
-  type="monotone"
-  dataKey="distance"
-  stroke={theme.primary}
-  strokeWidth={3}
+type="monotone"
+
+dataKey="total_distance_km"
+
+stroke="#1976d2"
+
+strokeWidth={3}
+
+fillOpacity={1}
+
+fill="url(#colorDistance)"
+
+animationDuration={1800}
+
 />
-          </LineChart>
-        </ResponsiveContainer>
+
+</AreaChart>
+
+</ResponsiveContainer>
       </div>
     </div>
   );
