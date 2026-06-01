@@ -9,6 +9,7 @@ import PersonalRecords from '../components/PersonalRecords';
 import WorkoutStreaks from '../components/WorkoutStreaks';
 import DashboardHero from '../components/DashboardHero';
 import GoalTracker from '../components/GoalTracker';
+import FitnessInsights from '../components/FitnessInsights';
 import API from '../services/api';
 import '../styles/dashboard.css';
 import Sidebar from '../components/Sidebar';
@@ -37,6 +38,9 @@ const Dashboard = ({ user, onLogout }) => {
     const saved = localStorage.getItem('weeklyData');
     return saved ? JSON.parse(saved) : [];
   });
+
+  const [insights, setInsights] = useState([]);
+
   const [monthlyData, setMonthlyData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [darkMode, setDarkMode] = useState(() => {
@@ -56,6 +60,7 @@ const Dashboard = ({ user, onLogout }) => {
           fetchStreaks(),
           fetchWeeklyData(),
           fetchMonthlyData(),
+          fetchInsights(),
         ]);
       } catch (error) {
         console.error('Dashboard load failed:', error);
@@ -103,6 +108,32 @@ const Dashboard = ({ user, onLogout }) => {
       console.error(error);
     }
   };
+
+const fetchInsights =
+async () => {
+
+try {
+
+const response =
+await API.get(
+'/workouts/insights'
+);
+
+setInsights(
+response.data.insights
+);
+
+}
+
+catch(error){
+
+console.error(
+error
+);
+
+}
+
+};
 
   const fetchWeeklyData = async () => {
     try {
@@ -263,6 +294,35 @@ const Dashboard = ({ user, onLogout }) => {
           <h2 className="section-title">Goal Tracking 🎯</h2>
           <GoalTracker stats={stats} theme={theme} />
         </motion.div>
+
+<motion.div
+className="page-section"
+initial={{
+opacity:0,
+y:30
+}}
+animate={{
+opacity:1,
+y:0
+}}
+transition={{
+duration:0.5,
+delay:0.7
+}}
+>
+
+<h2 className="section-title">
+
+💡 Fitness Insights
+
+</h2>
+
+<FitnessInsights
+insights={insights}
+theme={theme}
+/>
+
+</motion.div>
 
         {/* Grid sections with progressive delays */}
         <div className="dashboard-grid">
