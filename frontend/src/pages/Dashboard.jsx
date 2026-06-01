@@ -16,8 +16,6 @@ import { lightTheme, darkTheme } from '../styles/theme';
 import { Link } from 'react-router-dom';
 
 const Dashboard = ({ user, onLogout }) => {
-  // REMOVED: const [user, setUser] = useState(null); ← DELETE THIS LINE
-  
   const [workouts, setWorkouts] = useState(() => {
     try {
       const saved = localStorage.getItem('workouts');
@@ -77,9 +75,6 @@ const Dashboard = ({ user, onLogout }) => {
       console.error(error);
     }
   };
-
-  // REMOVED: const savedUser = JSON.parse(localStorage.getItem('user'));
-  // REMOVED: setUser(savedUser); ← This was outside any function and causing errors
 
   const fetchStats = async () => {
     try {
@@ -203,176 +198,81 @@ const Dashboard = ({ user, onLogout }) => {
           </button>
         </div>
 
+        {/* Section 1 - Workout Overview (delay: 0.1) */}
         <motion.div
-
-className="page-section"
-
-initial={{
-opacity:0,
-y:30
-}}
-
-animate={{
-opacity:1,
-y:0
-}}
-
-transition={{
-duration:0.5
-}}
-
->
+          className="page-section"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+        >
           <h2 className="section-title">Workout Overview</h2>
           <StatsCards stats={stats} theme={theme} />
         </motion.div>
         
+        {/* Section 2 - Weekly Progress (delay: 0.2) */}
         <motion.div
+          className="page-section"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+        >
+          <h2 className="section-title">Weekly Progress</h2>
+          <ProgressChart data={weeklyData} theme={theme} />
+        </motion.div>
 
-className="page-section"
-
-initial={{
-opacity:0,
-y:30
-}}
-
-animate={{
-opacity:1,
-y:0
-}}
-
-transition={{
-duration:0.5
-}}
-
->
-  <h2 className="section-title">
-    Weekly Progress
-  </h2>
-
-  <ProgressChart
-    data={weeklyData}
-    theme={theme}
-  />
-</motion.div>
-
-<motion.div
-
-className="page-section"
-
-initial={{
-opacity:0,
-y:30
-}}
-
-animate={{
-opacity:1,
-y:0
-}}
-
-transition={{
-duration:0.5
-}}
-
->
-  <h2 className="section-title">
-    Monthly Analytics
-  </h2>
-
-  <MonthlyChart
-    data={monthlyData}
-    theme={theme}
-  />
-</motion.div>
-
+        {/* Section 3 - Monthly Analytics (delay: 0.3) */}
         <motion.div
+          className="page-section"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+        >
+          <h2 className="section-title">Monthly Analytics</h2>
+          <MonthlyChart data={monthlyData} theme={theme} />
+        </motion.div>
 
-className="page-section"
-
-initial={{
-opacity:0,
-y:30
-}}
-
-animate={{
-opacity:1,
-y:0
-}}
-
-transition={{
-duration:0.5
-}}
-
->
+        {/* Section 4 - Personal Records (delay: 0.4) */}
+        <motion.div
+          className="page-section"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.4 }}
+        >
           <h2 className="section-title">Personal Records 🏆</h2>
           <PersonalRecords records={records} theme={theme} />
         </motion.div>
 
+        {/* Section 5 - Workout Consistency (delay: 0.5) */}
         <motion.div
-
-className="page-section"
-
-initial={{
-opacity:0,
-y:30
-}}
-
-animate={{
-opacity:1,
-y:0
-}}
-
-transition={{
-duration:0.5
-}}
-
->
+          className="page-section"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.5 }}
+        >
           <h2 className="section-title">Workout Consistency 🔥</h2>
           <WorkoutStreaks streaks={streaks} theme={theme} />
         </motion.div>
 
+        {/* Section 6 - Goal Tracking (delay: 0.6) */}
         <motion.div
+          className="page-section"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.6 }}
+        >
+          <h2 className="section-title">Goal Tracking 🎯</h2>
+          <GoalTracker stats={stats} theme={theme} />
+        </motion.div>
 
-className="page-section"
-
-initial={{
-opacity:0,
-y:30
-}}
-
-animate={{
-opacity:1,
-y:0
-}}
-
-transition={{
-duration:0.5
-}}
-
->
-<h2 className="section-title">Goal Tracking 🎯</h2>
-<GoalTracker stats={stats} theme={theme} />
-</motion.div>
-
+        {/* Grid sections with progressive delays */}
         <div className="dashboard-grid">
+          {/* Section 7 - Add Workout (delay: 0.7) */}
           <motion.div
-
-className="page-section"
-
-initial={{
-opacity:0,
-y:30
-}}
-
-animate={{
-opacity:1,
-y:0
-}}
-
-transition={{
-duration:0.5
-}}
-
->
+            className="page-section"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.7 }}
+          >
             <h2 className="section-title">Add Workout</h2>
             <WorkoutForm
               theme={theme}
@@ -382,25 +282,13 @@ duration:0.5
             />
           </motion.div>
           
+          {/* Section 8 - Workout History (delay: 0.8) */}
           <motion.div
-
-className="page-section"
-
-initial={{
-opacity:0,
-y:30
-}}
-
-animate={{
-opacity:1,
-y:0
-}}
-
-transition={{
-duration:0.5
-}}
-
->
+            className="page-section"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.8 }}
+          >
             <h2 className="section-title">Workout History</h2>
             <WorkoutHistory theme={theme} workouts={workouts} />
           </motion.div>
