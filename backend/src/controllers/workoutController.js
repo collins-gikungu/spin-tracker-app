@@ -344,6 +344,106 @@ message:'Server error'
 }
 
 };
+const getAchievements =
+async (req,res) => {
+
+try {
+
+const userId =
+req.user.id;
+
+const data =
+await workoutModel
+.getAchievementData(
+userId
+);
+
+const achievements = [];
+
+const totalWorkouts =
+Number(
+data.total_workouts
+);
+
+const avgRPM =
+Number(
+data.average_rpm
+);
+
+const totalDistance =
+Number(
+data.total_distance_km
+);
+
+if(totalWorkouts >= 1){
+
+achievements.push({
+
+icon:'🚴',
+title:'First Ride',
+description:
+'Completed your first workout'
+
+});
+
+}
+
+if(totalWorkouts >= 10){
+
+achievements.push({
+
+icon:'🏆',
+title:'Dedicated Rider',
+description:
+'Completed 10 workouts'
+
+});
+
+}
+
+if(avgRPM >= 90){
+
+achievements.push({
+
+icon:'⚡',
+title:'Cadence Master',
+description:
+'Average RPM above 90'
+
+});
+
+}
+
+if(totalDistance >= 100){
+
+achievements.push({
+
+icon:'🌍',
+title:'100 KM Rider',
+description:
+'Rode more than 100 km'
+
+});
+
+}
+
+res.status(200).json({
+achievements
+});
+
+}
+
+catch(error){
+
+console.error(error);
+
+res.status(500).json({
+message:'Server error'
+});
+
+}
+
+};
 
 module.exports = {
   createWorkout,
@@ -354,4 +454,5 @@ module.exports = {
   getPersonalRecords,
   getWorkoutStreaks,
   getWorkoutInsights,
+  getAchievements,
 };

@@ -66,6 +66,12 @@ authMiddleware,
 workoutController.getWorkoutInsights
 );
 
+router.get(
+'/achievements',
+authMiddleware,
+workoutController.getAchievements
+);
+
 
 // POST workout
 router.post(

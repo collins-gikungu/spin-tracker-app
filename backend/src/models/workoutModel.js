@@ -399,6 +399,40 @@ async (userId) => {
   };
 
 };
+const getAchievementData =
+async (userId) => {
+
+const result =
+await pool.query(
+
+`
+SELECT
+
+COUNT(*) AS total_workouts,
+
+COALESCE(
+AVG(rpm),
+0
+) AS average_rpm,
+
+COALESCE(
+SUM(distance_km),
+0
+) AS total_distance_km
+
+FROM workouts
+
+WHERE user_id=$1
+
+`,
+
+[userId]
+
+);
+
+return result.rows[0];
+
+};
 
 module.exports = {
   createWorkout,
@@ -409,4 +443,5 @@ module.exports = {
   getPersonalRecords,
   getWorkoutStreaks,
   getWorkoutInsightsData,
+  getAchievementData,
 };
