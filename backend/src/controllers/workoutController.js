@@ -375,57 +375,100 @@ Number(
 data.total_distance_km
 );
 
-if(totalWorkouts >= 1){
-
 achievements.push({
 
 icon:'🚴',
+
 title:'First Ride',
+
 description:
-'Completed your first workout'
+'Complete your first workout',
+
+unlocked:
+totalWorkouts >= 1,
+
+progress:
+Math.min(totalWorkouts,1),
+
+target:1
 
 });
-
-}
-
-if(totalWorkouts >= 10){
 
 achievements.push({
 
 icon:'🏆',
+
 title:'Dedicated Rider',
+
 description:
-'Completed 10 workouts'
+'Complete 10 workouts',
+
+unlocked:
+totalWorkouts >= 10,
+
+progress:
+Math.min(totalWorkouts,10),
+
+target:10
 
 });
-
-}
-
-if(avgRPM >= 90){
 
 achievements.push({
 
 icon:'⚡',
+
 title:'Cadence Master',
+
 description:
-'Average RPM above 90'
+'Maintain an average RPM above 90',
+
+unlocked:
+avgRPM >= 90,
+
+progress:
+Math.round(avgRPM),
+
+target:90
 
 });
-
-}
-
-if(totalDistance >= 100){
 
 achievements.push({
 
 icon:'🌍',
+
 title:'100 KM Rider',
+
 description:
-'Rode more than 100 km'
+'Ride more than 100 km',
+
+unlocked:
+totalDistance >= 100,
+
+progress:
+Math.round(totalDistance),
+
+target:100
 
 });
 
-}
+achievements.push({
+
+icon:'🔥',
+
+title:'Elite Cyclist',
+
+description:
+'Complete 25 workouts',
+
+unlocked:
+totalWorkouts >= 25,
+
+progress:
+Math.min(totalWorkouts,25),
+
+target:25
+
+});
 
 res.status(200).json({
 achievements
