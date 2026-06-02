@@ -10,6 +10,7 @@ import WorkoutStreaks from '../components/WorkoutStreaks';
 import DashboardHero from '../components/DashboardHero';
 import GoalTracker from '../components/GoalTracker';
 import FitnessInsights from '../components/FitnessInsights';
+import AchievementGallery from '../components/AchievementGallery';
 import API from '../services/api';
 import '../styles/dashboard.css';
 import Sidebar from '../components/Sidebar';
@@ -39,6 +40,7 @@ const Dashboard = ({ user, onLogout }) => {
     return saved ? JSON.parse(saved) : [];
   });
 
+  const [achievements, setAchievements] = useState([]);
   const [insights, setInsights] = useState([]);
   const [monthlyData, setMonthlyData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -60,6 +62,7 @@ const Dashboard = ({ user, onLogout }) => {
           fetchWeeklyData(),
           fetchMonthlyData(),
           fetchInsights(),
+          fetchAchievements(),
         ]);
       } catch (error) {
         console.error('Dashboard load failed:', error);
@@ -112,6 +115,15 @@ const Dashboard = ({ user, onLogout }) => {
     try {
       const response = await API.get('/workouts/insights');
       setInsights(response.data.insights);
+    } catch(error) {
+      console.error(error);
+    }
+  };
+
+  const fetchAchievements = async () => {
+    try {
+      const response = await API.get('/workouts/achievements');
+      setAchievements(response.data.achievements);
     } catch(error) {
       console.error(error);
     }
@@ -288,14 +300,27 @@ const Dashboard = ({ user, onLogout }) => {
           <FitnessInsights insights={insights} theme={theme} />
         </motion.div>
 
+        {/* Section 8 - Achievements (delay: 0.8) */}
+        <motion.div
+          className="page-section"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.8 }}
+        >
+          <h2 className="section-title" style={{ color: theme.primary }}>
+            🏆 Achievements
+          </h2>
+          <AchievementGallery achievements={achievements} theme={theme} />
+        </motion.div>
+
         {/* Grid sections with progressive delays */}
         <div className="dashboard-grid">
-          {/* Section 8 - Add Workout (delay: 0.8) */}
+          {/* Section 9 - Add Workout (delay: 0.9) */}
           <motion.div
             className="page-section"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.8 }}
+            transition={{ duration: 0.5, delay: 0.9 }}
           >
             <h2 className="section-title">Add Workout</h2>
             <WorkoutForm
@@ -306,12 +331,12 @@ const Dashboard = ({ user, onLogout }) => {
             />
           </motion.div>
           
-          {/* Section 9 - Workout History (delay: 0.9) */}
+          {/* Section 10 - Workout History (delay: 1.0) */}
           <motion.div
             className="page-section"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.9 }}
+            transition={{ duration: 0.5, delay: 1.0 }}
           >
             <h2 className="section-title">Workout History</h2>
             <WorkoutHistory theme={theme} workouts={workouts} />
