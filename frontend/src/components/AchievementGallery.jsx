@@ -9,14 +9,17 @@ const AchievementGallery = ({
   ) {
     return null;
   }
-
+console.log(
+'Achievements:',
+achievements
+);
   return (
 
     <div
       style={{
         display:'grid',
-        gridTemplateColumns:
-          'repeat(auto-fit,minmax(250px,1fr))',
+gridTemplateColumns:
+'repeat(3,1fr)',
         gap:'20px'
       }}
     >
@@ -28,35 +31,72 @@ const AchievementGallery = ({
             key={index}
             className="stat-card"
             style={{
-              background:
-                theme.cardBackground,
+  background:
+    theme.cardBackground,
 
-              color:
-                theme.text,
+  color:
+    theme.text,
 
-              padding:'20px',
+  padding:'24px',
 
-              borderRadius:'16px',
+  borderRadius:'20px',
 
-              textAlign:'center',
+  textAlign:'center',
 
-              boxShadow:
-                '0 8px 24px rgba(0,0,0,0.12)'
-            }}
+  boxShadow:
+    achievement.unlocked
+      ? '0 10px 30px rgba(34,197,94,0.25)'
+      : '0 8px 20px rgba(0,0,0,0.10)',
+
+  border:
+    achievement.unlocked
+      ? '2px solid #22c55e'
+      : '1px solid rgba(0,0,0,0.08)',
+
+  opacity:
+    achievement.unlocked
+      ? 1
+      : 0.88,
+
+  transition:
+    'all 0.3s ease',
+
+  cursor:'pointer'
+}}
           >
 
             <div
-              style={{
-                fontSize:'3rem',
-                marginBottom:'10px'
-              }}
-            >
+style={{
+fontSize:'3.5rem',
+marginBottom:'15px'
+}}
+>
               {achievement.icon}
             </div>
 
-            <h3>
-  {achievement.title}
+            <h3
+style={{
+marginBottom:'8px',
+fontSize:'1.2rem',
+fontWeight:'700'
+}}
+>
+{achievement.title}
 </h3>
+<p
+style={{
+fontSize:'0.8rem',
+textTransform:'uppercase',
+letterSpacing:'1px',
+fontWeight:'600',
+opacity:0.7,
+marginBottom:'12px'
+}}
+>
+{achievement.unlocked
+? 'Achievement Unlocked'
+: 'In Progress'}
+</p>
 
 <p>
   {achievement.description}
@@ -76,7 +116,7 @@ fontWeight:'bold'
 }}
 >
 
-✅ Unlocked
+🏆 Unlocked
 
 </p>
 
@@ -88,8 +128,7 @@ fontWeight:'bold'
 }}
 >
 
-🔒 {achievement.progress} / {achievement.target}
-
+🎯 {achievement.progress} / {achievement.target}
 </p>
 
 )}
@@ -100,7 +139,7 @@ style={{
 
 width:'100%',
 
-height:'10px',
+height:'12px',
 
 background:'#ddd',
 
@@ -127,8 +166,12 @@ height:'100%',
 
 background:
 achievement.unlocked
-? '#22c55e'
-: theme.primary,
+? 'linear-gradient(90deg,#22c55e,#16a34a)'
+: `linear-gradient(
+90deg,
+${theme.primary},
+#60a5fa
+)`,
 
 transition:
 'width 0.5s ease'
