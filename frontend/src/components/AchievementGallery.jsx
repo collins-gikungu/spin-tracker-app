@@ -55,12 +55,88 @@ const AchievementGallery = ({
             </div>
 
             <h3>
-              {achievement.title}
-            </h3>
+  {achievement.title}
+</h3>
 
-            <p>
-              {achievement.description}
-            </p>
+<p>
+  {achievement.description}
+</p>
+
+<div
+style={{
+marginTop:'12px'
+}}
+>
+
+{achievement.unlocked ? (
+
+<p
+style={{
+fontWeight:'bold'
+}}
+>
+
+✅ Unlocked
+
+</p>
+
+) : (
+
+<p
+style={{
+fontWeight:'bold'
+}}
+>
+
+🔒 {achievement.progress} / {achievement.target}
+
+</p>
+
+)}
+
+</div>
+<div
+style={{
+
+width:'100%',
+
+height:'10px',
+
+background:'#ddd',
+
+borderRadius:'999px',
+
+overflow:'hidden',
+
+marginTop:'10px'
+
+}}
+>
+
+<div
+style={{
+
+width: `${
+(
+achievement.progress /
+achievement.target
+) * 100
+}%`,
+
+height:'100%',
+
+background:
+achievement.unlocked
+? '#22c55e'
+: theme.primary,
+
+transition:
+'width 0.5s ease'
+
+}}
+/>
+
+</div>
 
           </div>
 
