@@ -67,6 +67,12 @@ workoutController.getWorkoutInsights
 );
 
 router.get(
+'/trends',
+authMiddleware,
+workoutController.getWorkoutTrends
+);
+
+router.get(
 '/achievements',
 authMiddleware,
 workoutController.getAchievements

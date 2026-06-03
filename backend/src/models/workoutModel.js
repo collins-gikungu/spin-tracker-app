@@ -433,6 +433,124 @@ WHERE user_id=$1
 return result.rows[0];
 
 };
+const getWorkoutTrends =
+async (userId) => {
+
+const result =
+await pool.query(
+
+`
+
+SELECT
+
+COUNT(*) FILTER (
+
+WHERE created_at >=
+NOW() - INTERVAL '7 days'
+
+)
+
+AS current_workouts,
+
+COUNT(*) FILTER (
+
+WHERE created_at <
+NOW() - INTERVAL '7 days'
+
+AND created_at >=
+NOW() - INTERVAL '14 days'
+
+)
+
+AS previous_workouts,
+
+COALESCE(
+
+SUM(distance_km)
+
+FILTER (
+
+WHERE created_at >=
+NOW() - INTERVAL '7 days'
+
+),
+
+0
+
+)
+
+AS current_distance,
+
+COALESCE(
+
+SUM(distance_km)
+
+FILTER (
+
+WHERE created_at <
+NOW() - INTERVAL '7 days'
+
+AND created_at >=
+NOW() - INTERVAL '14 days'
+
+),
+
+0
+
+)
+
+AS previous_distance,
+
+COALESCE(
+
+AVG(rpm)
+
+FILTER (
+
+WHERE created_at >=
+NOW() - INTERVAL '7 days'
+
+),
+
+0
+
+)
+
+AS current_rpm,
+
+COALESCE(
+
+AVG(rpm)
+
+FILTER (
+
+WHERE created_at <
+NOW() - INTERVAL '7 days'
+
+AND created_at >=
+NOW() - INTERVAL '14 days'
+
+),
+
+0
+
+)
+
+AS previous_rpm
+
+FROM workouts
+
+WHERE user_id=$1
+
+`,
+
+[userId]
+
+);
+
+return result.rows[0];
+
+};
 
 module.exports = {
   createWorkout,
@@ -444,4 +562,5 @@ module.exports = {
   getWorkoutStreaks,
   getWorkoutInsightsData,
   getAchievementData,
+  getWorkoutTrends,
 };

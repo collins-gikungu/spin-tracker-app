@@ -487,6 +487,100 @@ message:'Server error'
 }
 
 };
+const getWorkoutTrends =
+async (req,res) => {
+
+try {
+
+const userId =
+req.user.id;
+
+const data =
+await workoutModel
+.getWorkoutTrends(
+userId
+);
+
+const calculateTrend =
+(
+current,
+previous
+) => {
+
+current =
+Number(current);
+
+previous =
+Number(previous);
+
+if(previous === 0){
+
+return current > 0
+? 100
+: 0;
+
+}
+
+return Number(
+
+(
+(
+current -
+previous
+)
+/
+previous
+)
+*
+100
+
+).toFixed(1);
+
+};
+
+res.status(200).json({
+
+workoutsTrend:
+
+calculateTrend(
+data.current_workouts,
+data.previous_workouts
+),
+
+distanceTrend:
+
+calculateTrend(
+data.current_distance,
+data.previous_distance
+),
+
+rpmTrend:
+
+calculateTrend(
+data.current_rpm,
+data.previous_rpm
+)
+
+});
+
+}
+
+catch(error){
+
+console.error(
+error
+);
+
+res.status(500).json({
+
+message:
+'Server error'
+
+});
+
+}
+
+};
 
 module.exports = {
   createWorkout,
@@ -498,4 +592,5 @@ module.exports = {
   getWorkoutStreaks,
   getWorkoutInsights,
   getAchievements,
+  getWorkoutTrends,
 };
