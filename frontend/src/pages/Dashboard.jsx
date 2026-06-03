@@ -11,6 +11,7 @@ import DashboardHero from '../components/DashboardHero';
 import GoalTracker from '../components/GoalTracker';
 import FitnessInsights from '../components/FitnessInsights';
 import AchievementGallery from '../components/AchievementGallery';
+import TrendCards from '../components/TrendCards';
 import API from '../services/api';
 import '../styles/dashboard.css';
 import Sidebar from '../components/Sidebar';
@@ -47,6 +48,8 @@ const Dashboard = ({ user, onLogout }) => {
   const [darkMode, setDarkMode] = useState(() => {
     return localStorage.getItem('darkMode') === 'true';
   });
+
+  const [trends, setTrends] = useState({});
   
   const theme = darkMode ? darkTheme : lightTheme;
 
@@ -63,6 +66,7 @@ const Dashboard = ({ user, onLogout }) => {
           fetchMonthlyData(),
           fetchInsights(),
           fetchAchievements(),
+          fetchTrends(),
         ]);
       } catch (error) {
         console.error('Dashboard load failed:', error);
@@ -124,6 +128,15 @@ const Dashboard = ({ user, onLogout }) => {
     try {
       const response = await API.get('/workouts/achievements');
       setAchievements(response.data.achievements);
+    } catch(error) {
+      console.error(error);
+    }
+  };
+
+  const fetchTrends = async () => {
+    try {
+      const response = await API.get('/workouts/trends');
+      setTrends(response.data);
     } catch(error) {
       console.error(error);
     }
@@ -300,7 +313,20 @@ const Dashboard = ({ user, onLogout }) => {
           <FitnessInsights insights={insights} theme={theme} />
         </motion.div>
 
-        {/* Section 8 - Achievements (delay: 0.8) */}
+        {/* Section 8 - Performance Trends (delay: 0.75) */}
+        <motion.div
+          className="page-section"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.75 }}
+        >
+          <h2 style={{ color: theme.primary }}>
+            📈 Performance Trends
+          </h2>
+          <TrendCards trends={trends} theme={theme} />
+        </motion.div>
+
+        {/* Section 9 - Achievements (delay: 0.8) */}
         <motion.div
           className="page-section"
           initial={{ opacity: 0, y: 30 }}
@@ -315,7 +341,7 @@ const Dashboard = ({ user, onLogout }) => {
 
         {/* Grid sections with progressive delays */}
         <div className="dashboard-grid">
-          {/* Section 9 - Add Workout (delay: 0.9) */}
+          {/* Section 10 - Add Workout (delay: 0.9) */}
           <motion.div
             className="page-section"
             initial={{ opacity: 0, y: 30 }}
@@ -331,7 +357,7 @@ const Dashboard = ({ user, onLogout }) => {
             />
           </motion.div>
           
-          {/* Section 10 - Workout History (delay: 1.0) */}
+          {/* Section 11 - Workout History (delay: 1.0) */}
           <motion.div
             className="page-section"
             initial={{ opacity: 0, y: 30 }}
