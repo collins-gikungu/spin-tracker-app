@@ -67,6 +67,12 @@ workoutController.getWorkoutInsights
 );
 
 router.get(
+'/coaching',
+authMiddleware,
+workoutController.getCoachingTips
+);
+
+router.get(
 '/trends',
 authMiddleware,
 workoutController.getWorkoutTrends

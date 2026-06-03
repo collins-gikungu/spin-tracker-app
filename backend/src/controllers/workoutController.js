@@ -581,6 +581,119 @@ message:
 }
 
 };
+const getCoachingTips =
+async (req,res) => {
+
+try {
+
+const userId =
+req.user.id;
+
+const trends =
+await workoutModel
+.getWorkoutTrends(
+userId
+);
+
+const tips = [];
+
+const workoutsTrend =
+Number(
+trends.current_workouts
+) -
+Number(
+trends.previous_workouts
+);
+
+const distanceTrend =
+Number(
+trends.current_distance
+) -
+Number(
+trends.previous_distance
+);
+
+const rpmTrend =
+Number(
+trends.current_rpm
+) -
+Number(
+trends.previous_rpm
+);
+
+if(workoutsTrend > 0){
+
+tips.push(
+'🔥 Workout frequency is improving. Keep the momentum going.'
+);
+
+}
+
+else if(workoutsTrend < 0){
+
+tips.push(
+'📅 Workout frequency declined this week. Try scheduling one extra ride.'
+);
+
+}
+
+if(distanceTrend > 0){
+
+tips.push(
+'🚴 Distance is trending upward. Your endurance is improving.'
+);
+
+}
+
+else if(distanceTrend < 0){
+
+tips.push(
+'🎯 Distance dropped compared to last week. Consider a longer ride this weekend.'
+);
+
+}
+
+if(rpmTrend > 0){
+
+tips.push(
+'⚡ Cadence is improving. Excellent riding efficiency.'
+);
+
+}
+
+else if(rpmTrend < 0){
+
+tips.push(
+'⚙️ RPM is slightly lower this week. Focus on maintaining cadence.'
+);
+
+}
+
+if(tips.length === 0){
+
+tips.push(
+'💪 Keep logging workouts to unlock personalized coaching tips.'
+);
+
+}
+
+res.status(200).json({
+tips
+});
+
+}
+
+catch(error){
+
+console.error(error);
+
+res.status(500).json({
+message:'Server error'
+});
+
+}
+
+};
 
 module.exports = {
   createWorkout,
@@ -593,4 +706,5 @@ module.exports = {
   getWorkoutInsights,
   getAchievements,
   getWorkoutTrends,
+  getCoachingTips,
 };
