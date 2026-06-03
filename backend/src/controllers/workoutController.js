@@ -694,6 +694,93 @@ message:'Server error'
 }
 
 };
+const getMilestones =
+async (req,res) => {
+
+try {
+
+const userId =
+req.user.id;
+
+const stats =
+await workoutModel
+.getWorkoutStats(
+userId
+);
+
+const milestones = [];
+
+const workouts =
+Number(
+stats.total_workouts
+);
+
+const distance =
+Number(
+stats.total_distance_km
+);
+
+if(workouts >= 1){
+
+milestones.push({
+icon:'🚴',
+title:'First Ride',
+message:
+'You completed your first workout.'
+});
+
+}
+
+if(workouts >= 10){
+
+milestones.push({
+icon:'🏆',
+title:'Dedicated Rider',
+message:
+'You completed 10 workouts.'
+});
+
+}
+
+if(workouts >= 25){
+
+milestones.push({
+icon:'🔥',
+title:'Elite Cyclist',
+message:
+'You completed 25 workouts.'
+});
+
+}
+
+if(distance >= 100){
+
+milestones.push({
+icon:'🌍',
+title:'100 KM Club',
+message:
+'You rode over 100 KM.'
+});
+
+}
+
+res.status(200).json({
+milestones
+});
+
+}
+
+catch(error){
+
+console.error(error);
+
+res.status(500).json({
+message:'Server error'
+});
+
+}
+
+};
 
 module.exports = {
   createWorkout,
@@ -707,4 +794,5 @@ module.exports = {
   getAchievements,
   getWorkoutTrends,
   getCoachingTips,
+  getMilestones,
 };

@@ -73,6 +73,12 @@ workoutController.getCoachingTips
 );
 
 router.get(
+'/milestones',
+authMiddleware,
+workoutController.getMilestones
+);
+
+router.get(
 '/trends',
 authMiddleware,
 workoutController.getWorkoutTrends
