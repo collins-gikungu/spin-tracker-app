@@ -12,6 +12,7 @@ import GoalTracker from '../components/GoalTracker';
 import FitnessInsights from '../components/FitnessInsights';
 import AchievementGallery from '../components/AchievementGallery';
 import TrendCards from '../components/TrendCards';
+import SmartCoach from '../components/SmartCoach';
 import API from '../services/api';
 import '../styles/dashboard.css';
 import Sidebar from '../components/Sidebar';
@@ -43,14 +44,13 @@ const Dashboard = ({ user, onLogout }) => {
 
   const [achievements, setAchievements] = useState([]);
   const [insights, setInsights] = useState([]);
+  const [trends, setTrends] = useState({});
+  const [coachingTips, setCoachingTips ] = useState([]);
   const [monthlyData, setMonthlyData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [darkMode, setDarkMode] = useState(() => {
     return localStorage.getItem('darkMode') === 'true';
   });
-
-  const [trends, setTrends] = useState({});
-  
   const theme = darkMode ? darkTheme : lightTheme;
 
   useEffect(() => {
@@ -67,6 +67,7 @@ const Dashboard = ({ user, onLogout }) => {
           fetchInsights(),
           fetchAchievements(),
           fetchTrends(),
+          fetchCoachingTips(),
         ]);
       } catch (error) {
         console.error('Dashboard load failed:', error);
@@ -123,6 +124,32 @@ const Dashboard = ({ user, onLogout }) => {
       console.error(error);
     }
   };
+
+  const fetchCoachingTips =
+async () => {
+
+try {
+
+const response =
+await API.get(
+'/workouts/coaching'
+);
+
+setCoachingTips(
+response.data.tips
+);
+
+}
+
+catch(error){
+
+console.error(
+error
+);
+
+}
+
+};
 
   const fetchAchievements = async () => {
     try {
@@ -325,6 +352,28 @@ const Dashboard = ({ user, onLogout }) => {
           </h2>
           <TrendCards trends={trends} theme={theme} />
         </motion.div>
+
+        <motion.div
+  className="page-section"
+  initial={{ opacity: 0, y: 30 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{ duration: 0.5, delay: 0.78 }}
+>
+
+<h2
+style={{
+color:theme.primary
+}}
+>
+🧠 Smart Coach
+</h2>
+
+<SmartCoach
+tips={coachingTips}
+theme={theme}
+/>
+
+</motion.div>
 
         {/* Section 9 - Achievements (delay: 0.8) */}
         <motion.div
