@@ -90,6 +90,11 @@ authMiddleware,
 workoutController.getAchievements
 );
 
+router.get(
+'/activity',
+authMiddleware,
+workoutController.getRecentActivity
+);
 
 // POST workout
 router.post(

@@ -781,6 +781,55 @@ message:'Server error'
 }
 
 };
+const getRecentActivity =
+async (req,res) => {
+
+try {
+
+const userId =
+req.user.id;
+
+const workouts =
+await workoutModel
+.getRecentActivity(
+userId
+);
+
+const activities =
+workouts.map(
+workout => ({
+
+icon:'🚴',
+
+title:
+`Workout Completed`,
+
+description:
+`${workout.distance_km} KM • ${workout.calories} Calories`,
+
+date:
+workout.created_at
+
+})
+);
+
+res.status(200).json({
+activities
+});
+
+}
+
+catch(error){
+
+console.error(error);
+
+res.status(500).json({
+message:'Server error'
+});
+
+}
+
+};
 
 module.exports = {
   createWorkout,
@@ -795,4 +844,5 @@ module.exports = {
   getWorkoutTrends,
   getCoachingTips,
   getMilestones,
+  getRecentActivity,
 };

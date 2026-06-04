@@ -551,6 +551,37 @@ WHERE user_id=$1
 return result.rows[0];
 
 };
+const getRecentActivity =
+async (userId) => {
+
+const result =
+await pool.query(
+
+`
+SELECT
+
+id,
+distance_km,
+calories,
+rpm,
+created_at
+
+FROM workouts
+
+WHERE user_id=$1
+
+ORDER BY created_at DESC
+
+LIMIT 10
+`,
+
+[userId]
+
+);
+
+return result.rows;
+
+};
 
 module.exports = {
   createWorkout,
@@ -563,4 +594,5 @@ module.exports = {
   getWorkoutInsightsData,
   getAchievementData,
   getWorkoutTrends,
+  getRecentActivity,
 };
