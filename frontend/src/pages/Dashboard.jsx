@@ -13,6 +13,7 @@ import FitnessInsights from '../components/FitnessInsights';
 import AchievementGallery from '../components/AchievementGallery';
 import TrendCards from '../components/TrendCards';
 import SmartCoach from '../components/SmartCoach';
+import MilestonePanel from '../components/MilestonePanel';
 import API from '../services/api';
 import '../styles/dashboard.css';
 import Sidebar from '../components/Sidebar';
@@ -46,6 +47,7 @@ const Dashboard = ({ user, onLogout }) => {
   const [insights, setInsights] = useState([]);
   const [trends, setTrends] = useState({});
   const [coachingTips, setCoachingTips ] = useState([]);
+  const [milestones, setMilestones ] = useState([]);
   const [monthlyData, setMonthlyData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [darkMode, setDarkMode] = useState(() => {
@@ -68,6 +70,7 @@ const Dashboard = ({ user, onLogout }) => {
           fetchAchievements(),
           fetchTrends(),
           fetchCoachingTips(),
+          fetchMilestones(),
         ]);
       } catch (error) {
         console.error('Dashboard load failed:', error);
@@ -137,6 +140,32 @@ await API.get(
 
 setCoachingTips(
 response.data.tips
+);
+
+}
+
+catch(error){
+
+console.error(
+error
+);
+
+}
+
+};
+
+const fetchMilestones =
+async () => {
+
+try {
+
+const response =
+await API.get(
+'/workouts/milestones'
+);
+
+setMilestones(
+response.data.milestones
 );
 
 }
@@ -370,6 +399,31 @@ color:theme.primary
 
 <SmartCoach
 tips={coachingTips}
+theme={theme}
+/>
+
+</motion.div>
+
+<motion.div
+  className="page-section"
+  initial={{ opacity: 0, y: 30 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{
+    duration:0.5,
+    delay:0.79
+  }}
+>
+
+<h2
+style={{
+color:theme.primary
+}}
+>
+🎉 Milestones
+</h2>
+
+<MilestonePanel
+milestones={milestones}
 theme={theme}
 />
 
