@@ -63,44 +63,94 @@ const HealthScore = ({
     rating = 'Good';
 
   return (
-
     <div
       className="stat-card"
       style={{
-        background:
-          theme.cardBackground,
-
-        color:
-          theme.text,
-
-        textAlign:'center',
-
-        padding:'25px'
+        background: theme.cardBackground,
+        color: theme.text,
+        textAlign: 'center',
+        padding: '25px'
       }}
     >
-
-      <h3>
-        🔥 Health Score
-      </h3>
-
-      <h1
+      <div
         style={{
-          margin:'10px 0',
-          color:
-            theme.primary
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: '20px'
         }}
       >
-        {score}/100
-      </h1>
+        <div
+          style={{
+            position: 'relative',
+            width: '180px',
+            height: '180px'
+          }}
+        >
+          <svg width="180" height="180">
+            <circle
+              cx="90"
+              cy="90"
+              r="75"
+              stroke="#e5e7eb"
+              strokeWidth="12"
+              fill="none"
+            />
+            <circle
+              cx="90"
+              cy="90"
+              r="75"
+              stroke={theme.primary}
+              strokeWidth="12"
+              fill="none"
+              strokeLinecap="round"
+              strokeDasharray={2 * Math.PI * 75}
+              strokeDashoffset={2 * Math.PI * 75 * (1 - score / 100)}
+              transform="rotate(-90 90 90)"
+            />
+          </svg>
+          <div
+            style={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              textAlign: 'center'
+            }}
+          >
+            <h1
+              style={{
+                margin: 0,
+                color: theme.primary
+              }}
+            >
+              {score}
+            </h1>
+            <p
+              style={{
+                margin: 0
+              }}
+            >
+              /100
+            </p>
+          </div>
+        </div>
 
-      <p>
-        {rating}
-      </p>
-
+        <div
+          style={{
+            textAlign: 'center'
+          }}
+        >
+          <h3>
+            🔥 Health Score
+          </h3>
+          <p>
+            {rating}
+          </p>
+        </div>
+      </div>
     </div>
-
   );
-
 };
 
 export default HealthScore;

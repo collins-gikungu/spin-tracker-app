@@ -338,14 +338,21 @@ theme={theme}
 
 </motion.div>
 
-        {/* Section 1 - Workout Overview (delay: 0.1) */}
+         {/* Section 1 - Workout Overview (delay: 0.1) */}
         <motion.div
           className="page-section"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.1 }}
         >
-          <h2 className="section-title">Workout Overview</h2>
+          <div className="section-header">
+            <h2 className="section-title" style={{ color: theme.primary }}>
+              📊 Workout Overview
+            </h2>
+            <span className="section-subtitle">
+              Total Statistics
+            </span>
+          </div>
           <StatsCards stats={stats} theme={theme} />
         </motion.div>
         
@@ -356,7 +363,14 @@ theme={theme}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
         >
-          <h2 className="section-title">Weekly Progress</h2>
+          <div className="section-header">
+            <h2 className="section-title" style={{ color: theme.primary }}>
+              📈 Weekly Progress
+            </h2>
+            <span className="section-subtitle">
+              Last 7 Days Performance
+            </span>
+          </div>
           <ProgressChart data={weeklyData} theme={theme} />
         </motion.div>
 
@@ -367,7 +381,14 @@ theme={theme}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.3 }}
         >
-          <h2 className="section-title">Monthly Analytics</h2>
+          <div className="section-header">
+            <h2 className="section-title" style={{ color: theme.primary }}>
+              📅 Monthly Analytics
+            </h2>
+            <span className="section-subtitle">
+              Monthly Distance Trends
+            </span>
+          </div>
           <MonthlyChart data={monthlyData} theme={theme} />
         </motion.div>
 
@@ -378,7 +399,14 @@ theme={theme}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.4 }}
         >
-          <h2 className="section-title">Personal Records 🏆</h2>
+          <div className="section-header">
+            <h2 className="section-title" style={{ color: theme.primary }}>
+              🏆 Personal Records
+            </h2>
+            <span className="section-subtitle">
+              Your Best Performances
+            </span>
+          </div>
           <PersonalRecords records={records} theme={theme} />
         </motion.div>
 
@@ -389,7 +417,14 @@ theme={theme}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.5 }}
         >
-          <h2 className="section-title">Workout Consistency 🔥</h2>
+          <div className="section-header">
+            <h2 className="section-title" style={{ color: theme.primary }}>
+              🔥 Workout Consistency
+            </h2>
+            <span className="section-subtitle">
+              Current Streak & Activity
+            </span>
+          </div>
           <WorkoutStreaks streaks={streaks} theme={theme} />
         </motion.div>
 
@@ -400,7 +435,14 @@ theme={theme}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.6 }}
         >
-          <h2 className="section-title">Goal Tracking 🎯</h2>
+          <div className="section-header">
+            <h2 className="section-title" style={{ color: theme.primary }}>
+              🎯 Goal Tracking
+            </h2>
+            <span className="section-subtitle">
+              Progress Towards Your Goals
+            </span>
+          </div>
           <GoalTracker stats={stats} theme={theme} />
         </motion.div>
 
