@@ -15,6 +15,7 @@ import TrendCards from '../components/TrendCards';
 import SmartCoach from '../components/SmartCoach';
 import MilestonePanel from '../components/MilestonePanel';
 import ActivityFeed from '../components/ActivityFeed';
+import HealthScore from '../components/HealthScore';
 import API from '../services/api';
 import '../styles/dashboard.css';
 import Sidebar from '../components/Sidebar';
@@ -269,6 +270,31 @@ const Dashboard = ({ user, onLogout }) => {
             Logout
           </button>
         </div>
+
+<motion.div
+  className="page-section"
+  initial={{
+    opacity:0,
+    y:30
+  }}
+  animate={{
+    opacity:1,
+    y:0
+  }}
+  transition={{
+    duration:0.5,
+    delay:0.2
+  }}
+>
+
+<HealthScore
+stats={stats}
+streaks={streaks}
+achievements={achievements}
+theme={theme}
+/>
+
+</motion.div>
 
         {/* Section 1 - Workout Overview (delay: 0.1) */}
         <motion.div
