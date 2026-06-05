@@ -16,6 +16,7 @@ import SmartCoach from '../components/SmartCoach';
 import MilestonePanel from '../components/MilestonePanel';
 import ActivityFeed from '../components/ActivityFeed';
 import HealthScore from '../components/HealthScore';
+import QuickActions from '../components/QuickActions';
 import API from '../services/api';
 import '../styles/dashboard.css';
 import Sidebar from '../components/Sidebar';
@@ -291,6 +292,47 @@ const Dashboard = ({ user, onLogout }) => {
 stats={stats}
 streaks={streaks}
 achievements={achievements}
+theme={theme}
+/>
+
+</motion.div>
+
+<motion.div
+className="page-section"
+initial={{
+opacity:0,
+y:30
+}}
+animate={{
+opacity:1,
+y:0
+}}
+transition={{
+duration:0.5,
+delay:0.25
+}}
+>
+
+<div className="section-header">
+
+<h2
+className="section-title"
+style={{
+color:theme.primary
+}}
+>
+⚡ Quick Actions
+</h2>
+
+<span
+className="section-subtitle"
+>
+Shortcuts
+</span>
+
+</div>
+
+<QuickActions
 theme={theme}
 />
 
