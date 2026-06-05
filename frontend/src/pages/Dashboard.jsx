@@ -47,9 +47,9 @@ const Dashboard = ({ user, onLogout }) => {
   const [achievements, setAchievements] = useState([]);
   const [insights, setInsights] = useState([]);
   const [trends, setTrends] = useState({});
-  const [coachingTips, setCoachingTips ] = useState([]);
-  const [milestones, setMilestones ] = useState([]);
-  const [activities, setActivities ] = useState([]);
+  const [coachingTips, setCoachingTips] = useState([]);
+  const [milestones, setMilestones] = useState([]);
+  const [activities, setActivities] = useState([]);
   const [monthlyData, setMonthlyData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [darkMode, setDarkMode] = useState(() => {
@@ -131,83 +131,32 @@ const Dashboard = ({ user, onLogout }) => {
     }
   };
 
-  const fetchCoachingTips =
-async () => {
+  const fetchCoachingTips = async () => {
+    try {
+      const response = await API.get('/workouts/coaching');
+      setCoachingTips(response.data.tips);
+    } catch(error) {
+      console.error(error);
+    }
+  };
 
-try {
+  const fetchMilestones = async () => {
+    try {
+      const response = await API.get('/workouts/milestones');
+      setMilestones(response.data.milestones);
+    } catch(error) {
+      console.error(error);
+    }
+  };
 
-const response =
-await API.get(
-'/workouts/coaching'
-);
-
-setCoachingTips(
-response.data.tips
-);
-
-}
-
-catch(error){
-
-console.error(
-error
-);
-
-}
-
-};
-
-const fetchMilestones =
-async () => {
-
-try {
-
-const response =
-await API.get(
-'/workouts/milestones'
-);
-
-setMilestones(
-response.data.milestones
-);
-
-}
-
-catch(error){
-
-console.error(
-error
-);
-
-}
-
-};
-
-const fetchActivity =
-async () => {
-
-try {
-
-const response =
-await API.get(
-'/workouts/activity'
-);
-
-setActivities(
-response.data.activities
-);
-
-}
-
-catch(error){
-
-console.error(
-error
-);
-
-}
-
-};
+  const fetchActivity = async () => {
+    try {
+      const response = await API.get('/workouts/activity');
+      setActivities(response.data.activities);
+    } catch(error) {
+      console.error(error);
+    }
+  };
 
   const fetchAchievements = async () => {
     try {
@@ -394,7 +343,14 @@ error
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.7 }}
         >
-          <h2 className="section-title">Fitness Insights 💡</h2>
+          <div className="section-header">
+            <h2 className="section-title" style={{ color: theme.primary }}>
+              💡 Fitness Insights
+            </h2>
+            <span className="section-subtitle">
+              Personalized Recommendations
+            </span>
+          </div>
           <FitnessInsights insights={insights} theme={theme} />
         </motion.div>
 
@@ -405,100 +361,92 @@ error
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.75 }}
         >
-          <h2 style={{ color: theme.primary }}>
-            📈 Performance Trends
-          </h2>
+          <div className="section-header">
+            <h2 className="section-title" style={{ color: theme.primary }}>
+              📈 Performance Trends
+            </h2>
+            <span className="section-subtitle">
+              Last 7 Days
+            </span>
+          </div>
           <TrendCards trends={trends} theme={theme} />
         </motion.div>
 
-        <motion.div
-  className="page-section"
-  initial={{ opacity: 0, y: 30 }}
-  animate={{ opacity: 1, y: 0 }}
-  transition={{ duration: 0.5, delay: 0.78 }}
->
-
-<h2
-style={{
-color:theme.primary
-}}
->
-🧠 Smart Coach
-</h2>
-
-<SmartCoach
-tips={coachingTips}
-theme={theme}
-/>
-
-</motion.div>
-
-<motion.div
-  className="page-section"
-  initial={{ opacity: 0, y: 30 }}
-  animate={{ opacity: 1, y: 0 }}
-  transition={{
-    duration:0.5,
-    delay:0.79
-  }}
->
-
-<h2
-style={{
-color:theme.primary
-}}
->
-🎉 Milestones
-</h2>
-
-<MilestonePanel
-milestones={milestones}
-theme={theme}
-/>
-
-</motion.div>
-
-<motion.div
-  className="page-section"
-  initial={{ opacity: 0, y: 30 }}
-  animate={{ opacity: 1, y: 0 }}
-  transition={{
-    duration:0.5,
-    delay:0.82
-  }}
->
-
-<h2
-style={{
-color:theme.primary
-}}
->
-🚴 Recent Activity
-</h2>
-
-<ActivityFeed
-activities={activities}
-theme={theme}
-/>
-
-</motion.div>
-
-        {/* Section 9 - Achievements (delay: 0.8) */}
+        {/* Section 9 - Smart Coach (delay: 0.78) */}
         <motion.div
           className="page-section"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.8 }}
+          transition={{ duration: 0.5, delay: 0.78 }}
         >
-          <h2 className="section-title" style={{ color: theme.primary }}>
-            🏆 Achievements
-          </h2>
+          <div className="section-header">
+            <h2 className="section-title" style={{ color: theme.primary }}>
+              🧠 Smart Coach
+            </h2>
+            <span className="section-subtitle">
+              AI-Powered Guidance
+            </span>
+          </div>
+          <SmartCoach tips={coachingTips} theme={theme} />
+        </motion.div>
+
+        {/* Section 10 - Milestones (delay: 0.79) */}
+        <motion.div
+          className="page-section"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.79 }}
+        >
+          <div className="section-header">
+            <h2 className="section-title" style={{ color: theme.primary }}>
+              🎉 Milestones
+            </h2>
+            <span className="section-subtitle">
+              Your Journey Highlights
+            </span>
+          </div>
+          <MilestonePanel milestones={milestones} theme={theme} />
+        </motion.div>
+
+        {/* Section 11 - Recent Activity (delay: 0.82) */}
+        <motion.div
+          className="page-section"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.82 }}
+        >
+          <div className="section-header">
+            <h2 className="section-title" style={{ color: theme.primary }}>
+              🚴 Recent Activity
+            </h2>
+            <span className="section-subtitle">
+              Latest Workouts
+            </span>
+          </div>
+          <ActivityFeed activities={activities} theme={theme} />
+        </motion.div>
+
+        {/* Section 12 - Achievements (delay: 0.85) */}
+        <motion.div
+          className="page-section"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.85 }}
+        >
+          <div className="section-header">
+            <h2 className="section-title" style={{ color: theme.primary }}>
+              🏆 Achievements
+            </h2>
+            <span className="section-subtitle">
+              Unlocked Badges & Awards
+            </span>
+          </div>
           <AchievementGallery achievements={achievements} theme={theme} />
         </motion.div>
 
         {/* Grid sections with progressive delays */}
         <div className="dashboard-grid">
-          {/* Section 10 - Add Workout (delay: 0.9) */}
+          {/* Section 13 - Add Workout (delay: 0.9) */}
           <motion.div
             className="page-section"
             initial={{ opacity: 0, y: 30 }}
@@ -514,7 +462,7 @@ theme={theme}
             />
           </motion.div>
           
-          {/* Section 11 - Workout History (delay: 1.0) */}
+          {/* Section 14 - Workout History (delay: 1.0) */}
           <motion.div
             className="page-section"
             initial={{ opacity: 0, y: 30 }}
