@@ -20,6 +20,9 @@ from './pages/Register';
 import Profile
 from './pages/Profile';
 
+import WorkoutHistory
+from './pages/WorkoutHistory';
+
 import {
 ToastContainer
 }
@@ -155,6 +158,13 @@ to="/login"
 
 }
 
+/>
+
+<Route
+path="/history"
+element={
+<WorkoutHistory />
+}
 />
 
 </Routes>
