@@ -26,6 +26,11 @@ searchTerm,
 setSearchTerm
 ] = useState('');
 
+const [
+timeFilter,
+setTimeFilter
+] = useState('all');
+
 const fetchWorkouts =
 async () => {
 
@@ -65,7 +70,7 @@ workouts.filter(
 const term =
 searchTerm.toLowerCase();
 
-return (
+const matchesSearch = (
 
 String(
 workout.id
@@ -92,6 +97,54 @@ workout.created_at
 .toLowerCase()
 .includes(term)
 
+);
+
+const workoutDate =
+new Date(
+workout.created_at
+);
+
+const today =
+new Date();
+
+let matchesTime =
+true;
+
+if(
+timeFilter === 'week'
+){
+
+const weekAgo =
+new Date();
+
+weekAgo.setDate(
+today.getDate() - 7
+);
+
+matchesTime =
+workoutDate >= weekAgo;
+
+}
+
+if(
+timeFilter === 'month'
+){
+
+const monthAgo =
+new Date();
+
+monthAgo.setMonth(
+today.getMonth() - 1
+);
+
+matchesTime =
+workoutDate >= monthAgo;
+
+}
+
+return (
+matchesSearch &&
+matchesTime
 );
 
 }
@@ -159,6 +212,59 @@ fontSize:'1rem'
 }}
 
 />
+
+<div
+style={{
+display:'flex',
+gap:'10px',
+marginTop:'15px',
+flexWrap:'wrap'
+}}
+>
+
+<select
+
+value={timeFilter}
+
+onChange={(e)=>
+
+setTimeFilter(
+e.target.value
+)
+
+}
+
+style={{
+
+padding:'12px',
+
+borderRadius:'12px'
+
+}}
+
+>
+
+<option value="all">
+
+All Time
+
+</option>
+
+<option value="week">
+
+Last 7 Days
+
+</option>
+
+<option value="month">
+
+Last 30 Days
+
+</option>
+
+</select>
+
+</div>
 
 <p>
 
