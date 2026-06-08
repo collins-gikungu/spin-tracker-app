@@ -31,6 +31,13 @@ timeFilter,
 setTimeFilter
 ] = useState('all');
 
+const [
+currentPage,
+setCurrentPage
+] = useState(1);
+
+const workoutsPerPage = 6;
+
 const fetchWorkouts =
 async () => {
 
@@ -148,6 +155,26 @@ matchesTime
 );
 
 }
+);
+
+const indexOfLastWorkout =
+currentPage *
+workoutsPerPage;
+
+const indexOfFirstWorkout =
+indexOfLastWorkout -
+workoutsPerPage;
+
+const currentWorkouts =
+filteredWorkouts.slice(
+indexOfFirstWorkout,
+indexOfLastWorkout
+);
+
+const totalPages =
+Math.ceil(
+filteredWorkouts.length /
+workoutsPerPage
 );
 
 if(loading){
@@ -296,7 +323,7 @@ marginTop:'30px'
 }}
 >
 
-{filteredWorkouts.map(
+{currentWorkouts.map(
 (workout,index)=>(
 
 <div
