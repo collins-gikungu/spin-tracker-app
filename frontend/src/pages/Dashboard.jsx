@@ -17,6 +17,7 @@ import MilestonePanel from '../components/MilestonePanel';
 import ActivityFeed from '../components/ActivityFeed';
 import HealthScore from '../components/HealthScore';
 import QuickActions from '../components/QuickActions';
+import DistanceTrendChart from '../components/DistanceTrendChart';
 import API from '../services/api';
 import '../styles/dashboard.css';
 import Sidebar from '../components/Sidebar';
@@ -58,6 +59,16 @@ const Dashboard = ({ user, onLogout }) => {
     return localStorage.getItem('darkMode') === 'true';
   });
   const theme = darkMode ? darkTheme : lightTheme;
+
+  // Calculate distance trend data from workouts
+  const distanceTrendData = workouts
+    .slice()
+    .reverse()
+    .slice(-7)
+    .map((workout) => ({
+      date: new Date(workout.created_at).toLocaleDateString(),
+      distance: Number(workout.distance_km)
+    }));
 
   useEffect(() => {
     const loadDashboard = async () => {
@@ -272,73 +283,65 @@ const Dashboard = ({ user, onLogout }) => {
           </button>
         </div>
 
-<motion.div
-  className="page-section"
-  initial={{
-    opacity:0,
-    y:30
-  }}
-  animate={{
-    opacity:1,
-    y:0
-  }}
-  transition={{
-    duration:0.5,
-    delay:0.2
-  }}
->
+        <motion.div
+          className="page-section"
+          initial={{
+            opacity:0,
+            y:30
+          }}
+          animate={{
+            opacity:1,
+            y:0
+          }}
+          transition={{
+            duration:0.5,
+            delay:0.2
+          }}
+        >
+          <HealthScore
+            stats={stats}
+            streaks={streaks}
+            achievements={achievements}
+            theme={theme}
+          />
+        </motion.div>
 
-<HealthScore
-stats={stats}
-streaks={streaks}
-achievements={achievements}
-theme={theme}
-/>
+        <motion.div
+          className="page-section"
+          initial={{
+            opacity:0,
+            y:30
+          }}
+          animate={{
+            opacity:1,
+            y:0
+          }}
+          transition={{
+            duration:0.5,
+            delay:0.25
+          }}
+        >
+          <div className="section-header">
+            <h2
+              className="section-title"
+              style={{
+                color: theme.primary
+              }}
+            >
+              ⚡ Quick Actions
+            </h2>
+            <span
+              className="section-subtitle"
+            >
+              Shortcuts
+            </span>
+          </div>
+          <QuickActions
+            theme={theme}
+          />
+        </motion.div>
 
-</motion.div>
-
-<motion.div
-className="page-section"
-initial={{
-opacity:0,
-y:30
-}}
-animate={{
-opacity:1,
-y:0
-}}
-transition={{
-duration:0.5,
-delay:0.25
-}}
->
-
-<div className="section-header">
-
-<h2
-className="section-title"
-style={{
-color:theme.primary
-}}
->
-⚡ Quick Actions
-</h2>
-
-<span
-className="section-subtitle"
->
-Shortcuts
-</span>
-
-</div>
-
-<QuickActions
-theme={theme}
-/>
-
-</motion.div>
-
-         {/* Section 1 - Workout Overview (delay: 0.1) */}
+        {/* Section 1 - Workout Overview (delay: 0.1) */}
         <motion.div
           className="page-section"
           initial={{ opacity: 0, y: 30 }}
@@ -482,7 +485,20 @@ theme={theme}
           <TrendCards trends={trends} theme={theme} />
         </motion.div>
 
-        {/* Section 9 - Smart Coach (delay: 0.78) */}
+        {/* Section 9 - Distance Trend Chart (delay: 0.77) */}
+        <motion.div
+          className="page-section"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.77 }}
+        >
+          <h2 className="section-title" style={{ color: theme.primary }}>
+            📈 Performance Trends
+          </h2>
+          <DistanceTrendChart data={distanceTrendData} theme={theme} />
+        </motion.div>
+
+        {/* Section 10 - Smart Coach (delay: 0.78) */}
         <motion.div
           className="page-section"
           initial={{ opacity: 0, y: 30 }}
@@ -500,7 +516,7 @@ theme={theme}
           <SmartCoach tips={coachingTips} theme={theme} />
         </motion.div>
 
-        {/* Section 10 - Milestones (delay: 0.79) */}
+        {/* Section 11 - Milestones (delay: 0.79) */}
         <motion.div
           className="page-section"
           initial={{ opacity: 0, y: 30 }}
@@ -518,7 +534,7 @@ theme={theme}
           <MilestonePanel milestones={milestones} theme={theme} />
         </motion.div>
 
-        {/* Section 11 - Recent Activity (delay: 0.82) */}
+        {/* Section 12 - Recent Activity (delay: 0.82) */}
         <motion.div
           className="page-section"
           initial={{ opacity: 0, y: 30 }}
@@ -536,7 +552,7 @@ theme={theme}
           <ActivityFeed activities={activities} theme={theme} />
         </motion.div>
 
-        {/* Section 12 - Achievements (delay: 0.85) */}
+        {/* Section 13 - Achievements (delay: 0.85) */}
         <motion.div
           className="page-section"
           initial={{ opacity: 0, y: 30 }}
@@ -556,7 +572,7 @@ theme={theme}
 
         {/* Grid sections with progressive delays */}
         <div className="dashboard-grid">
-          {/* Section 13 - Add Workout (delay: 0.9) */}
+          {/* Section 14 - Add Workout (delay: 0.9) */}
           <motion.div
             className="page-section"
             initial={{ opacity: 0, y: 30 }}
@@ -572,7 +588,7 @@ theme={theme}
             />
           </motion.div>
           
-          {/* Section 14 - Workout History (delay: 1.0) */}
+          {/* Section 15 - Workout History (delay: 1.0) */}
           <motion.div
             className="page-section"
             initial={{ opacity: 0, y: 30 }}
