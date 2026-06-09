@@ -23,6 +23,9 @@ from './pages/Profile';
 import WorkoutHistory
 from './pages/WorkoutHistory';
 
+import WorkoutDetails
+from './pages/WorkoutDetails';
+
 import {
 ToastContainer
 }
@@ -164,6 +167,13 @@ to="/login"
 path="/history"
 element={
 <WorkoutHistory />
+}
+/>
+
+<Route
+path="/history/:id"
+element={
+<WorkoutDetails />
 }
 />
 
