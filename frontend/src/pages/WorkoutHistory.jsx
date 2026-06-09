@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import API from '../services/api';
 
 const WorkoutHistory = () => {
+  const navigate = useNavigate();
   const [workouts, setWorkouts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
@@ -118,7 +120,13 @@ const WorkoutHistory = () => {
           <div
             key={workout.id}
             className="stat-card"
-            style={{ padding: '20px', borderRadius: '18px' }}
+            onClick={() => navigate(`/history/${workout.id}`)}
+            style={{
+              cursor: 'pointer',
+              padding: '20px',
+              borderRadius: '18px',
+              transition: 'all 0.3s ease'
+            }}
           >
             <h3>🚴 Workout #{workout.id}</h3>
             <p>📅 {new Date(workout.created_at).toLocaleDateString()}</p>
