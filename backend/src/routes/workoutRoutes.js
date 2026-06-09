@@ -96,6 +96,12 @@ authMiddleware,
 workoutController.getRecentActivity
 );
 
+router.get(
+'/:id',
+authMiddleware,
+workoutController.getWorkoutById
+);
+
 // POST workout
 router.post(
 '/',
