@@ -831,6 +831,64 @@ message:'Server error'
 
 };
 
+const getWorkoutById =
+async (req, res) => {
+
+try {
+
+const workoutId =
+req.params.id;
+
+const userId =
+req.user.id;
+
+const workout =
+await workoutModel
+.getWorkoutById(
+workoutId,
+userId
+);
+
+if(!workout){
+
+return res
+.status(404)
+.json({
+
+message:
+'Workout not found'
+
+});
+
+}
+
+res.status(200)
+.json({
+
+workout
+
+});
+
+}
+
+catch(error){
+
+console.error(
+error
+);
+
+res.status(500)
+.json({
+
+message:
+'Server error'
+
+});
+
+}
+
+};
+
 module.exports = {
   createWorkout,
   getAllWorkouts,
@@ -845,4 +903,5 @@ module.exports = {
   getCoachingTips,
   getMilestones,
   getRecentActivity,
+  getWorkoutById,
 };

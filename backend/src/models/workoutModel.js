@@ -582,6 +582,31 @@ LIMIT 10
 return result.rows;
 
 };
+const getWorkoutById =
+async (workoutId, userId) => {
+
+const result =
+await pool.query(
+
+`
+SELECT *
+
+FROM workouts
+
+WHERE id = $1
+AND user_id = $2
+`,
+
+[
+workoutId,
+userId
+]
+
+);
+
+return result.rows[0];
+
+};
 
 module.exports = {
   createWorkout,
@@ -595,4 +620,5 @@ module.exports = {
   getAchievementData,
   getWorkoutTrends,
   getRecentActivity,
+  getWorkoutById,
 };
