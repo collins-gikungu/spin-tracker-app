@@ -80,6 +80,21 @@ const Dashboard = ({ user, onLogout }) => {
       calories: Number(workout.calories),
     }));
 
+    const durationTrendData =
+  workouts
+    .slice()
+    .reverse()
+    .slice(-7)
+    .map((workout) => ({
+      date: new Date(
+        workout.created_at
+      ).toLocaleDateString(),
+
+      duration: Number(
+        workout.duration_minutes
+      ),
+    }));
+
   useEffect(() => {
     const loadDashboard = async () => {
       setLoading(true);
