@@ -1,95 +1,130 @@
+import React from "react";
 import {
-ResponsiveContainer,
-LineChart,
-Line,
-CartesianGrid,
-XAxis,
-YAxis,
-Tooltip
-} from 'recharts';
+  ResponsiveContainer,
+  LineChart,
+  Line,
+  CartesianGrid,
+  XAxis,
+  YAxis,
+  Tooltip,
+} from "recharts";
 
-const DistanceTrendChart = ({
-data,
-theme
-}) => {
+const DistanceTrendChart = ({ data, theme }) => {
+  const isDark = theme === "dark";
 
-return (
+  return (
+    <div
+      style={{
+        backgroundColor: isDark
+          ? "#1f2937"
+          : "#ffffff",
 
-<div
-className="stat-card"
-style={{
+        padding: "24px",
 
-background:
-theme.cardBackground,
+        borderRadius: "20px",
 
-padding:'20px',
+        boxShadow: isDark
+          ? "0 10px 30px rgba(0, 0, 0, 0.35)"
+          : "0 10px 30px rgba(0, 0, 0, 0.08)",
 
-borderRadius:'20px'
+        marginTop: "24px",
 
-}}
->
+        transition: "all 0.3s ease",
+      }}
+    >
+      <h3
+        style={{
+          marginBottom: "20px",
 
-<h3
-style={{
-marginBottom:'20px'
-}}
->
+          color: isDark
+            ? "#f9fafb"
+            : "#111827",
 
-📈 Distance Trends
+          fontSize: "1.25rem",
 
-</h3>
+          fontWeight: "700",
 
-<ResponsiveContainer
-width="100%"
-height={300}
->
+          display: "flex",
 
-<LineChart
-data={data}
->
+          alignItems: "center",
 
-<CartesianGrid
-strokeDasharray="3 3"
-/>
+          gap: "10px",
+        }}
+      >
+        📈 Distance Trend
+      </h3>
 
-<XAxis
-dataKey="date"
-/>
+      <ResponsiveContainer width="100%" height={300}>
+        <LineChart data={data}>
+          <CartesianGrid
+            strokeDasharray="3 3"
+            stroke={isDark ? "#444" : "#ddd"}
+          />
 
-<YAxis />
+          <XAxis
+            dataKey="date"
+            stroke={isDark ? "#9ca3af" : "#6b7280"}
+            tick={{ fontSize: 12 }}
+          />
 
-<Tooltip />
+          <YAxis
+            stroke={isDark ? "#9ca3af" : "#6b7280"}
+            tick={{ fontSize: 12 }}
+            label={{
+              value: 'Distance (km)',
+              angle: -90,
+              position: 'insideLeft',
+              style: { fill: isDark ? "#9ca3af" : "#6b7280" }
+            }}
+          />
 
-<Line
+          <Tooltip
+            formatter={(value) => [
+              `${value} km`,
+              "Distance",
+            ]}
+            labelFormatter={(label) =>
+              `Workout Date: ${label}`
+            }
+            contentStyle={{
+              backgroundColor: isDark
+                ? "#111827"
+                : "#ffffff",
 
-type="monotone"
+              border: "none",
 
-dataKey="distance"
+              borderRadius: "14px",
 
-stroke={
-theme.primary
-}
+              boxShadow:
+                "0 4px 20px rgba(0,0,0,0.15)",
 
-strokeWidth={3}
+              color: isDark
+                ? "#ffffff"
+                : "#111827",
+            }}
+          />
 
-dot={{
-r:5
-}}
-
-activeDot={{
-r:8
-}}
-
-/>
-
-</LineChart>
-
-</ResponsiveContainer>
-
-</div>
-
-);
-
+          <Line
+            type="monotone"
+            dataKey="distance"
+            stroke="#3b82f6"
+            strokeWidth={4}
+            dot={{
+              r: 5,
+              strokeWidth: 2,
+              fill: "#ffffff",
+            }}
+            activeDot={{
+              r: 8,
+              stroke: "#3b82f6",
+              strokeWidth: 3,
+              fill: "#ffffff",
+            }}
+          />
+        </LineChart>
+      </ResponsiveContainer>
+    </div>
+  );
 };
 
 export default DistanceTrendChart;
