@@ -91,8 +91,7 @@ const Dashboard = ({ user, onLogout }) => {
       duration: Number(workout.duration_seconds),
     }));
 
-    const performanceCorrelationData =
-  workouts
+  const performanceCorrelationData = workouts
     .slice()
     .reverse()
     .slice(-20)
@@ -575,12 +574,30 @@ const Dashboard = ({ user, onLogout }) => {
           <DurationTrendChart data={durationTrendData} theme={theme} />
         </motion.div>
 
-        {/* Section 12 - Smart Coach (delay: 0.83) */}
+        {/* Section 12 - Performance Correlation (delay: 0.83) */}
         <motion.div
           className="page-section"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.83 }}
+        >
+          <div className="section-header">
+            <h2 className="section-title" style={{ color: theme.primary }}>
+              📊 Performance Correlation
+            </h2>
+            <span className="section-subtitle">
+              Duration vs Calories
+            </span>
+          </div>
+          <PerformanceCorrelationChart data={performanceCorrelationData} theme={theme} />
+        </motion.div>
+
+        {/* Section 13 - Smart Coach (delay: 0.85) */}
+        <motion.div
+          className="page-section"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.85 }}
         >
           <div className="section-header">
             <h2 className="section-title" style={{ color: theme.primary }}>
@@ -593,12 +610,12 @@ const Dashboard = ({ user, onLogout }) => {
           <SmartCoach tips={coachingTips} theme={theme} />
         </motion.div>
 
-        {/* Section 13 - Milestones (delay: 0.85) */}
+        {/* Section 14 - Milestones (delay: 0.88) */}
         <motion.div
           className="page-section"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.85 }}
+          transition={{ duration: 0.5, delay: 0.88 }}
         >
           <div className="section-header">
             <h2 className="section-title" style={{ color: theme.primary }}>
@@ -611,12 +628,12 @@ const Dashboard = ({ user, onLogout }) => {
           <MilestonePanel milestones={milestones} theme={theme} />
         </motion.div>
 
-        {/* Section 14 - Recent Activity (delay: 0.88) */}
+        {/* Section 15 - Recent Activity (delay: 0.91) */}
         <motion.div
           className="page-section"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.88 }}
+          transition={{ duration: 0.5, delay: 0.91 }}
         >
           <div className="section-header">
             <h2 className="section-title" style={{ color: theme.primary }}>
@@ -629,12 +646,12 @@ const Dashboard = ({ user, onLogout }) => {
           <ActivityFeed activities={activities} theme={theme} />
         </motion.div>
 
-        {/* Section 15 - Achievements (delay: 0.91) */}
+        {/* Section 16 - Achievements (delay: 0.94) */}
         <motion.div
           className="page-section"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.91 }}
+          transition={{ duration: 0.5, delay: 0.94 }}
         >
           <div className="section-header">
             <h2 className="section-title" style={{ color: theme.primary }}>
@@ -649,12 +666,12 @@ const Dashboard = ({ user, onLogout }) => {
 
         {/* Grid sections with progressive delays */}
         <div className="dashboard-grid">
-          {/* Section 16 - Add Workout (delay: 0.94) */}
+          {/* Section 17 - Add Workout (delay: 0.97) */}
           <motion.div
             className="page-section"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.94 }}
+            transition={{ duration: 0.5, delay: 0.97 }}
           >
             <h2 className="section-title">Add Workout</h2>
             <WorkoutForm
@@ -665,7 +682,7 @@ const Dashboard = ({ user, onLogout }) => {
             />
           </motion.div>
           
-          {/* Section 17 - Workout History (delay: 1.0) */}
+          {/* Section 18 - Workout History (delay: 1.0) */}
           <motion.div
             className="page-section"
             initial={{ opacity: 0, y: 30 }}
