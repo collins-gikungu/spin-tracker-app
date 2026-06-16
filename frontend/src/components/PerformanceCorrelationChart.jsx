@@ -81,15 +81,46 @@ const PerformanceCorrelationChart = ({ data, theme }) => {
           />
 
           <Tooltip
-            cursor={{ strokeDasharray: "3 3" }}
-            contentStyle={{
-              backgroundColor:
-                theme === "dark" ? "#0f172a" : "#ffffff",
-              border: "none",
-              borderRadius: "12px",
-              boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
-            }}
-          />
+  cursor={{ strokeDasharray: "3 3" }}
+  content={({ active, payload }) => {
+    if (!active || !payload || !payload.length) {
+      return null;
+    }
+
+    const workout = payload[0].payload;
+
+    return (
+      <div
+        style={{
+          backgroundColor:
+            theme === "dark" ? "#0f172a" : "#ffffff",
+          borderRadius: "12px",
+          padding: "12px 16px",
+          boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
+          border:
+            theme === "dark"
+              ? "1px solid #334155"
+              : "1px solid #e2e8f0",
+        }}
+      >
+        <p style={{ margin: "0 0 8px 0" }}>
+          ⏱️ Duration: {workout.duration} min
+        </p>
+
+        <p style={{ margin: "0 0 8px 0" }}>
+          🔥 Calories: {workout.calories} kcal
+        </p>
+
+        <p style={{ margin: 0, fontWeight: "600" }}>
+          {getPerformanceLabel(
+            workout.duration,
+            workout.calories
+          )}
+        </p>
+      </div>
+    );
+  }}
+/>
 
           <Scatter
             name="Workouts"
