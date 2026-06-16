@@ -20,6 +20,7 @@ import QuickActions from '../components/QuickActions';
 import DistanceTrendChart from '../components/DistanceTrendChart';
 import CaloriesTrendChart from "../components/CaloriesTrendChart";
 import DurationTrendChart from "../components/DurationTrendChart";
+import PerformanceCorrelationChart from "../components/PerformanceCorrelationChart";
 import API from '../services/api';
 import '../styles/dashboard.css';
 import Sidebar from '../components/Sidebar';
