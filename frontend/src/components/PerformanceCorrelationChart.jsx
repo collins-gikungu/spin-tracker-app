@@ -10,6 +10,19 @@ import {
 } from "recharts";
 
 const PerformanceCorrelationChart = ({ data, theme }) => {
+  const getPerformanceLabel = (duration, calories) => {
+  const caloriesPerMinute = calories / duration;
+
+  if (caloriesPerMinute > 11) {
+    return "⚡ Peak Performance";
+  }
+
+  if (caloriesPerMinute >= 8) {
+    return "🔥 Strong Effort";
+  }
+
+  return "🚴 Steady Ride";
+};
   return (
     <div
       style={{
