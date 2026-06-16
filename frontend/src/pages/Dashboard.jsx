@@ -90,6 +90,21 @@ const Dashboard = ({ user, onLogout }) => {
       duration: Number(workout.duration_seconds),
     }));
 
+    const performanceCorrelationData =
+  workouts
+    .slice()
+    .reverse()
+    .slice(-20)
+    .map((workout) => ({
+      duration: Number(workout.duration_minutes),
+      calories: Number(workout.calories),
+    }))
+    .filter(
+      (workout) =>
+        !isNaN(workout.duration) &&
+        !isNaN(workout.calories)
+    );
+
   useEffect(() => {
     const loadDashboard = async () => {
       setLoading(true);
