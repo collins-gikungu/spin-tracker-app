@@ -7,6 +7,7 @@ import {
   XAxis,
   YAxis,
   Tooltip,
+  Cell,
 } from "recharts";
 
 const PerformanceCorrelationChart = ({ data, theme }) => {
