@@ -91,20 +91,27 @@ const Dashboard = ({ user, onLogout }) => {
       duration: Number(workout.duration_seconds),
     }));
 
-  const performanceCorrelationData = workouts
-    .slice()
-    .reverse()
-    .slice(-20)
-    .map((workout) => ({
-      duration: Number(workout.duration_minutes),
+ // Calculate performance correlation data from workouts
+const performanceCorrelationData = workouts
+  .slice()
+  .reverse()
+  .slice(-20)
+  .map((workout) => {
+    // Calculate duration in minutes from duration_seconds
+    const durationMinutes = Math.round(Number(workout.duration_seconds) / 60);
+    
+    return {
+      duration: durationMinutes,
       calories: Number(workout.calories),
-    }))
-    .filter(
-      (workout) =>
-        !isNaN(workout.duration) &&
-        !isNaN(workout.calories)
-    );
-
+    };
+  })
+  .filter(
+    (workout) =>
+      !isNaN(workout.duration) &&
+      !isNaN(workout.calories) &&
+      workout.duration > 0 &&
+      workout.calories > 0
+  );
   // Debug logs
   console.log('Performance Correlation Data:', performanceCorrelationData);
   console.log('Activities:', activities);
