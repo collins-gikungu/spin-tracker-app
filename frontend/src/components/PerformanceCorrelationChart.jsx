@@ -24,6 +24,21 @@ const PerformanceCorrelationChart = ({ data, theme }) => {
 
   return "🚴 Steady Ride";
 };
+
+const getPerformanceColor = (duration, calories) => {
+  const caloriesPerMinute = calories / duration;
+
+  if (caloriesPerMinute > 11) {
+    return "#f59e0b"; // Peak Performance
+  }
+
+  if (caloriesPerMinute >= 8) {
+    return "#ef4444"; // Strong Effort
+  }
+
+  return "#3b82f6"; // Steady Ride
+};
+
   return (
     <div
       style={{
