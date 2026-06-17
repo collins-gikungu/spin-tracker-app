@@ -118,6 +118,7 @@ const performanceCorrelationData = workouts
   console.log('Achievements:', achievements);
   console.log('Coaching Tips:', coachingTips);
   console.log('Milestones:', milestones);
+  console.log('Performance Correlation Data:', performanceCorrelationData);
 
   useEffect(() => {
     const loadDashboard = async () => {
