@@ -23,6 +23,10 @@ const WorkoutConsistencyChart = ({ data, theme }) => {
 
   return "#3b82f6";
 };
+const maxWorkoutCount = Math.max(
+  ...data.map((day) => day.count),
+  0
+);
   if (!data || data.length === 0) {
     return "🚴 Start logging workouts to build your consistency profile.";
   }
