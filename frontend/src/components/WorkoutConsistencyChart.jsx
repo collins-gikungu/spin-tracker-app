@@ -109,10 +109,19 @@ const maxWorkoutCount = Math.max(
           />
 
           <Bar
-            dataKey="count"
-            radius={[8, 8, 0, 0]}
-            fill="#3b82f6"
-          />
+  dataKey="count"
+  radius={[8, 8, 0, 0]}
+>
+  {data.map((entry, index) => (
+    <Cell
+      key={`cell-${index}`}
+      fill={getBarColor(
+        entry.count,
+        maxWorkoutCount
+      )}
+    />
+  ))}
+</Bar>
         </BarChart>
       </ResponsiveContainer>
       <div
