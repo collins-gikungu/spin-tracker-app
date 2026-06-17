@@ -21,6 +21,7 @@ import DistanceTrendChart from '../components/DistanceTrendChart';
 import CaloriesTrendChart from "../components/CaloriesTrendChart";
 import DurationTrendChart from "../components/DurationTrendChart";
 import PerformanceCorrelationChart from "../components/PerformanceCorrelationChart";
+import WorkoutConsistencyChart from "../components/WorkoutConsistencyChart";
 import API from '../services/api';
 import '../styles/dashboard.css';
 import Sidebar from '../components/Sidebar';
@@ -112,6 +113,34 @@ const performanceCorrelationData = workouts
       workout.duration > 0 &&
       workout.calories > 0
   );
+
+  const workoutConsistencyData = (() => {
+  const daysOfWeek = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+
+  const workoutCounts = {
+    Mon: 0,
+    Tue: 0,
+    Wed: 0,
+    Thu: 0,
+    Fri: 0,
+    Sat: 0,
+    Sun: 0,
+  };
+
+  workouts.forEach((workout) => {
+    const date = new Date(workout.created_at);
+
+    const dayIndex = (date.getDay() + 6) % 7;
+
+    workoutCounts[daysOfWeek[dayIndex]] += 1;
+  });
+
+  return daysOfWeek.map((day) => ({
+    day,
+    count: workoutCounts[day],
+  }));
+})();
+
   // Debug logs
   console.log('Performance Correlation Data:', performanceCorrelationData);
   console.log('Activities:', activities);
