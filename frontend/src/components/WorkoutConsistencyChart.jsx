@@ -12,6 +12,17 @@ import {
 
 const WorkoutConsistencyChart = ({ data, theme }) => {
     const getConsistencyInsight = () => {
+        const getBarColor = (count, maxCount) => {
+  if (count === maxCount && count > 0) {
+    return "#f59e0b";
+  }
+
+  if (count >= Math.max(2, maxCount - 1)) {
+    return "#ef4444";
+  }
+
+  return "#3b82f6";
+};
   if (!data || data.length === 0) {
     return "🚴 Start logging workouts to build your consistency profile.";
   }
