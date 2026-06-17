@@ -10,6 +10,34 @@ import {
 } from "recharts";
 
 const WorkoutConsistencyChart = ({ data, theme }) => {
+    const getConsistencyInsight = () => {
+  if (!data || data.length === 0) {
+    return "🚴 Start logging workouts to build your consistency profile.";
+  }
+
+  const highestDay = data.reduce((best, current) =>
+    current.count > best.count ? current : best
+  );
+
+  const totalWorkouts = data.reduce(
+    (sum, day) => sum + day.count,
+    0
+  );
+
+  if (totalWorkouts === 0) {
+    return "🚴 Complete your first workout to begin consistency tracking.";
+  }
+
+  if (highestDay.count >= 4) {
+    return `🏆 ${highestDay.day} is your strongest training day. You're building a powerful routine!`;
+  }
+
+  if (highestDay.count >= 2) {
+    return `🔥 ${highestDay.day} appears to be your most consistent workout day. Keep the momentum going!`;
+  }
+
+  return "📅 You're still building workout habits. Consistency compounds over time.";
+};
   return (
     <div
       style={{
