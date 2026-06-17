@@ -139,10 +139,19 @@ const getPerformanceColor = (duration, calories) => {
 />
 
           <Scatter
-            name="Workouts"
-            data={data}
-            fill="#3b82f6"
-          />
+  name="Workouts"
+  data={data}
+>
+  {data.map((entry, index) => (
+    <Cell
+      key={`cell-${index}`}
+      fill={getPerformanceColor(
+        entry.duration,
+        entry.calories
+      )}
+    />
+  ))}
+</Scatter>
         </ScatterChart>
       </ResponsiveContainer>
     </div>
