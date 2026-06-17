@@ -63,7 +63,7 @@ const Dashboard = ({ user, onLogout }) => {
   });
   const theme = darkMode ? darkTheme : lightTheme;
 
-  // Calculate distance trend data from workouts
+  // Calculate trend data from workouts
   const distanceTrendData = workouts
     .slice()
     .reverse()
@@ -104,6 +104,13 @@ const Dashboard = ({ user, onLogout }) => {
         !isNaN(workout.duration) &&
         !isNaN(workout.calories)
     );
+
+  // Debug logs
+  console.log('Performance Correlation Data:', performanceCorrelationData);
+  console.log('Activities:', activities);
+  console.log('Achievements:', achievements);
+  console.log('Coaching Tips:', coachingTips);
+  console.log('Milestones:', milestones);
 
   useEffect(() => {
     const loadDashboard = async () => {
@@ -183,6 +190,7 @@ const Dashboard = ({ user, onLogout }) => {
     try {
       const response = await API.get('/workouts/coaching');
       setCoachingTips(response.data.tips);
+      console.log('Coaching Tips fetched:', response.data.tips);
     } catch(error) {
       console.error(error);
     }
@@ -192,6 +200,7 @@ const Dashboard = ({ user, onLogout }) => {
     try {
       const response = await API.get('/workouts/milestones');
       setMilestones(response.data.milestones);
+      console.log('Milestones fetched:', response.data.milestones);
     } catch(error) {
       console.error(error);
     }
@@ -201,6 +210,7 @@ const Dashboard = ({ user, onLogout }) => {
     try {
       const response = await API.get('/workouts/activity');
       setActivities(response.data.activities);
+      console.log('Activities fetched:', response.data.activities);
     } catch(error) {
       console.error(error);
     }
@@ -210,6 +220,7 @@ const Dashboard = ({ user, onLogout }) => {
     try {
       const response = await API.get('/workouts/achievements');
       setAchievements(response.data.achievements);
+      console.log('Achievements fetched:', response.data.achievements);
     } catch(error) {
       console.error(error);
     }
