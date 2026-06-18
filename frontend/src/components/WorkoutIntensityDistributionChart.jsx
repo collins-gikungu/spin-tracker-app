@@ -18,196 +18,195 @@ const WorkoutIntensityDistributionChart = ({
   data,
   theme,
 }) => {
-    const getIntensityInsight = () => {
-  if (!data || data.length === 0) {
-    return "🚴 Start recording workouts to analyze your training intensity.";
-  }
+  const getIntensityInsight = () => {
+    if (!data || data.length === 0) {
+      return "🚴 Start recording workouts to analyze your training intensity.";
+    }
 
-  const totalWorkouts = data.reduce(
-    (sum, item) => sum + item.value,
-    0
-  );
+    const totalWorkouts = data.reduce(
+      (sum, item) => sum + item.value,
+      0
+    );
 
-  if (totalWorkouts === 0) {
-    return "🚴 Complete your first workout to unlock intensity analytics.";
-  }
+    if (totalWorkouts === 0) {
+      return "🚴 Complete your first workout to unlock intensity analytics.";
+    }
 
-  const dominantIntensity = data.reduce((highest, current) =>
-    current.value > highest.value ? current : highest
-  );
+    const dominantIntensity = data.reduce((highest, current) =>
+      current.value > highest.value ? current : highest
+    );
 
-  switch (dominantIntensity.name) {
-    case "High Intensity":
-      return "⚡ Most of your workouts are high intensity. Make sure recovery is part of your routine.";
+    switch (dominantIntensity.name) {
+      case "High Intensity":
+        return "⚡ Most of your workouts are high intensity. Make sure recovery is part of your routine.";
 
-    case "Moderate Intensity":
-      return "🔥 Your training is centered around moderate intensity efforts, providing a strong balance of challenge and sustainability.";
+      case "Moderate Intensity":
+        return "🔥 Your training is centered around moderate intensity efforts, providing a strong balance of challenge and sustainability.";
 
-    case "Low Intensity":
-      return "🚴 Low intensity workouts dominate your training. Consider adding occasional higher intensity sessions for variety.";
+      case "Low Intensity":
+        return "🚴 Low intensity workouts dominate your training. Consider adding occasional higher intensity sessions for variety.";
 
-    default:
-      return "📊 Keep tracking workouts to build a richer intensity profile.";
-  }
-};
+      default:
+        return "📊 Keep tracking workouts to build a richer intensity profile.";
+    }
+  };
 
-const getTrainingBalanceScore = () => {
-  const totalWorkouts = data.reduce(
-    (sum, item) => sum + item.value,
-    0
-  );
+  const getTrainingBalanceScore = () => {
+    const totalWorkouts = data.reduce(
+      (sum, item) => sum + item.value,
+      0
+    );
 
-  if (totalWorkouts === 0) {
-    return 0;
-  }
+    if (totalWorkouts === 0) {
+      return 0;
+    }
 
-  const percentages = data.map(
-    (item) => item.value / totalWorkouts
-  );
+    const percentages = data.map(
+      (item) => item.value / totalWorkouts
+    );
 
-  const idealShare = 1 / 3;
+    const idealShare = 1 / 3;
 
-  const deviation = percentages.reduce(
-    (sum, percentage) =>
-      sum + Math.abs(percentage - idealShare),
-    0
-  );
+    const deviation = percentages.reduce(
+      (sum, percentage) =>
+        sum + Math.abs(percentage - idealShare),
+      0
+    );
 
-  const score = Math.max(
-    0,
-    Math.round(100 - deviation * 100)
-  );
+    const score = Math.max(
+      0,
+      Math.round(100 - deviation * 100)
+    );
 
-  return score;
-};
-const getScoreLabel = (score) => {
-  if (score >= 85) {
-    return "🏆 Elite Training Balance";
-  }
+    return score;
+  };
 
-  if (score >= 70) {
-    return "🔥 Strong Training Balance";
-  }
+  const getScoreLabel = (score) => {
+    if (score >= 85) {
+      return "🏆 Elite Training Balance";
+    }
 
-  if (score >= 50) {
-    return "📈 Developing Balance";
-  }
+    if (score >= 70) {
+      return "🔥 Strong Training Balance";
+    }
 
-  return "🚴 Opportunity for Better Variety";
-};
-const trainingBalanceScore =
-  getTrainingBalanceScore();
+    if (score >= 50) {
+      return "📈 Developing Balance";
+    }
+
+    return "🚴 Opportunity for Better Variety";
+  };
+
+  const trainingBalanceScore = getTrainingBalanceScore();
+
+  // Check if data has any values
+  const hasData = data && data.some(item => item.value > 0);
 
   return (
     <div
       style={{
-        background:
-          theme === "dark"
-            ? "#1e293b"
-            : "#ffffff",
+        background: theme === "dark" ? "#1e293b" : "#ffffff",
         borderRadius: "20px",
         padding: "24px",
         marginTop: "24px",
-        boxShadow:
-          theme === "dark"
-            ? "0 4px 20px rgba(0,0,0,0.35)"
-            : "0 4px 20px rgba(0,0,0,0.08)",
+        boxShadow: theme === "dark"
+          ? "0 4px 20px rgba(0,0,0,0.35)"
+          : "0 4px 20px rgba(0,0,0,0.08)",
       }}
     >
       <h3
         style={{
           marginBottom: "20px",
-          color:
-            theme === "dark"
-              ? "#f8fafc"
-              : "#0f172a",
+          color: theme === "dark" ? "#f8fafc" : "#0f172a",
         }}
       >
         🔥 Workout Intensity Distribution
       </h3>
 
-      <ResponsiveContainer
-        width="100%"
-        height={320}
-      >
-        <PieChart>
-          <Pie
-            data={data}
-            dataKey="value"
-            nameKey="name"
-            outerRadius={110}
-            label
+      {hasData ? (
+        <>
+          <ResponsiveContainer width="100%" height={320}>
+            <PieChart>
+              <Pie
+                data={data}
+                dataKey="value"
+                nameKey="name"
+                outerRadius={110}
+                label
+              >
+                {data.map((entry, index) => (
+                  <Cell
+                    key={`cell-${index}`}
+                    fill={COLORS[index % COLORS.length]}
+                  />
+                ))}
+              </Pie>
+              <Tooltip />
+              <Legend />
+            </PieChart>
+          </ResponsiveContainer>
+
+          <div
+            style={{
+              marginTop: "16px",
+              padding: "16px",
+              borderRadius: "12px",
+              background: theme === "dark"
+                ? "rgba(245,158,11,0.15)"
+                : "#fffbeb",
+              color: theme === "dark" ? "#f8fafc" : "#1e293b",
+            }}
           >
-            {data.map((entry, index) => (
-              <Cell
-                key={`cell-${index}`}
-                fill={
-                  COLORS[
-                    index % COLORS.length
-                  ]
-                }
-              />
-            ))}
-          </Pie>
+            <div
+              style={{
+                fontSize: "1.5rem",
+                fontWeight: "700",
+                marginBottom: "6px",
+              }}
+            >
+              {trainingBalanceScore}/100
+            </div>
+            <div
+              style={{
+                fontWeight: "600",
+              }}
+            >
+              {getScoreLabel(trainingBalanceScore)}
+            </div>
+          </div>
 
-          <Tooltip />
-
-          <Legend />
-        </PieChart>
-      </ResponsiveContainer>
-      <div
-  style={{
-    marginTop: "16px",
-    padding: "16px",
-    borderRadius: "12px",
-    background:
-      theme === "dark"
-        ? "rgba(245,158,11,0.15)"
-        : "#fffbeb",
-    color:
-      theme === "dark"
-        ? "#f8fafc"
-        : "#1e293b",
-  }}
->
-  <div
-    style={{
-      fontSize: "1.5rem",
-      fontWeight: "700",
-      marginBottom: "6px",
-    }}
-  >
-    {trainingBalanceScore}/100
-  </div>
-
-  <div
-    style={{
-      fontWeight: "600",
-    }}
-  >
-    {getScoreLabel(trainingBalanceScore)}
-  </div>
-</div>
-      <div
-  style={{
-    marginTop: "20px",
-    padding: "14px",
-    borderRadius: "12px",
-    background:
-      theme === "dark"
-        ? "rgba(59,130,246,0.15)"
-        : "#eff6ff",
-    color:
-      theme === "dark"
-        ? "#e2e8f0"
-        : "#1e293b",
-    fontWeight: "500",
-  }}
->
-  {getIntensityInsight()}
-</div>
+          <div
+            style={{
+              marginTop: "20px",
+              padding: "14px",
+              borderRadius: "12px",
+              background: theme === "dark"
+                ? "rgba(59,130,246,0.15)"
+                : "#eff6ff",
+              color: theme === "dark" ? "#e2e8f0" : "#1e293b",
+              fontWeight: "500",
+            }}
+          >
+            {getIntensityInsight()}
+          </div>
+        </>
+      ) : (
+        <div
+          style={{
+            textAlign: "center",
+            padding: "40px 20px",
+            color: theme === "dark" ? "#94a3b8" : "#64748b",
+          }}
+        >
+          <p style={{ fontSize: "1.2rem", marginBottom: "8px" }}>
+            🚴 No workout intensity data available yet
+          </p>
+          <p>
+            Complete a workout with duration and calories to see your intensity distribution here.
+          </p>
+        </div>
+      )}
     </div>
-    
   );
 };
 
