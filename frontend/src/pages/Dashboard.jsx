@@ -141,50 +141,54 @@ const Dashboard = ({ user, onLogout }) => {
   })();
 
   // Calculate workout intensity distribution data
-  const workoutIntensityDistributionData = (() => {
-    let lowIntensity = 0;
-    let moderateIntensity = 0;
-    let highIntensity = 0;
+  // In Dashboard.jsx, replace the workoutIntensityDistributionData calculation with:
 
-    workouts.forEach((workout) => {
-      const duration = Number(workout.duration_minutes);
-      const calories = Number(workout.calories);
+const workoutIntensityDistributionData = (() => {
+  let lowIntensity = 0;
+  let moderateIntensity = 0;
+  let highIntensity = 0;
 
-      if (
-        !duration ||
-        !calories ||
-        isNaN(duration) ||
-        isNaN(calories)
-      ) {
-        return;
-      }
+  workouts.forEach((workout) => {
+    // Calculate duration in minutes from duration_seconds
+    const duration = Math.round(Number(workout.duration_seconds) / 60);
+    const calories = Number(workout.calories);
 
-      const caloriesPerMinute = calories / duration;
+    if (
+      !duration ||
+      !calories ||
+      isNaN(duration) ||
+      isNaN(calories) ||
+      duration === 0
+    ) {
+      return;
+    }
 
-      if (caloriesPerMinute > 11) {
-        highIntensity += 1;
-      } else if (caloriesPerMinute >= 8) {
-        moderateIntensity += 1;
-      } else {
-        lowIntensity += 1;
-      }
-    });
+    const caloriesPerMinute = calories / duration;
 
-    return [
-      {
-        name: "Low Intensity",
-        value: lowIntensity,
-      },
-      {
-        name: "Moderate Intensity",
-        value: moderateIntensity,
-      },
-      {
-        name: "High Intensity",
-        value: highIntensity,
-      },
-    ];
-  })();
+    if (caloriesPerMinute > 11) {
+      highIntensity += 1;
+    } else if (caloriesPerMinute >= 8) {
+      moderateIntensity += 1;
+    } else {
+      lowIntensity += 1;
+    }
+  });
+
+  return [
+    {
+      name: "Low Intensity",
+      value: lowIntensity,
+    },
+    {
+      name: "Moderate Intensity",
+      value: moderateIntensity,
+    },
+    {
+      name: "High Intensity",
+      value: highIntensity,
+    },
+  ];
+})();
 
   // Debug logs
   console.log('Performance Correlation Data:', performanceCorrelationData);
