@@ -18,6 +18,38 @@ const WorkoutIntensityDistributionChart = ({
   data,
   theme,
 }) => {
+    const getIntensityInsight = () => {
+  if (!data || data.length === 0) {
+    return "🚴 Start recording workouts to analyze your training intensity.";
+  }
+
+  const totalWorkouts = data.reduce(
+    (sum, item) => sum + item.value,
+    0
+  );
+
+  if (totalWorkouts === 0) {
+    return "🚴 Complete your first workout to unlock intensity analytics.";
+  }
+
+  const dominantIntensity = data.reduce((highest, current) =>
+    current.value > highest.value ? current : highest
+  );
+
+  switch (dominantIntensity.name) {
+    case "High Intensity":
+      return "⚡ Most of your workouts are high intensity. Make sure recovery is part of your routine.";
+
+    case "Moderate Intensity":
+      return "🔥 Your training is centered around moderate intensity efforts, providing a strong balance of challenge and sustainability.";
+
+    case "Low Intensity":
+      return "🚴 Low intensity workouts dominate your training. Consider adding occasional higher intensity sessions for variety.";
+
+    default:
+      return "📊 Keep tracking workouts to build a richer intensity profile.";
+  }
+};
   return (
     <div
       style={{
