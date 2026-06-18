@@ -12,7 +12,7 @@ import {
 
 const WorkoutConsistencyChart = ({ data, theme }) => {
     const getConsistencyInsight = () => {
-        const getBarColor = (count, maxCount) => {
+    const getBarColor = (count, maxCount) => {
   if (count === maxCount && count > 0) {
     return "#f59e0b";
   }
