@@ -97,7 +97,7 @@ const getScoreLabel = (score) => {
 };
 const trainingBalanceScore =
   getTrainingBalanceScore();
-  
+
   return (
     <div
       style={{
@@ -157,6 +157,39 @@ const trainingBalanceScore =
       </ResponsiveContainer>
       <div
   style={{
+    marginTop: "16px",
+    padding: "16px",
+    borderRadius: "12px",
+    background:
+      theme === "dark"
+        ? "rgba(245,158,11,0.15)"
+        : "#fffbeb",
+    color:
+      theme === "dark"
+        ? "#f8fafc"
+        : "#1e293b",
+  }}
+>
+  <div
+    style={{
+      fontSize: "1.5rem",
+      fontWeight: "700",
+      marginBottom: "6px",
+    }}
+  >
+    {trainingBalanceScore}/100
+  </div>
+
+  <div
+    style={{
+      fontWeight: "600",
+    }}
+  >
+    {getScoreLabel(trainingBalanceScore)}
+  </div>
+</div>
+      <div
+  style={{
     marginTop: "20px",
     padding: "14px",
     borderRadius: "12px",
@@ -174,6 +207,7 @@ const trainingBalanceScore =
   {getIntensityInsight()}
 </div>
     </div>
+    
   );
 };
 
