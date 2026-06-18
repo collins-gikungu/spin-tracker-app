@@ -50,6 +50,37 @@ const WorkoutIntensityDistributionChart = ({
       return "📊 Keep tracking workouts to build a richer intensity profile.";
   }
 };
+
+const getTrainingBalanceScore = () => {
+  const totalWorkouts = data.reduce(
+    (sum, item) => sum + item.value,
+    0
+  );
+
+  if (totalWorkouts === 0) {
+    return 0;
+  }
+
+  const percentages = data.map(
+    (item) => item.value / totalWorkouts
+  );
+
+  const idealShare = 1 / 3;
+
+  const deviation = percentages.reduce(
+    (sum, percentage) =>
+      sum + Math.abs(percentage - idealShare),
+    0
+  );
+
+  const score = Math.max(
+    0,
+    Math.round(100 - deviation * 100)
+  );
+
+  return score;
+};
+
   return (
     <div
       style={{
