@@ -139,6 +139,52 @@ const Dashboard = ({ user, onLogout }) => {
     }));
   })();
 
+  const workoutIntensityDistributionData = (() => {
+  let lowIntensity = 0;
+  let moderateIntensity = 0;
+  let highIntensity = 0;
+
+  workouts.forEach((workout) => {
+    const duration = Number(workout.duration_minutes);
+    const calories = Number(workout.calories);
+
+    if (
+      !duration ||
+      !calories ||
+      isNaN(duration) ||
+      isNaN(calories)
+    ) {
+      return;
+    }
+
+    const caloriesPerMinute =
+      calories / duration;
+
+    if (caloriesPerMinute > 11) {
+      highIntensity += 1;
+    } else if (caloriesPerMinute >= 8) {
+      moderateIntensity += 1;
+    } else {
+      lowIntensity += 1;
+    }
+  });
+
+  return [
+    {
+      name: "Low Intensity",
+      value: lowIntensity,
+    },
+    {
+      name: "Moderate Intensity",
+      value: moderateIntensity,
+    },
+    {
+      name: "High Intensity",
+      value: highIntensity,
+    },
+  ];
+})();
+
   // Debug logs
   console.log('Performance Correlation Data:', performanceCorrelationData);
   console.log('Activities:', activities);
