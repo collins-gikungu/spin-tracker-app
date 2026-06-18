@@ -107,6 +107,24 @@ const WorkoutIntensityDistributionChart = ({
           <Legend />
         </PieChart>
       </ResponsiveContainer>
+      <div
+  style={{
+    marginTop: "20px",
+    padding: "14px",
+    borderRadius: "12px",
+    background:
+      theme === "dark"
+        ? "rgba(59,130,246,0.15)"
+        : "#eff6ff",
+    color:
+      theme === "dark"
+        ? "#e2e8f0"
+        : "#1e293b",
+    fontWeight: "500",
+  }}
+>
+  {getIntensityInsight()}
+</div>
     </div>
   );
 };
