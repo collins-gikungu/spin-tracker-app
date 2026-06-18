@@ -80,6 +80,21 @@ const getTrainingBalanceScore = () => {
 
   return score;
 };
+const getScoreLabel = (score) => {
+  if (score >= 85) {
+    return "🏆 Elite Training Balance";
+  }
+
+  if (score >= 70) {
+    return "🔥 Strong Training Balance";
+  }
+
+  if (score >= 50) {
+    return "📈 Developing Balance";
+  }
+
+  return "🚴 Opportunity for Better Variety";
+};
 
   return (
     <div
