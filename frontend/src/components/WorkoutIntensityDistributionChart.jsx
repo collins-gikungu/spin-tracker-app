@@ -95,7 +95,9 @@ const getScoreLabel = (score) => {
 
   return "🚴 Opportunity for Better Variety";
 };
-
+const trainingBalanceScore =
+  getTrainingBalanceScore();
+  
   return (
     <div
       style={{
