@@ -22,6 +22,7 @@ import CaloriesTrendChart from "../components/CaloriesTrendChart";
 import DurationTrendChart from "../components/DurationTrendChart";
 import PerformanceCorrelationChart from "../components/PerformanceCorrelationChart";
 import WorkoutConsistencyChart from "../components/WorkoutConsistencyChart";
+import WorkoutIntensityDistributionChart from "../components/WorkoutIntensityDistributionChart";
 import API from '../services/api';
 import '../styles/dashboard.css';
 import Sidebar from '../components/Sidebar';
