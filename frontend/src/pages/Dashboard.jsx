@@ -141,9 +141,7 @@ const Dashboard = ({ user, onLogout }) => {
   })();
 
   // Calculate workout intensity distribution data
-  // In Dashboard.jsx, replace the workoutIntensityDistributionData calculation with:
-
-const workoutIntensityDistributionData = (() => {
+ const workoutIntensityDistributionData = (() => {
   let lowIntensity = 0;
   let moderateIntensity = 0;
   let highIntensity = 0;
