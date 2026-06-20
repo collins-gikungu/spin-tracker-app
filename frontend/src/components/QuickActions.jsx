@@ -32,7 +32,14 @@ path:'/goals'
 icon:'👤',
 label:'Profile',
 path:'/profile'
+},
+
+{
+icon:'�',
+label:'Analytics',
+path:'/analytics'
 }
+
 
 ];
 
