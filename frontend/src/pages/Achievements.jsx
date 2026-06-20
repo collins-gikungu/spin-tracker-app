@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import AchievementGallery from "../components/AchievementGallery";
 import MilestonePanel from "../components/MilestonePanel";
 import ActivityFeed from "../components/ActivityFeed";
+import StatsCards from "../components/StatsCards";
 import API from '../services/api';
 import { lightTheme, darkTheme } from '../styles/theme';
 
@@ -134,7 +135,7 @@ const Achievements = () => {
         </button>
       </div>
 
-      {/* Achievement Stats Cards */}
+      {/* Section 1 - Workout Overview (delay: 0.05) */}
       <motion.div
         className="page-section"
         initial={{ opacity: 0, y: 30 }}
@@ -143,7 +144,25 @@ const Achievements = () => {
       >
         <div className="section-header">
           <h2 className="section-title" style={{ color: theme.primary }}>
-            📊 Achievement Stats
+            📊 Workout Overview
+          </h2>
+          <span className="section-subtitle" style={{ color: theme.text }}>
+            Total Statistics
+          </span>
+        </div>
+        <StatsCards stats={stats} theme={theme} />
+      </motion.div>
+
+      {/* Achievement Stats Cards */}
+      <motion.div
+        className="page-section"
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.1 }}
+      >
+        <div className="section-header">
+          <h2 className="section-title" style={{ color: theme.primary }}>
+            🏅 Achievement Progress
           </h2>
           <span className="section-subtitle" style={{ color: theme.text }}>
             Your Progress Overview
@@ -215,12 +234,12 @@ const Achievements = () => {
         </div>
       </motion.div>
 
-      {/* Section 1 - Achievements (delay: 0.1) */}
+      {/* Section 2 - Achievements (delay: 0.2) */}
       <motion.div
         className="page-section"
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.1 }}
+        transition={{ duration: 0.5, delay: 0.2 }}
       >
         <div className="section-header">
           <h2 className="section-title" style={{ color: theme.primary }}>
@@ -233,12 +252,12 @@ const Achievements = () => {
         <AchievementGallery achievements={achievements} theme={theme} />
       </motion.div>
 
-      {/* Section 2 - Milestones (delay: 0.2) */}
+      {/* Section 3 - Milestones (delay: 0.3) */}
       <motion.div
         className="page-section"
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.2 }}
+        transition={{ duration: 0.5, delay: 0.3 }}
       >
         <div className="section-header">
           <h2 className="section-title" style={{ color: theme.primary }}>
@@ -251,12 +270,12 @@ const Achievements = () => {
         <MilestonePanel milestones={milestones} theme={theme} />
       </motion.div>
 
-      {/* Section 3 - Recent Activity (delay: 0.3) */}
+      {/* Section 4 - Recent Activity (delay: 0.4) */}
       <motion.div
         className="page-section"
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.3 }}
+        transition={{ duration: 0.5, delay: 0.4 }}
       >
         <div className="section-header">
           <h2 className="section-title" style={{ color: theme.primary }}>
