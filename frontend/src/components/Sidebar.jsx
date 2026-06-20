@@ -125,6 +125,13 @@ Profile
 
 </Link>
 
+<Link
+  to="/workouts"
+  style={navStyle('/workouts')}
+>
+  🚴 Workouts
+</Link>
+
 <button
 
 onClick={
