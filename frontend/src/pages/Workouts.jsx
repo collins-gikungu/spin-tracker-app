@@ -24,10 +24,6 @@ const Workouts = () => {
   });
 
   const [streaks, setStreaks] = useState({});
-  const [weeklyData, setWeeklyData] = useState(() => {
-    const saved = localStorage.getItem('weeklyData');
-    return saved ? JSON.parse(saved) : [];
-  });
 
   const [loading, setLoading] = useState(true);
   const [darkMode, setDarkMode] = useState(() => {
@@ -43,7 +39,6 @@ const Workouts = () => {
           fetchWorkouts(),
           fetchStats(),
           fetchStreaks(),
-          fetchWeeklyData(),
         ]);
       } catch (error) {
         console.error('Workouts load failed:', error);
@@ -78,16 +73,6 @@ const Workouts = () => {
     try {
       const response = await API.get('/workouts/streaks');
       setStreaks(response.data.streaks);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const fetchWeeklyData = async () => {
-    try {
-      const response = await API.get('/workouts/weekly');
-      setWeeklyData(response.data.weeklySummary);
-      localStorage.setItem('weeklyData', JSON.stringify(response.data.weeklySummary));
     } catch (error) {
       console.error(error);
     }
@@ -195,7 +180,7 @@ const Workouts = () => {
             theme={theme}
             fetchWorkouts={fetchWorkouts}
             fetchStats={fetchStats}
-            fetchWeeklyData={fetchWeeklyData}
+            fetchWeeklyData={() => {}} // Pass empty function since we don't need weekly data here
           />
         </motion.div>
 
