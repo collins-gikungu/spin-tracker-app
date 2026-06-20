@@ -132,6 +132,13 @@ Profile
   🚴 Workouts
 </Link>
 
+<Link
+  to="/analytics"
+  style={navStyle('/analytics')}
+>
+  📊 Analytics
+</Link>
+
 <button
 
 onClick={
