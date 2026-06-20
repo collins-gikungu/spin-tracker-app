@@ -26,6 +26,8 @@ from './pages/WorkoutHistory';
 import WorkoutDetails
 from './pages/WorkoutDetails';
 
+import Analytics from "./pages/Analytics";
+
 import {
 ToastContainer
 }
@@ -175,6 +177,11 @@ path="/history/:id"
 element={
 <WorkoutDetails />
 }
+/>
+
+<Route
+  path="/analytics"
+  element={<Analytics />}
 />
 
 </Routes>
