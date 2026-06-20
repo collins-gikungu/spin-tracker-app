@@ -29,6 +29,7 @@ from './pages/WorkoutDetails';
 import Analytics from "./pages/Analytics";
 import Goals from "./pages/Goals";
 import Achievements from "./pages/Achievements";
+import Workouts from "./pages/Workouts";
 
 import {
 ToastContainer
@@ -194,6 +195,11 @@ element={
 <Route
   path="/achievements"
   element={<Achievements />}
+/>
+
+<Route
+  path="/workouts"
+  element={<Workouts />}
 />
 
 </Routes>
