@@ -38,8 +38,12 @@ path:'/profile'
 icon:'�',
 label:'Analytics',
 path:'/analytics'
-}
-
+},
+{
+icon:'�',
+label:'Achievements',
+path:'/achievements'
+},
 
 ];
 
