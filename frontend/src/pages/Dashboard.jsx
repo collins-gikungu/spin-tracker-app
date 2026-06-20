@@ -1,28 +1,18 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import WorkoutForm from '../components/WorkoutForm';
-import WorkoutHistory from '../components/WorkoutHistory';
 import StatsCards from '../components/StatsCards';
 import ProgressChart from '../components/ProgressChart';
 import MonthlyChart from '../components/MonthlyChart';
 import PersonalRecords from '../components/PersonalRecords';
 import WorkoutStreaks from '../components/WorkoutStreaks';
 import DashboardHero from '../components/DashboardHero';
-import GoalTracker from '../components/GoalTracker';
 import FitnessInsights from '../components/FitnessInsights';
-import AchievementGallery from '../components/AchievementGallery';
 import TrendCards from '../components/TrendCards';
 import SmartCoach from '../components/SmartCoach';
 import MilestonePanel from '../components/MilestonePanel';
 import ActivityFeed from '../components/ActivityFeed';
 import HealthScore from '../components/HealthScore';
 import QuickActions from '../components/QuickActions';
-import DistanceTrendChart from '../components/DistanceTrendChart';
-import CaloriesTrendChart from "../components/CaloriesTrendChart";
-import DurationTrendChart from "../components/DurationTrendChart";
-import PerformanceCorrelationChart from "../components/PerformanceCorrelationChart";
-import WorkoutConsistencyChart from "../components/WorkoutConsistencyChart";
-import WorkoutIntensityDistributionChart from "../components/WorkoutIntensityDistributionChart";
 import API from '../services/api';
 import '../styles/dashboard.css';
 import Sidebar from '../components/Sidebar';
@@ -52,7 +42,6 @@ const Dashboard = ({ user, onLogout }) => {
     return saved ? JSON.parse(saved) : [];
   });
 
-  const [achievements, setAchievements] = useState([]);
   const [insights, setInsights] = useState([]);
   const [trends, setTrends] = useState({});
   const [coachingTips, setCoachingTips] = useState([]);
@@ -64,138 +53,6 @@ const Dashboard = ({ user, onLogout }) => {
     return localStorage.getItem('darkMode') === 'true';
   });
   const theme = darkMode ? darkTheme : lightTheme;
-
-  // Calculate trend data from workouts
-  const distanceTrendData = workouts
-    .slice()
-    .reverse()
-    .slice(-7)
-    .map((workout) => ({
-      date: new Date(workout.created_at).toLocaleDateString(),
-      distance: Number(workout.distance_km)
-    }));
-
-  const caloriesTrendData = workouts
-    .slice()
-    .reverse()
-    .slice(-7)
-    .map((workout) => ({
-      date: new Date(workout.created_at).toLocaleDateString(),
-      calories: Number(workout.calories),
-    }));
-
-  const durationTrendData = workouts
-    .slice()
-    .reverse()
-    .slice(-7)
-    .map((workout) => ({
-      date: new Date(workout.created_at).toLocaleDateString(),
-      duration: Number(workout.duration_seconds),
-    }));
-
-  // Calculate performance correlation data from workouts
-  const performanceCorrelationData = workouts
-    .slice()
-    .reverse()
-    .slice(-20)
-    .map((workout) => {
-      // Calculate duration in minutes from duration_seconds
-      const durationMinutes = Math.round(Number(workout.duration_seconds) / 60);
-      
-      return {
-        duration: durationMinutes,
-        calories: Number(workout.calories),
-      };
-    })
-    .filter(
-      (workout) =>
-        !isNaN(workout.duration) &&
-        !isNaN(workout.calories) &&
-        workout.duration > 0 &&
-        workout.calories > 0
-    );
-
-  // Calculate workout consistency data
-  const workoutConsistencyData = (() => {
-    const daysOfWeek = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-    const workoutCounts = {
-      Mon: 0,
-      Tue: 0,
-      Wed: 0,
-      Thu: 0,
-      Fri: 0,
-      Sat: 0,
-      Sun: 0,
-    };
-
-    workouts.forEach((workout) => {
-      const date = new Date(workout.created_at);
-      const dayIndex = (date.getDay() + 6) % 7;
-      workoutCounts[daysOfWeek[dayIndex]] += 1;
-    });
-
-    return daysOfWeek.map((day) => ({
-      day,
-      count: workoutCounts[day],
-    }));
-  })();
-
-  // Calculate workout intensity distribution data
- const workoutIntensityDistributionData = (() => {
-  let lowIntensity = 0;
-  let moderateIntensity = 0;
-  let highIntensity = 0;
-
-  workouts.forEach((workout) => {
-    // Calculate duration in minutes from duration_seconds
-    const duration = Math.round(Number(workout.duration_seconds) / 60);
-    const calories = Number(workout.calories);
-
-    if (
-      !duration ||
-      !calories ||
-      isNaN(duration) ||
-      isNaN(calories) ||
-      duration === 0
-    ) {
-      return;
-    }
-
-    const caloriesPerMinute = calories / duration;
-
-    if (caloriesPerMinute > 11) {
-      highIntensity += 1;
-    } else if (caloriesPerMinute >= 8) {
-      moderateIntensity += 1;
-    } else {
-      lowIntensity += 1;
-    }
-  });
-
-  return [
-    {
-      name: "Low Intensity",
-      value: lowIntensity,
-    },
-    {
-      name: "Moderate Intensity",
-      value: moderateIntensity,
-    },
-    {
-      name: "High Intensity",
-      value: highIntensity,
-    },
-  ];
-})();
-
-  // Debug logs
-  console.log('Performance Correlation Data:', performanceCorrelationData);
-  console.log('Activities:', activities);
-  console.log('Achievements:', achievements);
-  console.log('Coaching Tips:', coachingTips);
-  console.log('Milestones:', milestones);
-  console.log('Workout Consistency Data:', workoutConsistencyData);
-  console.log('Workout Intensity Distribution Data:', workoutIntensityDistributionData);
 
   useEffect(() => {
     const loadDashboard = async () => {
@@ -209,7 +66,6 @@ const Dashboard = ({ user, onLogout }) => {
           fetchWeeklyData(),
           fetchMonthlyData(),
           fetchInsights(),
-          fetchAchievements(),
           fetchTrends(),
           fetchCoachingTips(),
           fetchMilestones(),
@@ -275,7 +131,6 @@ const Dashboard = ({ user, onLogout }) => {
     try {
       const response = await API.get('/workouts/coaching');
       setCoachingTips(response.data.tips);
-      console.log('Coaching Tips fetched:', response.data.tips);
     } catch(error) {
       console.error(error);
     }
@@ -285,7 +140,6 @@ const Dashboard = ({ user, onLogout }) => {
     try {
       const response = await API.get('/workouts/milestones');
       setMilestones(response.data.milestones);
-      console.log('Milestones fetched:', response.data.milestones);
     } catch(error) {
       console.error(error);
     }
@@ -295,17 +149,6 @@ const Dashboard = ({ user, onLogout }) => {
     try {
       const response = await API.get('/workouts/activity');
       setActivities(response.data.activities);
-      console.log('Activities fetched:', response.data.activities);
-    } catch(error) {
-      console.error(error);
-    }
-  };
-
-  const fetchAchievements = async () => {
-    try {
-      const response = await API.get('/workouts/achievements');
-      setAchievements(response.data.achievements);
-      console.log('Achievements fetched:', response.data.achievements);
     } catch(error) {
       console.error(error);
     }
@@ -414,6 +257,7 @@ const Dashboard = ({ user, onLogout }) => {
           </button>
         </div>
 
+        {/* HealthScore */}
         <motion.div
           className="page-section"
           initial={{
@@ -432,11 +276,12 @@ const Dashboard = ({ user, onLogout }) => {
           <HealthScore
             stats={stats}
             streaks={streaks}
-            achievements={achievements}
+            achievements={[]}
             theme={theme}
           />
         </motion.div>
 
+        {/* QuickActions */}
         <motion.div
           className="page-section"
           initial={{
@@ -562,30 +407,12 @@ const Dashboard = ({ user, onLogout }) => {
           <WorkoutStreaks streaks={streaks} theme={theme} />
         </motion.div>
 
-        {/* Section 6 - Goal Tracking (delay: 0.6) */}
+        {/* Section 6 - Fitness Insights (delay: 0.6) */}
         <motion.div
           className="page-section"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.6 }}
-        >
-          <div className="section-header">
-            <h2 className="section-title" style={{ color: theme.primary }}>
-              🎯 Goal Tracking
-            </h2>
-            <span className="section-subtitle">
-              Progress Towards Your Goals
-            </span>
-          </div>
-          <GoalTracker stats={stats} theme={theme} />
-        </motion.div>
-
-        {/* Section 7 - Fitness Insights (delay: 0.7) */}
-        <motion.div
-          className="page-section"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.7 }}
         >
           <div className="section-header">
             <h2 className="section-title" style={{ color: theme.primary }}>
@@ -598,12 +425,12 @@ const Dashboard = ({ user, onLogout }) => {
           <FitnessInsights insights={insights} theme={theme} />
         </motion.div>
 
-        {/* Section 8 - Performance Trends (delay: 0.75) */}
+        {/* Section 7 - Performance Trends (delay: 0.7) */}
         <motion.div
           className="page-section"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.75 }}
+          transition={{ duration: 0.5, delay: 0.7 }}
         >
           <div className="section-header">
             <h2 className="section-title" style={{ color: theme.primary }}>
@@ -616,120 +443,12 @@ const Dashboard = ({ user, onLogout }) => {
           <TrendCards trends={trends} theme={theme} />
         </motion.div>
 
-        {/* Section 9 - Distance Trend Chart (delay: 0.77) */}
+        {/* Section 8 - Smart Coach (delay: 0.8) */}
         <motion.div
           className="page-section"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.77 }}
-        >
-          <div className="section-header">
-            <h2 className="section-title" style={{ color: theme.primary }}>
-              📏 Distance Trend
-            </h2>
-            <span className="section-subtitle">
-              Last 7 Workouts
-            </span>
-          </div>
-          <DistanceTrendChart data={distanceTrendData} theme={theme} />
-        </motion.div>
-
-        {/* Section 10 - Calories Trend Chart (delay: 0.79) */}
-        <motion.div
-          className="page-section"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.79 }}
-        >
-          <div className="section-header">
-            <h2 className="section-title" style={{ color: theme.primary }}>
-              🔥 Calories Trend
-            </h2>
-            <span className="section-subtitle">
-              Last 7 Workouts
-            </span>
-          </div>
-          <CaloriesTrendChart data={caloriesTrendData} theme={theme} />
-        </motion.div>
-
-        {/* Section 11 - Duration Trend Chart (delay: 0.81) */}
-        <motion.div
-          className="page-section"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.81 }}
-        >
-          <div className="section-header">
-            <h2 className="section-title" style={{ color: theme.primary }}>
-              ⏱️ Duration Trend
-            </h2>
-            <span className="section-subtitle">
-              Last 7 Workouts
-            </span>
-          </div>
-          <DurationTrendChart data={durationTrendData} theme={theme} />
-        </motion.div>
-
-        {/* Section 12 - Performance Correlation (delay: 0.83) */}
-        <motion.div
-          className="page-section"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.83 }}
-        >
-          <div className="section-header">
-            <h2 className="section-title" style={{ color: theme.primary }}>
-              📊 Performance Correlation
-            </h2>
-            <span className="section-subtitle">
-              Duration vs Calories
-            </span>
-          </div>
-          <PerformanceCorrelationChart data={performanceCorrelationData} theme={theme} />
-        </motion.div>
-
-        {/* Section 13 - Workout Consistency Chart (delay: 0.85) */}
-        <motion.div
-          className="page-section"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.85 }}
-        >
-          <div className="section-header">
-            <h2 className="section-title" style={{ color: theme.primary }}>
-              📊 Workout Consistency
-            </h2>
-            <span className="section-subtitle">
-              Weekly Distribution
-            </span>
-          </div>
-          <WorkoutConsistencyChart data={workoutConsistencyData} theme={theme} />
-        </motion.div>
-
-        {/* Section 14 - Workout Intensity Distribution (delay: 0.87) */}
-        <motion.div
-          className="page-section"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.87 }}
-        >
-          <div className="section-header">
-            <h2 className="section-title" style={{ color: theme.primary }}>
-              📊 Workout Intensity Distribution
-            </h2>
-            <span className="section-subtitle">
-              Low, Moderate, High Intensity
-            </span>
-          </div>
-          <WorkoutIntensityDistributionChart data={workoutIntensityDistributionData} theme={theme} />
-        </motion.div>
-
-        {/* Section 15 - Smart Coach (delay: 0.89) */}
-        <motion.div
-          className="page-section"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.89 }}
+          transition={{ duration: 0.5, delay: 0.8 }}
         >
           <div className="section-header">
             <h2 className="section-title" style={{ color: theme.primary }}>
@@ -742,12 +461,12 @@ const Dashboard = ({ user, onLogout }) => {
           <SmartCoach tips={coachingTips} theme={theme} />
         </motion.div>
 
-        {/* Section 16 - Milestones (delay: 0.91) */}
+        {/* Section 9 - Milestones (delay: 0.85) */}
         <motion.div
           className="page-section"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.91 }}
+          transition={{ duration: 0.5, delay: 0.85 }}
         >
           <div className="section-header">
             <h2 className="section-title" style={{ color: theme.primary }}>
@@ -760,12 +479,12 @@ const Dashboard = ({ user, onLogout }) => {
           <MilestonePanel milestones={milestones} theme={theme} />
         </motion.div>
 
-        {/* Section 17 - Recent Activity (delay: 0.94) */}
+        {/* Section 10 - Recent Activity (delay: 0.9) */}
         <motion.div
           className="page-section"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.94 }}
+          transition={{ duration: 0.5, delay: 0.9 }}
         >
           <div className="section-header">
             <h2 className="section-title" style={{ color: theme.primary }}>
@@ -778,53 +497,6 @@ const Dashboard = ({ user, onLogout }) => {
           <ActivityFeed activities={activities} theme={theme} />
         </motion.div>
 
-        {/* Section 18 - Achievements (delay: 0.97) */}
-        <motion.div
-          className="page-section"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.97 }}
-        >
-          <div className="section-header">
-            <h2 className="section-title" style={{ color: theme.primary }}>
-              🏆 Achievements
-            </h2>
-            <span className="section-subtitle">
-              Unlocked Badges & Awards
-            </span>
-          </div>
-          <AchievementGallery achievements={achievements} theme={theme} />
-        </motion.div>
-
-        {/* Grid sections with progressive delays */}
-        <div className="dashboard-grid">
-          {/* Section 19 - Add Workout (delay: 0.99) */}
-          <motion.div
-            className="page-section"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.99 }}
-          >
-            <h2 className="section-title">Add Workout</h2>
-            <WorkoutForm
-              theme={theme}
-              fetchWorkouts={fetchWorkouts}
-              fetchStats={fetchStats}
-              fetchWeeklyData={fetchWeeklyData}
-            />
-          </motion.div>
-          
-          {/* Section 20 - Workout History (delay: 1.0) */}
-          <motion.div
-            className="page-section"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 1.0 }}
-          >
-            <h2 className="section-title">Workout History</h2>
-            <WorkoutHistory theme={theme} workouts={workouts} />
-          </motion.div>
-        </div>
       </div>
     </div>
   );
