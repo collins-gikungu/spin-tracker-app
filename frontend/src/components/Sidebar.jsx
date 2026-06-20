@@ -121,7 +121,7 @@ to="/profile"
 style={navStyle('/profile')}
 >
 
-Profile
+ 👤 Profile
 
 </Link>
 
@@ -144,6 +144,13 @@ Profile
   style={navStyle('/goals')}
 >
   🎯 Goals
+</Link>
+
+<Link
+  to="/achievements"
+  style={navStyle('/achievements')}
+>
+  🏆 Achievements
 </Link>
 
 <button
