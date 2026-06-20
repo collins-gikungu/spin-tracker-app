@@ -13,12 +13,13 @@ const Analytics = () => {
         padding: "24px",
       }}
     >
-      <h1>📊 Analytics</h1>
+      <h1>📊 Analytics Center</h1>
 
-      <p>
-        Advanced workout analytics and trends
-        will appear here.
-      </p>
+<p>
+  Explore workout trends, consistency,
+  performance correlations, and intensity
+  analytics.
+</p>
     </div>
   );
 };
