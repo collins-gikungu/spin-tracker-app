@@ -35,12 +35,12 @@ path:'/profile'
 },
 
 {
-icon:'�',
+icon:'📊',
 label:'Analytics',
 path:'/analytics'
 },
 {
-icon:'�',
+icon:'🏆',
 label:'Achievements',
 path:'/achievements'
 },
