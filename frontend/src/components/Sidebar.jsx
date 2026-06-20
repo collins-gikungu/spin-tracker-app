@@ -107,50 +107,28 @@ Spin Tracker 🚴
 
 </h2>
 
-<Link
-to="/"
-style={navStyle('/')}
->
-
-Dashboard
-
+<Link to="/" style={navStyle('/')}>
+  🏠 Dashboard
 </Link>
 
-<Link
-to="/profile"
-style={navStyle('/profile')}
->
-
- 👤 Profile
-
-</Link>
-
-<Link
-  to="/workouts"
-  style={navStyle('/workouts')}
->
+<Link to="/workouts" style={navStyle('/workouts')}>
   🚴 Workouts
 </Link>
 
-<Link
-  to="/analytics"
-  style={navStyle('/analytics')}
->
+<Link to="/analytics" style={navStyle('/analytics')}>
   📊 Analytics
 </Link>
 
-<Link
-  to="/goals"
-  style={navStyle('/goals')}
->
+<Link to="/goals" style={navStyle('/goals')}>
   🎯 Goals
 </Link>
 
-<Link
-  to="/achievements"
-  style={navStyle('/achievements')}
->
+<Link to="/achievements" style={navStyle('/achievements')}>
   🏆 Achievements
+</Link>
+
+<Link to="/profile" style={navStyle('/profile')}>
+  👤 Profile
 </Link>
 
 <button
