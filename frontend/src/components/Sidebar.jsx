@@ -139,6 +139,13 @@ Profile
   📊 Analytics
 </Link>
 
+<Link
+  to="/goals"
+  style={navStyle('/goals')}
+>
+  🎯 Goals
+</Link>
+
 <button
 
 onClick={
