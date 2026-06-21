@@ -179,12 +179,20 @@ handleLogin
 
 <Route
   path="/goals"
-  element={<Goals />}
+  element={
+    <ProtectedRoute user={user}>
+      <Goals />
+    </ProtectedRoute>
+  }
 />
 
 <Route
   path="/achievements"
-  element={<Achievements />}
+  element={
+    <ProtectedRoute user={user}>
+      <Achievements />
+    </ProtectedRoute>
+  }
 />
 
 <Route
