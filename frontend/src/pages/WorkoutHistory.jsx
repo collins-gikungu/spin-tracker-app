@@ -1,9 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import AppLayout from "../components/AppLayout";
 import API from '../services/api';
-import { lightTheme, darkTheme } from '../styles/theme';
-
 
 const WorkoutHistory = () => {
   const navigate = useNavigate();
@@ -73,9 +70,7 @@ const WorkoutHistory = () => {
   }
 
   return (
-  <AppLayout
-    theme={theme}
-  >
+    <div style={{ padding: '30px' }}>
       <h1>📜 Workout History</h1>
       <p>Total Workouts: {workouts.length}</p>
 
@@ -189,7 +184,7 @@ const WorkoutHistory = () => {
           Next ➡
         </button>
       </div>
-    </AppLayout>
+    </div>
   );
 };
 
