@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import AppLayout from '../components/AppLayout';
@@ -15,11 +15,7 @@ const WorkoutDetails = () => {
   const theme = darkMode ? darkTheme : lightTheme;
   const insights = [];
 
-  useEffect(() => {
-    fetchWorkout();
-  }, [id]);
-
-  const fetchWorkout = async () => {
+  const fetchWorkout = useCallback(async () => {
     try {
       const response = await API.get(`/workouts/${id}`);
       setWorkout(response.data.workout);
@@ -28,7 +24,11 @@ const WorkoutDetails = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [id]);
+
+  useEffect(() => {
+    fetchWorkout();
+  }, [fetchWorkout]);
 
   const toggleTheme = () => {
     const newTheme = !darkMode;
