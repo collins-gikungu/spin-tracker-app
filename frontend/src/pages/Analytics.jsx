@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
+import ProgressChart from '../components/ProgressChart';
+import MonthlyChart from '../components/MonthlyChart';
 import DistanceTrendChart from "../components/DistanceTrendChart";
 import CaloriesTrendChart from "../components/CaloriesTrendChart";
 import DurationTrendChart from "../components/DurationTrendChart";
@@ -20,6 +22,12 @@ const Analytics = () => {
     }
   });
 
+  const [weeklyData, setWeeklyData] = useState(() => {
+    const saved = localStorage.getItem('weeklyData');
+    return saved ? JSON.parse(saved) : [];
+  });
+
+  const [monthlyData, setMonthlyData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [darkMode, setDarkMode] = useState(() => {
     return localStorage.getItem('darkMode') === 'true';
@@ -60,7 +68,6 @@ const Analytics = () => {
     .reverse()
     .slice(-20)
     .map((workout) => {
-      // Calculate duration in minutes from duration_seconds
       const durationMinutes = Math.round(Number(workout.duration_seconds) / 60);
       
       return {
@@ -108,7 +115,6 @@ const Analytics = () => {
     let highIntensity = 0;
 
     workouts.forEach((workout) => {
-      // Calculate duration in minutes from duration_seconds
       const duration = Math.round(Number(workout.duration_seconds) / 60);
       const calories = Number(workout.calories);
 
@@ -153,9 +159,11 @@ const Analytics = () => {
     const loadAnalytics = async () => {
       setLoading(true);
       try {
-        const response = await API.get('/workouts');
-        setWorkouts(response.data.workouts);
-        localStorage.setItem('workouts', JSON.stringify(response.data.workouts));
+        await Promise.all([
+          fetchWorkouts(),
+          fetchWeeklyData(),
+          fetchMonthlyData(),
+        ]);
       } catch (error) {
         console.error('Analytics load failed:', error);
       } finally {
@@ -164,6 +172,39 @@ const Analytics = () => {
     };
     loadAnalytics();
   }, []);
+
+  const fetchWorkouts = async () => {
+    try {
+      const response = await API.get('/workouts');
+      setWorkouts(response.data.workouts);
+      localStorage.setItem('workouts', JSON.stringify(response.data.workouts));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const fetchWeeklyData = async () => {
+    try {
+      const response = await API.get('/workouts/weekly');
+      setWeeklyData(response.data.weeklySummary);
+      localStorage.setItem('weeklyData', JSON.stringify(response.data.weeklySummary));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const fetchMonthlyData = async () => {
+    try {
+      const response = await API.get('/workouts/monthly');
+      const formattedData = response.data.monthlySummary.map(item => ({
+        month: new Date(item.month_start).toLocaleString('default', { month: 'short' }),
+        distance: Number(item.total_distance_km)
+      }));
+      setMonthlyData(formattedData);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const toggleTheme = () => {
     const newTheme = !darkMode;
@@ -210,12 +251,48 @@ const Analytics = () => {
         </button>
       </div>
 
-      {/* Section 1 - Distance Trend Chart (delay: 0.1) */}
+      {/* Section 1 - Weekly Progress (delay: 0.05) */}
+      <motion.div
+        className="page-section"
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.05 }}
+      >
+        <div className="section-header">
+          <h2 className="section-title" style={{ color: theme.primary }}>
+            📈 Weekly Progress
+          </h2>
+          <span className="section-subtitle" style={{ color: theme.text }}>
+            Last 7 Days Performance
+          </span>
+        </div>
+        <ProgressChart data={weeklyData} theme={theme} />
+      </motion.div>
+
+      {/* Section 2 - Monthly Analytics (delay: 0.1) */}
       <motion.div
         className="page-section"
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.1 }}
+      >
+        <div className="section-header">
+          <h2 className="section-title" style={{ color: theme.primary }}>
+            📅 Monthly Analytics
+          </h2>
+          <span className="section-subtitle" style={{ color: theme.text }}>
+            Monthly Distance Trends
+          </span>
+        </div>
+        <MonthlyChart data={monthlyData} theme={theme} />
+      </motion.div>
+
+      {/* Section 3 - Distance Trend Chart (delay: 0.15) */}
+      <motion.div
+        className="page-section"
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.15 }}
       >
         <div className="section-header">
           <h2 className="section-title" style={{ color: theme.primary }}>
@@ -228,7 +305,7 @@ const Analytics = () => {
         <DistanceTrendChart data={distanceTrendData} theme={theme} />
       </motion.div>
 
-      {/* Section 2 - Calories Trend Chart (delay: 0.2) */}
+      {/* Section 4 - Calories Trend Chart (delay: 0.2) */}
       <motion.div
         className="page-section"
         initial={{ opacity: 0, y: 30 }}
@@ -246,12 +323,12 @@ const Analytics = () => {
         <CaloriesTrendChart data={caloriesTrendData} theme={theme} />
       </motion.div>
 
-      {/* Section 3 - Duration Trend Chart (delay: 0.3) */}
+      {/* Section 5 - Duration Trend Chart (delay: 0.25) */}
       <motion.div
         className="page-section"
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.3 }}
+        transition={{ duration: 0.5, delay: 0.25 }}
       >
         <div className="section-header">
           <h2 className="section-title" style={{ color: theme.primary }}>
@@ -264,12 +341,12 @@ const Analytics = () => {
         <DurationTrendChart data={durationTrendData} theme={theme} />
       </motion.div>
 
-      {/* Section 4 - Performance Correlation (delay: 0.4) */}
+      {/* Section 6 - Performance Correlation (delay: 0.3) */}
       <motion.div
         className="page-section"
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.4 }}
+        transition={{ duration: 0.5, delay: 0.3 }}
       >
         <div className="section-header">
           <h2 className="section-title" style={{ color: theme.primary }}>
@@ -282,12 +359,12 @@ const Analytics = () => {
         <PerformanceCorrelationChart data={performanceCorrelationData} theme={theme} />
       </motion.div>
 
-      {/* Section 5 - Workout Consistency (delay: 0.5) */}
+      {/* Section 7 - Workout Consistency (delay: 0.35) */}
       <motion.div
         className="page-section"
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.5 }}
+        transition={{ duration: 0.5, delay: 0.35 }}
       >
         <div className="section-header">
           <h2 className="section-title" style={{ color: theme.primary }}>
@@ -300,12 +377,12 @@ const Analytics = () => {
         <WorkoutConsistencyChart data={workoutConsistencyData} theme={theme} />
       </motion.div>
 
-      {/* Section 6 - Workout Intensity Distribution (delay: 0.6) */}
+      {/* Section 8 - Workout Intensity Distribution (delay: 0.4) */}
       <motion.div
         className="page-section"
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.6 }}
+        transition={{ duration: 0.5, delay: 0.4 }}
       >
         <div className="section-header">
           <h2 className="section-title" style={{ color: theme.primary }}>
