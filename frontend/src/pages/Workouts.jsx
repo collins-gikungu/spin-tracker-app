@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
+import AppLayout from "../components/AppLayout";
 import WorkoutForm from '../components/WorkoutForm';
 import WorkoutHistory from '../components/WorkoutHistory';
 import WorkoutStreaks from '../components/WorkoutStreaks';
