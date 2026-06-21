@@ -111,6 +111,10 @@ Spin Tracker 🚴
   🏠 Dashboard
 </Link>
 
+<Link to="/history" style={navStyle('/history')}>
+  📜 History
+</Link>
+
 <Link to="/workouts" style={navStyle('/workouts')}>
   🚴 Workouts
 </Link>
