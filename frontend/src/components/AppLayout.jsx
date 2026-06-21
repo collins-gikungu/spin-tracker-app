@@ -9,7 +9,7 @@ const AppLayout = ({
     <div
       style={{
         display: "flex",
-        backgroundColor: theme?.background,
+        backgroundColor: theme?.background || "#f5f7fb",
         minHeight: "100vh",
       }}
     >
