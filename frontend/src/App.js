@@ -132,16 +132,12 @@ handleLogin
 <Route
   path="/"
   element={
-    user ? (
+    <ProtectedRoute user={user}>
       <Dashboard
         user={user}
         onLogout={handleLogout}
       />
-    ) : (
-      <Navigate
-        to="/login"
-      />
-    )
+    </ProtectedRoute>
   }
 />
 
