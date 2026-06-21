@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
+import AppLayout from "../components/AppLayout";
 import AchievementGallery from "../components/AchievementGallery";
 import MilestonePanel from "../components/MilestonePanel";
 import ActivityFeed from "../components/ActivityFeed";
