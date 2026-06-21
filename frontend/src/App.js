@@ -170,7 +170,11 @@ handleLogin
 
 <Route
   path="/analytics"
-  element={<Analytics />}
+  element={
+    <ProtectedRoute user={user}>
+      <Analytics />
+    </ProtectedRoute>
+  }
 />
 
 <Route
