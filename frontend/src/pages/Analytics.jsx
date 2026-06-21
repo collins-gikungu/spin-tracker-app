@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
+import AppLayout from "../components/AppLayout";
 import ProgressChart from '../components/ProgressChart';
 import MonthlyChart from '../components/MonthlyChart';
 import DistanceTrendChart from "../components/DistanceTrendChart";
