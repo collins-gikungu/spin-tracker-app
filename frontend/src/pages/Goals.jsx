@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
+import AppLayout from "../components/AppLayout";
 import GoalTracker from "../components/GoalTracker";
 import API from '../services/api';
 import { lightTheme, darkTheme } from '../styles/theme';
