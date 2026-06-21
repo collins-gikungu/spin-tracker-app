@@ -106,13 +106,9 @@ const Achievements = () => {
   }
 
   return (
-    <div
-      style={{
-        padding: "24px",
-        backgroundColor: theme.background,
-        minHeight: '100vh'
-      }}
-    >
+  <AppLayout
+    theme={theme}
+  >
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
         <div>
           <h1 style={{ color: theme.text }}>🏆 Achievements Center</h1>
@@ -288,7 +284,7 @@ const Achievements = () => {
         </div>
         <ActivityFeed activities={activities} theme={theme} />
       </motion.div>
-    </div>
+    </AppLayout>
   );
 };
 
