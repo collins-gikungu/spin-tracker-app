@@ -1,10 +1,6 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import StatsCards from '../components/StatsCards';
-import ProgressChart from '../components/ProgressChart';
-import MonthlyChart from '../components/MonthlyChart';
-import PersonalRecords from '../components/PersonalRecords';
-import WorkoutStreaks from '../components/WorkoutStreaks';
 import DashboardHero from '../components/DashboardHero';
 import FitnessInsights from '../components/FitnessInsights';
 import TrendCards from '../components/TrendCards';
@@ -37,17 +33,11 @@ const Dashboard = ({ user, onLogout }) => {
   
   const [records, setRecords] = useState({});
   const [streaks, setStreaks] = useState({});
-  const [weeklyData, setWeeklyData] = useState(() => {
-    const saved = localStorage.getItem('weeklyData');
-    return saved ? JSON.parse(saved) : [];
-  });
-
   const [insights, setInsights] = useState([]);
   const [trends, setTrends] = useState({});
   const [coachingTips, setCoachingTips] = useState([]);
   const [milestones, setMilestones] = useState([]);
   const [activities, setActivities] = useState([]);
-  const [monthlyData, setMonthlyData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [darkMode, setDarkMode] = useState(() => {
     return localStorage.getItem('darkMode') === 'true';
@@ -63,8 +53,6 @@ const Dashboard = ({ user, onLogout }) => {
           fetchStats(),
           fetchRecords(),
           fetchStreaks(),
-          fetchWeeklyData(),
-          fetchMonthlyData(),
           fetchInsights(),
           fetchTrends(),
           fetchCoachingTips(),
@@ -163,29 +151,6 @@ const Dashboard = ({ user, onLogout }) => {
     }
   };
 
-  const fetchWeeklyData = async () => {
-    try {
-      const response = await API.get('/workouts/weekly');
-      setWeeklyData(response.data.weeklySummary);
-      localStorage.setItem('weeklyData', JSON.stringify(response.data.weeklySummary));
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const fetchMonthlyData = async () => {
-    try {
-      const response = await API.get('/workouts/monthly');
-      const formattedData = response.data.monthlySummary.map(item => ({
-        month: new Date(item.month_start).toLocaleString('default', { month: 'short' }),
-        distance: Number(item.total_distance_km)
-      }));
-      setMonthlyData(formattedData);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   const toggleTheme = () => {
     const newTheme = !darkMode;
     setDarkMode(newTheme);
@@ -209,6 +174,7 @@ const Dashboard = ({ user, onLogout }) => {
       <Sidebar onLogout={onLogout} />
       
       <div className="dashboard-content" style={{ flex: 1, padding: '20px' }}>
+        {/* 1. DashboardHero */}
         <DashboardHero user={user} streaks={streaks} records={records} theme={theme} />
         
         <div style={{ textAlign: 'center', marginBottom: '20px' }}>
@@ -257,21 +223,12 @@ const Dashboard = ({ user, onLogout }) => {
           </button>
         </div>
 
-        {/* HealthScore */}
+        {/* 2. HealthScore */}
         <motion.div
           className="page-section"
-          initial={{
-            opacity:0,
-            y:30
-          }}
-          animate={{
-            opacity:1,
-            y:0
-          }}
-          transition={{
-            duration:0.5,
-            delay:0.2
-          }}
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.05 }}
         >
           <HealthScore
             stats={stats}
@@ -281,43 +238,7 @@ const Dashboard = ({ user, onLogout }) => {
           />
         </motion.div>
 
-        {/* QuickActions */}
-        <motion.div
-          className="page-section"
-          initial={{
-            opacity:0,
-            y:30
-          }}
-          animate={{
-            opacity:1,
-            y:0
-          }}
-          transition={{
-            duration:0.5,
-            delay:0.25
-          }}
-        >
-          <div className="section-header">
-            <h2
-              className="section-title"
-              style={{
-                color: theme.primary
-              }}
-            >
-              ⚡ Quick Actions
-            </h2>
-            <span
-              className="section-subtitle"
-            >
-              Shortcuts
-            </span>
-          </div>
-          <QuickActions
-            theme={theme}
-          />
-        </motion.div>
-
-        {/* Section 1 - Workout Overview (delay: 0.1) */}
+        {/* 3. QuickActions */}
         <motion.div
           className="page-section"
           initial={{ opacity: 0, y: 30 }}
@@ -326,16 +247,30 @@ const Dashboard = ({ user, onLogout }) => {
         >
           <div className="section-header">
             <h2 className="section-title" style={{ color: theme.primary }}>
+              ⚡ Quick Actions
+            </h2>
+            <span className="section-subtitle">Shortcuts</span>
+          </div>
+          <QuickActions theme={theme} />
+        </motion.div>
+
+        {/* 4. StatsCards */}
+        <motion.div
+          className="page-section"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.15 }}
+        >
+          <div className="section-header">
+            <h2 className="section-title" style={{ color: theme.primary }}>
               📊 Workout Overview
             </h2>
-            <span className="section-subtitle">
-              Total Statistics
-            </span>
+            <span className="section-subtitle">Total Statistics</span>
           </div>
           <StatsCards stats={stats} theme={theme} />
         </motion.div>
-        
-        {/* Section 2 - Weekly Progress (delay: 0.2) */}
+
+        {/* 5. FitnessInsights */}
         <motion.div
           className="page-section"
           initial={{ opacity: 0, y: 30 }}
@@ -344,16 +279,30 @@ const Dashboard = ({ user, onLogout }) => {
         >
           <div className="section-header">
             <h2 className="section-title" style={{ color: theme.primary }}>
-              📈 Weekly Progress
+              💡 Fitness Insights
             </h2>
-            <span className="section-subtitle">
-              Last 7 Days Performance
-            </span>
+            <span className="section-subtitle">Personalized Recommendations</span>
           </div>
-          <ProgressChart data={weeklyData} theme={theme} />
+          <FitnessInsights insights={insights} theme={theme} />
         </motion.div>
 
-        {/* Section 3 - Monthly Analytics (delay: 0.3) */}
+        {/* 6. TrendCards */}
+        <motion.div
+          className="page-section"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.25 }}
+        >
+          <div className="section-header">
+            <h2 className="section-title" style={{ color: theme.primary }}>
+              📈 Performance Trends
+            </h2>
+            <span className="section-subtitle">Last 7 Days</span>
+          </div>
+          <TrendCards trends={trends} theme={theme} />
+        </motion.div>
+
+        {/* 7. SmartCoach */}
         <motion.div
           className="page-section"
           initial={{ opacity: 0, y: 30 }}
@@ -362,16 +311,30 @@ const Dashboard = ({ user, onLogout }) => {
         >
           <div className="section-header">
             <h2 className="section-title" style={{ color: theme.primary }}>
-              📅 Monthly Analytics
+              🧠 Smart Coach
             </h2>
-            <span className="section-subtitle">
-              Monthly Distance Trends
-            </span>
+            <span className="section-subtitle">AI-Powered Guidance</span>
           </div>
-          <MonthlyChart data={monthlyData} theme={theme} />
+          <SmartCoach tips={coachingTips} theme={theme} />
         </motion.div>
 
-        {/* Section 4 - Personal Records (delay: 0.4) */}
+        {/* 8. MilestonePanel */}
+        <motion.div
+          className="page-section"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.35 }}
+        >
+          <div className="section-header">
+            <h2 className="section-title" style={{ color: theme.primary }}>
+              🎉 Milestones
+            </h2>
+            <span className="section-subtitle">Your Journey Highlights</span>
+          </div>
+          <MilestonePanel milestones={milestones} theme={theme} />
+        </motion.div>
+
+        {/* 9. ActivityFeed */}
         <motion.div
           className="page-section"
           initial={{ opacity: 0, y: 30 }}
@@ -380,123 +343,12 @@ const Dashboard = ({ user, onLogout }) => {
         >
           <div className="section-header">
             <h2 className="section-title" style={{ color: theme.primary }}>
-              🏆 Personal Records
-            </h2>
-            <span className="section-subtitle">
-              Your Best Performances
-            </span>
-          </div>
-          <PersonalRecords records={records} theme={theme} />
-        </motion.div>
-
-        {/* Section 5 - Workout Consistency (delay: 0.5) */}
-        <motion.div
-          className="page-section"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.5 }}
-        >
-          <div className="section-header">
-            <h2 className="section-title" style={{ color: theme.primary }}>
-              🔥 Workout Consistency
-            </h2>
-            <span className="section-subtitle">
-              Current Streak & Activity
-            </span>
-          </div>
-          <WorkoutStreaks streaks={streaks} theme={theme} />
-        </motion.div>
-
-        {/* Section 6 - Fitness Insights (delay: 0.6) */}
-        <motion.div
-          className="page-section"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.6 }}
-        >
-          <div className="section-header">
-            <h2 className="section-title" style={{ color: theme.primary }}>
-              💡 Fitness Insights
-            </h2>
-            <span className="section-subtitle">
-              Personalized Recommendations
-            </span>
-          </div>
-          <FitnessInsights insights={insights} theme={theme} />
-        </motion.div>
-
-        {/* Section 7 - Performance Trends (delay: 0.7) */}
-        <motion.div
-          className="page-section"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.7 }}
-        >
-          <div className="section-header">
-            <h2 className="section-title" style={{ color: theme.primary }}>
-              📈 Performance Trends
-            </h2>
-            <span className="section-subtitle">
-              Last 7 Days
-            </span>
-          </div>
-          <TrendCards trends={trends} theme={theme} />
-        </motion.div>
-
-        {/* Section 8 - Smart Coach (delay: 0.8) */}
-        <motion.div
-          className="page-section"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.8 }}
-        >
-          <div className="section-header">
-            <h2 className="section-title" style={{ color: theme.primary }}>
-              🧠 Smart Coach
-            </h2>
-            <span className="section-subtitle">
-              AI-Powered Guidance
-            </span>
-          </div>
-          <SmartCoach tips={coachingTips} theme={theme} />
-        </motion.div>
-
-        {/* Section 9 - Milestones (delay: 0.85) */}
-        <motion.div
-          className="page-section"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.85 }}
-        >
-          <div className="section-header">
-            <h2 className="section-title" style={{ color: theme.primary }}>
-              🎉 Milestones
-            </h2>
-            <span className="section-subtitle">
-              Your Journey Highlights
-            </span>
-          </div>
-          <MilestonePanel milestones={milestones} theme={theme} />
-        </motion.div>
-
-        {/* Section 10 - Recent Activity (delay: 0.9) */}
-        <motion.div
-          className="page-section"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.9 }}
-        >
-          <div className="section-header">
-            <h2 className="section-title" style={{ color: theme.primary }}>
               🚴 Recent Activity
             </h2>
-            <span className="section-subtitle">
-              Latest Workouts
-            </span>
+            <span className="section-subtitle">Latest Workouts</span>
           </div>
           <ActivityFeed activities={activities} theme={theme} />
         </motion.div>
-
       </div>
     </div>
   );
