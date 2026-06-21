@@ -166,14 +166,11 @@ const Dashboard = ({ user, onLogout }) => {
   }
 
   return (
-    <div style={{
-      display: 'flex',
-      backgroundColor: theme.background,
-      minHeight: '100vh'
-    }}>
-      <Sidebar onLogout={onLogout} />
-      
-      <div className="dashboard-content" style={{ flex: 1, padding: '20px' }}>
+  <AppLayout
+    onLogout={onLogout}
+    theme={theme}
+  >
+    <div className="dashboard-content">
         {/* 1. DashboardHero */}
         <DashboardHero user={user} streaks={streaks} records={records} theme={theme} />
         
@@ -350,7 +347,7 @@ const Dashboard = ({ user, onLogout }) => {
           <ActivityFeed activities={activities} theme={theme} />
         </motion.div>
       </div>
-    </div>
+    </AppLayout>
   );
 };
 
