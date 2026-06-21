@@ -151,17 +151,21 @@ handleLogin
 />
 
 <Route
-path="/history"
-element={
-<WorkoutHistory />
-}
+  path="/history"
+  element={
+    <ProtectedRoute user={user}>
+      <WorkoutHistory />
+    </ProtectedRoute>
+  }
 />
 
 <Route
-path="/history/:id"
-element={
-<WorkoutDetails />
-}
+  path="/history/:id"
+  element={
+    <ProtectedRoute user={user}>
+      <WorkoutDetails />
+    </ProtectedRoute>
+  }
 />
 
 <Route
