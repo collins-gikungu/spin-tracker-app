@@ -197,7 +197,11 @@ handleLogin
 
 <Route
   path="/workouts"
-  element={<Workouts />}
+  element={
+    <ProtectedRoute user={user}>
+      <Workouts />
+    </ProtectedRoute>
+  }
 />
 
 </Routes>
