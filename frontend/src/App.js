@@ -142,27 +142,12 @@ handleLogin
 />
 
 <Route
-
-path="/profile"
-
-element={
-
-user
-
-?
-
-<Profile
-onLogout={handleLogout}
-/>
-
-:
-
-<Navigate
-to="/login"
-/>
-
-}
-
+  path="/profile"
+  element={
+    <ProtectedRoute user={user}>
+      <Profile onLogout={handleLogout} />
+    </ProtectedRoute>
+  }
 />
 
 <Route
