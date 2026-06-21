@@ -11,7 +11,6 @@ import HealthScore from '../components/HealthScore';
 import QuickActions from '../components/QuickActions';
 import API from '../services/api';
 import '../styles/dashboard.css';
-import Sidebar from '../components/Sidebar';
 import AppLayout from "../components/AppLayout";
 import { lightTheme, darkTheme } from '../styles/theme';
 import { Link } from 'react-router-dom';
