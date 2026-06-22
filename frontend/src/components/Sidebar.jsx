@@ -68,7 +68,11 @@ const Sidebar = ({ onLogout }) => {
           Spin Tracker 🚴
         </h2>
 
-        <Link to="/" style={navStyle('/')}>
+        <Link
+  to="/"
+  style={navStyle('/')}
+  onClick={() => setIsOpen(false)}
+>
           🏠 Dashboard
         </Link>
 
