@@ -170,7 +170,17 @@ const Dashboard = ({ user, onLogout }) => {
     onLogout={onLogout}
     theme={theme}
   >
-    <div className="dashboard-content">
+    <div
+  className="dashboard-content"
+  style={{
+    flex: 1,
+    padding: '20px',
+    width: '100%',
+    maxWidth: '100%',
+    overflowX: 'hidden',
+    boxSizing: 'border-box'
+  }}
+>
         {/* 1. DashboardHero */}
         <DashboardHero user={user} streaks={streaks} records={records} theme={theme} />
         
