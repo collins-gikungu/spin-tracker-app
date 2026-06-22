@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import "../styles/sidebar.css";
 
 const Sidebar = ({ onLogout }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -51,14 +52,9 @@ const Sidebar = ({ onLogout }) => {
       <div
         className={isOpen ? 'sidebar open' : 'sidebar'}
         style={{
-          width: '250px',
-          minHeight: '100vh',
           padding: '20px',
           boxShadow: '2px 0 10px rgba(0,0,0,0.1)',
           background: '#fff',
-          position: 'sticky',
-          top: 0,
-          transition: 'transform 0.3s ease',
         }}
       >
         <h2 style={{ marginBottom: '30px', color: '#1976d2' }}>
