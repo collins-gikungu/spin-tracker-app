@@ -15,6 +15,13 @@ box-sizing:
 border-box;
 
 }
+
+.dashboard-content {
+  width: 100%;
+  min-width: 0; /* IMPORTANT for flex overflow bugs */
+  box-sizing: border-box;
+}
+
 .dashboard-container {
   max-width: 1200px;
   margin: 0 auto;
@@ -222,12 +229,6 @@ box-shadow:
 
 display: block;
 
-}
-
-.dashboard-content {
-  width: 100%;
-  min-width: 0; /* IMPORTANT for flex overflow bugs */
-  box-sizing: border-box;
 }
 
 }
