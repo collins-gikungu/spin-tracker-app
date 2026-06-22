@@ -1,3 +1,10 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  width: 100%;
+}
+
 * {
 
 font-family:
@@ -224,9 +231,9 @@ display: block;
 }
 
 .dashboard-content {
-
-padding-top: 70px;
-
+  width: 100%;
+  min-width: 0; /* IMPORTANT for flex overflow bugs */
+  box-sizing: border-box;
 }
 
 }
