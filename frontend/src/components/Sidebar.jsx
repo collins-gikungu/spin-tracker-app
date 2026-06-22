@@ -49,6 +49,13 @@ const Sidebar = ({ onLogout }) => {
         ☰
       </button>
 
+      {isOpen && (
+  <div
+    className="sidebar-overlay"
+    onClick={() => setIsOpen(false)}
+  />
+)}
+
       <div
         className={isOpen ? 'sidebar open' : 'sidebar'}
         style={{
