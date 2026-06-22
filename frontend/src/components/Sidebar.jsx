@@ -76,27 +76,33 @@ const Sidebar = ({ onLogout }) => {
           🏠 Dashboard
         </Link>
 
-        <Link to="/history" style={navStyle('/history')}>
+        <Link to="/history" style={navStyle('/history')}
+        onClick={() => setIsOpen(false)}>
           📜 History
         </Link>
 
-        <Link to="/workouts" style={navStyle('/workouts')}>
+        <Link to="/workouts" style={navStyle('/workouts')}
+        onClick={() => setIsOpen(false)}>
           🚴 Workouts
         </Link>
 
-        <Link to="/analytics" style={navStyle('/analytics')}>
+        <Link to="/analytics" style={navStyle('/analytics')}
+        onClick={() => setIsOpen(false)}>
           📊 Analytics
         </Link>
 
-        <Link to="/goals" style={navStyle('/goals')}>
+        <Link to="/goals" style={navStyle('/goals')}
+        onClick={() => setIsOpen(false)}>
           🎯 Goals
         </Link>
 
-        <Link to="/achievements" style={navStyle('/achievements')}>
+        <Link to="/achievements" style={navStyle('/achievements')}
+        onClick={() => setIsOpen(false)}>
           🏆 Achievements
         </Link>
 
-        <Link to="/profile" style={navStyle('/profile')}>
+        <Link to="/profile" style={navStyle('/profile')}
+        onClick={() => setIsOpen(false)}>
           👤 Profile
         </Link>
 
