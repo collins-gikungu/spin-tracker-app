@@ -6,7 +6,15 @@ const app = express();
 const authRoutes = require('./src/routes/authRoutes');
 
 // Middleware
-app.use(cors());
+app.use(
+  cors({
+    origin: [
+      "http://localhost:3000",
+      "https://YOUR-NETLIFY-SITE.netlify.app"
+    ],
+    credentials: true,
+  })
+);
 app.use(express.json());
 
 // Routes
