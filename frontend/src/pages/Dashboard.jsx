@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import StatsCards from '../components/StatsCards';
 import DashboardHero from '../components/DashboardHero';
@@ -16,16 +16,6 @@ import { lightTheme, darkTheme } from '../styles/theme';
 import { Link } from 'react-router-dom';
 
 const Dashboard = ({ user, onLogout }) => {
-  const [workouts, setWorkouts] = useState(() => {
-    try {
-      const saved = localStorage.getItem('workouts');
-      const parsed = saved ? JSON.parse(saved) : [];
-      return Array.isArray(parsed) ? parsed : [];
-    } catch {
-      return [];
-    }
-  });
-
   const [stats, setStats] = useState(() => {
     const saved = localStorage.getItem('stats');
     return saved ? JSON.parse(saved) : {};
@@ -42,14 +32,17 @@ const Dashboard = ({ user, onLogout }) => {
   const [darkMode, setDarkMode] = useState(() => {
     return localStorage.getItem('darkMode') === 'true';
   });
-  const theme = darkMode ? darkTheme : lightTheme;
+  
+  const theme = useMemo(
+    () => (darkMode ? darkTheme : lightTheme),
+    [darkMode]
+  );
 
   useEffect(() => {
     const loadDashboard = async () => {
       setLoading(true);
       try {
         await Promise.all([
-          fetchWorkouts(),
           fetchStats(),
           fetchRecords(),
           fetchStreaks(),
@@ -67,16 +60,6 @@ const Dashboard = ({ user, onLogout }) => {
     };
     loadDashboard();
   }, []);
-
-  const fetchWorkouts = async () => {
-    try {
-      const response = await API.get('/workouts');
-      setWorkouts(response.data.workouts);
-      localStorage.setItem('workouts', JSON.stringify(response.data.workouts));
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   const fetchStats = async () => {
     try {
@@ -157,34 +140,38 @@ const Dashboard = ({ user, onLogout }) => {
     localStorage.setItem('darkMode', newTheme);
   };
 
-  if (loading && (!workouts || workouts.length === 0)) {
+  if (loading) {
     return (
-      <div style={{ textAlign: 'center', marginTop: '50px' }}>
-        <h2>Loading dashboard...</h2>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          minHeight: "100vh",
+        }}
+      >
+        <h2>🚴 Loading Dashboard...</h2>
       </div>
     );
   }
 
   return (
-  <AppLayout
-    onLogout={onLogout}
-    theme={theme}
-  >
-    <div
-  className="dashboard-content"
-  style={{
-    flex: 1,
-    padding: '20px',
-    width: '100%',
-    maxWidth: '100%',
-    overflowX: 'hidden',
-    boxSizing: 'border-box'
-  }}
->
+    <AppLayout onLogout={onLogout} theme={theme}>
+      <div
+        className="dashboard-content"
+        style={{
+          flex: 1,
+          padding: '20px',
+          width: '100%',
+          maxWidth: '100%',
+          overflowX: 'hidden',
+          boxSizing: 'border-box'
+        }}
+      >
         {/* 1. DashboardHero */}
         <DashboardHero user={user} streaks={streaks} records={records} theme={theme} />
         
-        <div style={{ textAlign: 'center', marginBottom: '20px' }}>
+        <div className="dashboard-header">
           <button
             onClick={toggleTheme}
             style={{
@@ -199,35 +186,21 @@ const Dashboard = ({ user, onLogout }) => {
           >
             {darkMode ? '☀️ Light Mode' : '🌙 Dark Mode'}
           </button>
-        </div>
-        
-        <div style={{ textAlign: 'center', marginBottom: '20px' }}>
-          <p>Welcome, {user?.username} 🚴</p>
+          
           <Link to="/profile">
-            <button style={{
-              padding: '10px',
-              marginRight: '10px',
-              border: 'none',
-              borderRadius: '8px',
-              cursor: 'pointer',
-              background: theme.primary,
-              color: 'white'
-            }}>
+            <button
+              style={{
+                padding: '10px',
+                border: 'none',
+                borderRadius: '8px',
+                cursor: 'pointer',
+                background: theme.primary,
+                color: 'white'
+              }}
+            >
               My Profile
             </button>
           </Link>
-          <button
-            onClick={onLogout}
-            style={{
-              padding: '10px',
-              border: 'none',
-              borderRadius: '8px',
-              cursor: 'pointer',
-              background: '#d32f2f',
-              color: 'white'
-            }}>
-            Logout
-          </button>
         </div>
 
         {/* 2. HealthScore */}
