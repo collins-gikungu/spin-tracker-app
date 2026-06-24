@@ -1,7 +1,9 @@
-import axios from 'axios';
+import axios from "axios";
 
 const API = axios.create({
-  baseURL: 'http://192.168.0.104:5000/api'
+  baseURL:
+    process.env.REACT_APP_API_URL ||
+    "http://localhost:5000/api"
 });
 
 // Request interceptor - Add token to every request
