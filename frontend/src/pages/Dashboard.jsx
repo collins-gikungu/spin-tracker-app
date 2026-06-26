@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import StatsCards from '../components/StatsCards';
 import DashboardHero from '../components/DashboardHero';
@@ -12,10 +12,8 @@ import QuickActions from '../components/QuickActions';
 import API from '../services/api';
 import '../styles/dashboard.css';
 import AppLayout from "../components/AppLayout";
-import { lightTheme, darkTheme } from '../styles/theme';
-import { Link } from 'react-router-dom';
 
-const Dashboard = ({ user, onLogout }) => {
+const Dashboard = ({ user, onLogout, theme, darkMode, toggleTheme }) => {
   const [stats, setStats] = useState(() => {
     const saved = localStorage.getItem('stats');
     return saved ? JSON.parse(saved) : {};
@@ -29,14 +27,6 @@ const Dashboard = ({ user, onLogout }) => {
   const [milestones, setMilestones] = useState([]);
   const [activities, setActivities] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [darkMode, setDarkMode] = useState(() => {
-    return localStorage.getItem('darkMode') === 'true';
-  });
-  
-  const theme = useMemo(
-    () => (darkMode ? darkTheme : lightTheme),
-    [darkMode]
-  );
 
   useEffect(() => {
     const loadDashboard = async () => {
@@ -134,12 +124,6 @@ const Dashboard = ({ user, onLogout }) => {
     }
   };
 
-  const toggleTheme = () => {
-    const newTheme = !darkMode;
-    setDarkMode(newTheme);
-    localStorage.setItem('darkMode', newTheme);
-  };
-
   if (loading) {
     return (
       <div
@@ -156,7 +140,12 @@ const Dashboard = ({ user, onLogout }) => {
   }
 
   return (
-    <AppLayout onLogout={onLogout} theme={theme}>
+    <AppLayout
+      onLogout={onLogout}
+      theme={theme}
+      darkMode={darkMode}
+      toggleTheme={toggleTheme}
+    >
       <div
         className="dashboard-content"
         style={{
@@ -170,38 +159,6 @@ const Dashboard = ({ user, onLogout }) => {
       >
         {/* 1. DashboardHero */}
         <DashboardHero user={user} streaks={streaks} records={records} theme={theme} />
-        
-        <div className="dashboard-header">
-          <button
-            onClick={toggleTheme}
-            style={{
-              padding: '10px 16px',
-              border: 'none',
-              borderRadius: '8px',
-              cursor: 'pointer',
-              backgroundColor: theme.background,
-              color: theme.primary,
-              fontWeight: 'bold',
-            }}
-          >
-            {darkMode ? '☀️ Light Mode' : '🌙 Dark Mode'}
-          </button>
-          
-          <Link to="/profile">
-            <button
-              style={{
-                padding: '10px',
-                border: 'none',
-                borderRadius: '8px',
-                cursor: 'pointer',
-                background: theme.primary,
-                color: 'white'
-              }}
-            >
-              My Profile
-            </button>
-          </Link>
-        </div>
 
         {/* 2. HealthScore */}
         <motion.div
