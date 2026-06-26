@@ -47,6 +47,7 @@ const Login = ({ onLogin, darkMode, toggleTheme }) => {
       </div>
       <div className="auth-card">
         <div className="auth-visual">
+          <img src={heroSrc} alt="bike" className="auth-visual-hero-inline" />
           <div className="auth-visual-content">
             <span className="feature-chip">Modern ride tracking</span>
             <h3>Take every spin further</h3>
