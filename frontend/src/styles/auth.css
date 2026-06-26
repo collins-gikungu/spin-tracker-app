@@ -128,3 +128,21 @@
   .auth-visual-content h3 { margin: 0.25rem 0 0; }
   .feature-chip { display: block; margin: 0.25rem 0 0; }
 }
+
+/* Strong mobile overrides to undo global visual card styles */
+@media (max-width: 780px) {
+  .auth-card { border-radius: 0; overflow: visible; }
+  .auth-visual { background-image: none !important; min-height: auto !important; }
+  .auth-visual::after { display: none !important; }
+  .auth-visual-content { padding: 8px 14px !important; justify-content: flex-start !important; }
+  .auth-visual-hero-inline { display: block; margin-bottom: 0 !important; }
+  .feature-chip, .auth-visual-content h3 { margin-top: 8px !important; }
+}
+
+/* Mobile: keep visual separation between image and form */
+@media (max-width: 780px) {
+  .auth-card { border-radius: 18px; overflow: hidden; }
+  .auth-visual-hero-inline { display: block; border-radius: 0; }
+  .auth-form { background: var(--surface) !important; margin-top: -14px; padding-top: 18px !important; border-top-left-radius: 14px; border-top-right-radius: 14px; box-shadow: 0 -8px 24px rgba(2,6,23,0.12); }
+  .dark-theme .auth-form { background: var(--surface) !important; }
+}
