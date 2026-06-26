@@ -82,3 +82,37 @@
   .auth-hero { display: none; }
   .auth-bg .blob { display: none; }
 }
+
+/* visual column inside the auth card */
+.auth-visual {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 22px 24px;
+}
+.auth-visual-content { z-index: 3; }
+.feature-chip {
+  display: inline-block;
+  background: rgba(255,255,255,0.06);
+  color: #fff;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  letter-spacing: 0.2px;
+}
+
+.auth-visual-hero-inline {
+  width: 140px;
+  max-width: 30%;
+  opacity: 0.98;
+  transform: translateY(-6px);
+  z-index: 1;
+  pointer-events: none;
+  animation: floatSmall 6s ease-in-out infinite;
+}
+
+@keyframes floatSmall {
+  0% { transform: translateY(0) rotate(-4deg); }
+  50% { transform: translateY(-6px) rotate(-2deg); }
+  100% { transform: translateY(0) rotate(-4deg); }
+}
