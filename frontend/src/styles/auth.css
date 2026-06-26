@@ -146,3 +146,37 @@
   .auth-form { background: var(--surface) !important; margin-top: -14px; padding-top: 18px !important; border-top-left-radius: 14px; border-top-right-radius: 14px; box-shadow: 0 -8px 24px rgba(2,6,23,0.12); }
   .dark-theme .auth-form { background: var(--surface) !important; }
 }
+
+/* Theme-specific visual styles for better separation */
+.light-theme .auth-visual {
+  background-image: linear-gradient(180deg, rgba(44,119,244,0.95), rgba(56,189,248,0.92));
+  background-size: cover;
+  background-position: center;
+}
+.light-theme .auth-visual::after {
+  background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+}
+.light-theme .auth-visual-content {
+  color: var(--text);
+}
+.light-theme .feature-chip {
+  background: rgba(255,255,255,0.9);
+  color: var(--text);
+  border: 1px solid rgba(255,255,255,0.6);
+}
+
+.dark-theme .auth-visual {
+  background-image: linear-gradient(180deg, rgba(6,14,28,0.95), rgba(10,16,30,0.96));
+  background-size: cover;
+  background-position: center;
+}
+.dark-theme .auth-visual::after {
+  background: linear-gradient(180deg, rgba(0,0,0,0.28), rgba(0,0,0,0.56));
+}
+.dark-theme .auth-visual-content { color: #fff; }
+.dark-theme .feature-chip { background: rgba(255,255,255,0.06); color: #fff; border-color: rgba(255,255,255,0.08); }
+
+/* Ensure form stands out in both themes */
+.light-theme .auth-form { background: var(--surface) !important; box-shadow: var(--shadow); }
+.dark-theme .auth-form { background: rgba(8,12,20,0.98) !important; box-shadow: 0 -10px 30px rgba(0,0,0,0.45); color: var(--text); }
+
