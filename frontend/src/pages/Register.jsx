@@ -1,173 +1,91 @@
 import { useState } from 'react';
 import API from '../services/api';
-import {
- Link
-} from 'react-router-dom';
-
-const Register=({onRegister})=>{
-
-const[username,setUsername]=
-useState('');
-
-const[email,setEmail]=
-useState('');
-
-const[password,setPassword]=
-useState('');
-
-const[error,setError]=
-useState('');
-
-const handleSubmit=
-async(e)=>{
-
-e.preventDefault();
-
-setError('');
-
-try{
-
-await API.post(
-
-'/auth/register',
-
-{
-username,
-email,
-password
-}
-
-);
-
-onRegister();
-
-}
-
-catch(error){
-
-setError(
-
-error.response?.data
-?.message ||
-
-'Register failed'
-
-);
-
-}
-
-};
-
-return(
-
-<div
-style={{
-maxWidth:'400px',
-margin:'50px auto',
-padding:'30px'
-}}
->
-
-<h1>
-Create Account 🚴
-</h1>
-
-{error&&(
-<p>
-{error}
-</p>
-)}
-
-<form
-onSubmit={handleSubmit}
->
-
-<input
-
-placeholder="Username"
-
-value={username}
-
-onChange={(e)=>
-
-setUsername(
-e.target.value
-)
-
-}
-
-required
-
-/>
-
-<input
-
-type="email"
-
-placeholder="Email"
-
-value={email}
-
-onChange={(e)=>
-
-setEmail(
-e.target.value
-)
-
-}
-
-required
-
-/>
-
-<input
-
-type="password"
-
-placeholder="Password"
-
-value={password}
-
-onChange={(e)=>
-
-setPassword(
-e.target.value
-)
-
-}
-
-required
-
-/>
-
-<button
-type="submit"
->
-
-Create Account
-
-</button>
-<p>
-
-Already have
-an account?
-
-<Link
-to="/login"
->
-
- Login
-
-</Link>
-
-</p>
-
-</form>
-
-</div>
-
-);
-
+import { Link } from 'react-router-dom';
+
+const Register = ({ onRegister, darkMode, toggleTheme }) => {
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
+
+    try {
+      await API.post('/auth/register', {
+        username,
+        email,
+        password,
+      });
+      onRegister();
+    } catch (error) {
+      setError(error.response?.data?.message || 'Register failed');
+    }
+  };
+
+  return (
+    <div className="auth-page">
+      <div className="auth-card">
+        <div className="auth-visual">
+          <div className="auth-visual-content">
+            <span className="feature-chip">Discover a better ride</span>
+            <h3>Register and start tracking</h3>
+            <p>
+              Create your account to access intelligent analytics, set new targets,
+              and enjoy an elevated cycling experience.
+            </p>
+          </div>
+        </div>
+
+        <div className="auth-form">
+          <div className="auth-form-inner">
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '12px', marginBottom: '28px' }}>
+              <div>
+                <h2>Create your account</h2>
+                <p>Set up your profile and gain access to personalized tools.</p>
+              </div>
+              <button className="theme-toggle-btn" type="button" onClick={toggleTheme}>
+                {darkMode ? '☀️ Light Mode' : '🌙 Dark Mode'}
+              </button>
+            </div>
+
+            {error && (
+              <div style={{ color: '#ef4444', marginBottom: '14px' }}>{error}</div>
+            )}
+
+            <form onSubmit={handleSubmit}>
+              <input
+                placeholder="Username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                required
+              />
+              <input
+                type="email"
+                placeholder="Email address"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+              <input
+                type="password"
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+              <button type="submit">Create Account</button>
+            </form>
+
+            <div className="auth-footer">
+              Already have an account? <Link to="/login">Log in</Link>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default Register;
