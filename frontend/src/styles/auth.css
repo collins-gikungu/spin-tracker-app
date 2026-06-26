@@ -86,13 +86,12 @@
 /* visual column inside the auth card */
 .auth-visual {
   display: flex;
+  flex-direction: column;
   align-items: stretch;
-  gap: 18px;
-  padding: 18px 18px;
+  gap: 12px;
+  padding: 8px 12px;
 }
-.auth-visual-left { flex: 0 0 48%; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; }
-.auth-visual-right { flex: 1 1 52%; display:flex; align-items:center; }
-.auth-visual-content { z-index: 3; }
+.auth-visual-content { z-index: 3; text-align: left; padding: 6px 4px; }
 .feature-chip {
   display: inline-block;
   background: rgba(255,255,255,0.06);
@@ -105,14 +104,14 @@
 
 .auth-visual-hero-inline {
   width: 100%;
-  height: auto;
-  max-width: 100%;
-  opacity: 0.98;
+  height: 56vh;
+  max-height: 720px;
+  opacity: 1;
   transform: none;
   z-index: 1;
   pointer-events: none;
   animation: floatSmall 6s ease-in-out infinite;
-  object-fit: contain;
+  object-fit: cover;
   border-radius: 8px;
 }
 
@@ -124,6 +123,6 @@
 
 @media (max-width: 780px) {
   .auth-visual { flex-direction: column; }
-  .auth-visual-left { width: 100%; flex: none; }
-  .auth-visual-right { width: 100%; }
+  .auth-visual-hero-inline { height: 42vh; }
+  .auth-visual-content { padding: 8px 6px; }
 }
