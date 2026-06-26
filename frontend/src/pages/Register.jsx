@@ -45,14 +45,18 @@ const Register = ({ onRegister, darkMode, toggleTheme }) => {
       </div>
       <div className="auth-card">
         <div className="auth-visual">
-          <img src={heroSrc} alt="bike" className="auth-visual-hero-inline" />
-          <div className="auth-visual-content">
+          <div className="auth-visual-left">
+            <img src={heroSrc} alt="bike" className="auth-visual-hero-inline" />
             <span className="feature-chip">Discover a better ride</span>
-            <h3>Register and start tracking</h3>
-            <p>
-              Create your account to access intelligent analytics, set new targets,
-              and enjoy an elevated cycling experience.
-            </p>
+          </div>
+          <div className="auth-visual-right">
+            <div className="auth-visual-content">
+              <h3>Register and start tracking</h3>
+              <p>
+                Create your account to access intelligent analytics, set new targets,
+                and enjoy an elevated cycling experience.
+              </p>
+            </div>
           </div>
         </div>
 
