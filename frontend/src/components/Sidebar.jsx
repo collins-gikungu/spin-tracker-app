@@ -2,9 +2,15 @@ import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import "../styles/sidebar.css";
 
-const Sidebar = ({ onLogout }) => {
+const Sidebar = ({ onLogout, theme }) => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
+  const effectiveTheme = theme || {
+    card: '#ffffff',
+    text: '#111827',
+    primary: '#1976d2',
+    secondaryText: '#64748b',
+  };
 
   const isActiveRoute = (path) => {
     if (path === "/") {
@@ -19,13 +25,10 @@ const Sidebar = ({ onLogout }) => {
     marginBottom: '10px',
     borderRadius: '8px',
     textDecoration: 'none',
-    backgroundColor: isActiveRoute(path) ? '#1976d2' : 'transparent',
-    color: isActiveRoute(path) ? 'white' : '#333',
-    fontWeight: 'bold',
+    backgroundColor: isActiveRoute(path) ? effectiveTheme.primary : 'transparent',
+    color: isActiveRoute(path) ? '#ffffff' : effectiveTheme.text,
+    fontWeight: '700',
     transition: 'all 0.3s ease',
-    ':hover': {
-      backgroundColor: isActiveRoute(path) ? '#1976d2' : '#f0f0f0',
-    }
   });
 
   return (
@@ -60,12 +63,13 @@ const Sidebar = ({ onLogout }) => {
         className={isOpen ? 'sidebar open' : 'sidebar'}
         style={{
           padding: '20px',
-          boxShadow: '2px 0 10px rgba(0,0,0,0.1)',
-          background: '#fff',
+          boxShadow: '2px 0 10px rgba(0,0,0,0.08)',
+          background: effectiveTheme.card,
+          color: effectiveTheme.text,
         }}
       >
-        <h2 style={{ marginBottom: '30px', color: '#1976d2' }}>
-          Spin Tracker 🚴
+        <h2 style={{ marginBottom: '30px', color: effectiveTheme.primary }}>
+         Spin Tracker 🚴
         </h2>
 
         <Link
