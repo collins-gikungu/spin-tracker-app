@@ -45,6 +45,7 @@ const Register = ({ onRegister, darkMode, toggleTheme }) => {
       </div>
       <div className="auth-card">
         <div className="auth-visual">
+          <img src={heroSrc} alt="bike" className="auth-visual-hero-inline" />
           <div className="auth-visual-content">
             <span className="feature-chip">Discover a better ride</span>
             <h3>Register and start tracking</h3>
