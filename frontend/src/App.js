@@ -1,119 +1,83 @@
-import { useState } from 'react';
-
+import { useEffect, useState } from 'react';
 import {
-BrowserRouter,
-Routes,
-Route,
-Navigate
-}
-from 'react-router-dom';
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate
+} from 'react-router-dom';
 
-import Dashboard
-from './pages/Dashboard';
-
-import Login
-from './pages/Login';
-
-import Register
-from './pages/Register';
-
-import Profile
-from './pages/Profile';
-
-import WorkoutHistory
-from './pages/WorkoutHistory';
-
-import WorkoutDetails
-from './pages/WorkoutDetails';
-
+import Dashboard from './pages/Dashboard';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import Profile from './pages/Profile';
+import WorkoutHistory from './pages/WorkoutHistory';
+import WorkoutDetails from './pages/WorkoutDetails';
 import Analytics from "./pages/Analytics";
 import Goals from "./pages/Goals";
 import Achievements from "./pages/Achievements";
 import Workouts from "./pages/Workouts";
 import ProtectedRoute from "./components/ProtectedRoute";
+import { lightTheme, darkTheme } from './styles/theme';
 
 import {
-ToastContainer
-}
-from 'react-toastify';
+  ToastContainer
+} from 'react-toastify';
 
-import
-'react-toastify/dist/ReactToastify.css';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
+  const [user, setUser] = useState(() => {
+    const saved = localStorage.getItem('user');
+    return saved ? JSON.parse(saved) : null;
+  });
 
-const [user,setUser]=
-useState(()=>{
+  const [darkMode, setDarkMode] = useState(() => {
+    return localStorage.getItem('darkMode') === 'true';
+  });
 
-const saved=
-localStorage.getItem(
-'user'
-);
+  const theme = darkMode ? darkTheme : lightTheme;
 
-return saved
-? JSON.parse(saved)
-: null;
+  useEffect(() => {
+    localStorage.setItem('darkMode', darkMode);
+    document.documentElement.classList.toggle('dark-theme', darkMode);
+    document.documentElement.classList.toggle('light-theme', !darkMode);
+  }, [darkMode]);
 
-});
+  const handleLogin = (userData) => {
+    setUser(userData);
+  };
 
-const handleLogin=
-(userData)=>{
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    setUser(null);
+  };
 
-setUser(
-userData
-);
+  const toggleTheme = () => {
+    setDarkMode((current) => !current);
+  };
 
-};
-
-const handleLogout=
-()=>{
-
-localStorage.removeItem(
-'token'
-);
-
-localStorage.removeItem(
-'user'
-);
-
-setUser(
-null
-);
-
-};
-
-return(
+  return (
 
 <BrowserRouter>
 
 <Routes>
 
 <Route
-
 path="/login"
-
 element={
-
-user
-
-?
-
-<Navigate
-to="/"
-/>
-
-:
-
-<Login
-onLogin={
-handleLogin
+  user ? (
+    <Navigate to="/" />
+  ) : (
+    <Login
+      onLogin={handleLogin}
+      theme={theme}
+      darkMode={darkMode}
+      toggleTheme={toggleTheme}
+    />
+  )
 }
 />
-
-}
-
-/>
-
 <Route
   path="/register"
   element={
@@ -121,9 +85,10 @@ handleLogin
       <Navigate to="/" />
     ) : (
       <Register
-        onRegister={() =>
-          window.location.href='/login'
-        }
+        onRegister={() => window.location.href = '/login'}
+        theme={theme}
+        darkMode={darkMode}
+        toggleTheme={toggleTheme}
       />
     )
   }
@@ -136,6 +101,9 @@ handleLogin
       <Dashboard
         user={user}
         onLogout={handleLogout}
+        theme={theme}
+        darkMode={darkMode}
+        toggleTheme={toggleTheme}
       />
     </ProtectedRoute>
   }
