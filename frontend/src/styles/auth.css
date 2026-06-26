@@ -154,37 +154,39 @@
     top: 16px !important;
     left: 16px !important;
     right: 16px !important;
-    display: block !important;
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
     z-index: 4 !important;
-    padding: 18px 18px 18px !important;
+    padding: 20px 18px !important;
     margin: 0 !important;
     width: auto !important;
     min-width: 0 !important;
     height: auto !important;
-    background: rgba(7, 11, 21, 0.5) !important;
-    border-radius: 20px !important;
+    background: rgba(7, 11, 21, 0.62) !important;
+    border-radius: 22px !important;
     color: #fff !important;
-    backdrop-filter: blur(14px) !important;
-    justify-content: flex-start !important;
-    align-items: flex-start !important;
+    backdrop-filter: blur(16px) !important;
+    justify-items: stretch !important;
+    align-items: start !important;
   }
   .auth-visual-content h3 {
-    margin: 14px 0 0 !important;
-    line-height: 1.15 !important;
-    font-size: 1.6rem !important;
+    margin: 0 !important;
+    line-height: 1.25 !important;
+    font-size: 1.55rem !important;
   }
   .auth-visual-content p {
-    margin: 12px 0 0 !important;
-    line-height: 1.75 !important;
+    margin: 0 !important;
+    line-height: 1.85 !important;
     max-width: 100% !important;
   }
   .auth-visual-content .feature-chip {
     display: inline-flex !important;
     align-items: center !important;
     gap: 10px !important;
-    margin: 0 0 14px 0 !important;
+    margin: 0 !important;
     padding: 10px 14px !important;
-    background: rgba(255,255,255,0.16) !important;
+    background: rgba(255,255,255,0.18) !important;
     border: 1px solid rgba(255,255,255,0.22) !important;
     border-radius: 999px !important;
     font-size: 0.92rem !important;
