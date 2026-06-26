@@ -129,27 +129,56 @@
   .feature-chip { display: block; margin: 0.25rem 0 0; }
 }
 
-/* Strong mobile overrides to undo global visual card styles */
+/* Strong mobile overrides and visual tweaks */
 @media (max-width: 780px) {
-  .auth-card { border-radius: 0; overflow: visible; }
-  .auth-visual { background-image: none !important; min-height: auto !important; }
-  .auth-visual::after { display: none !important; }
-  .auth-visual-content { padding: 8px 14px !important; justify-content: flex-start !important; }
-  .auth-visual-hero-inline { display: block; margin-bottom: 0 !important; }
-  .feature-chip, .auth-visual-content h3 { margin-top: 8px !important; }
+  .auth-card { border-radius: 14px; overflow: hidden; }
+
+  /* Keep the same blue visual from desktop for light theme on mobile */
+  .light-theme .auth-visual { background-image: linear-gradient(180deg, rgba(44,119,244,0.95), rgba(56,189,248,0.92)) !important; }
+  .light-theme .auth-visual::after { background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02)) !important; }
+
+  /* Dark theme keeps a distinct darker visual */
+  .dark-theme .auth-visual { background-image: linear-gradient(180deg, rgba(6,14,28,0.95), rgba(10,16,30,0.96)) !important; }
+  .dark-theme .auth-visual::after { display: block; }
+
+  .auth-visual { min-height: auto !important; position: relative; }
+  .auth-visual-hero-inline { height: 42vh; display: block; margin: 0; border-radius: 0; object-fit: cover; }
+
+  /* Stronger overlap: pull the form up over the image */
+  .auth-form { background: var(--surface) !important; margin-top: -56px; padding-top: 22px !important; border-top-left-radius: 18px; border-top-right-radius: 18px; box-shadow: 0 -12px 30px rgba(2,6,23,0.14); }
+  .dark-theme .auth-form { background: rgba(8,12,20,0.98) !important; }
+
+  /* Feature chip overlays the image */
+  .feature-chip {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: calc(42vh - 34px);
+    z-index: 4;
+    padding: 10px 16px;
+    border-radius: 999px;
+    backdrop-filter: blur(6px);
+  }
+
+  .light-theme .feature-chip { background: rgba(255,255,255,0.9); color: var(--text); border: 1px solid rgba(255,255,255,0.7); }
+  .dark-theme .feature-chip { background: rgba(7,10,20,0.6); color: #fff; border: 1px solid rgba(255,255,255,0.06); }
+
+  /* Ensure the content under the image has no extra gap */
+  .auth-visual-content { padding: 10px 14px 18px; margin: 0; }
+  .auth-visual-content h3 { margin: 8px 0 0; }
 }
 
 /* Mobile: keep visual separation between image and form */
 @media (max-width: 780px) {
   .auth-card { border-radius: 18px; overflow: hidden; }
   .auth-visual-hero-inline { display: block; border-radius: 0; }
-  .auth-form { background: var(--surface) !important; margin-top: -14px; padding-top: 18px !important; border-top-left-radius: 14px; border-top-right-radius: 14px; box-shadow: 0 -8px 24px rgba(2,6,23,0.12); }
+  .auth-form { background: var(--surface) !important; margin-top: -28px; padding-top: 22px !important; border-top-left-radius: 14px; border-top-right-radius: 14px; box-shadow: 0 -14px 34px rgba(2,6,23,0.16); }
   .dark-theme .auth-form { background: var(--surface) !important; }
 }
 
 /* Theme-specific visual styles for better separation */
 .light-theme .auth-visual {
-  background-image: linear-gradient(180deg, rgba(44,119,244,0.95), rgba(56,189,248,0.92));
+  background-image: linear-gradient(180deg, rgba(44,119,244,1), rgba(56,189,248,0.95));
   background-size: cover;
   background-position: center;
 }
@@ -163,6 +192,28 @@
   background: rgba(255,255,255,0.9);
   color: var(--text);
   border: 1px solid rgba(255,255,255,0.6);
+}
+
+/* Feature chip overlay on image */
+.auth-visual { position: relative; }
+.feature-chip.overlay {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 12%;
+  z-index: 6;
+  background: rgba(255,255,255,0.78);
+  padding: 10px 16px;
+  border-radius: 999px;
+  box-shadow: 0 6px 18px rgba(2,6,23,0.12);
+}
+
+@media (max-width: 780px) {
+  /* apply desktop blue gradient on mobile too */
+  .light-theme .auth-visual { background-image: linear-gradient(180deg, rgba(44,119,244,1), rgba(56,189,248,0.95)); }
+  .auth-visual-hero-inline { height: 48vh; }
+  .auth-form { margin-top: -36px; }
+  .feature-chip.overlay { top: 8%; left: 50%; transform: translateX(-50%); padding: 8px 12px; }
 }
 
 .dark-theme .auth-visual {
