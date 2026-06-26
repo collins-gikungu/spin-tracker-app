@@ -122,7 +122,9 @@
 }
 
 @media (max-width: 780px) {
-  .auth-visual { flex-direction: column; }
-  .auth-visual-hero-inline { height: 42vh; }
-  .auth-visual-content { padding: 8px 6px; }
+  .auth-visual { flex-direction: column; gap: 0; padding: 0; line-height: 0; }
+  .auth-visual-hero-inline { height: 42vh; display: block; margin: 0; border-radius: 0; }
+  .auth-visual-content { padding: 0; margin: 0; line-height: 1.2; }
+  .auth-visual-content h3 { margin: 0.25rem 0 0; }
+  .feature-chip { display: block; margin: 0.25rem 0 0; }
 }
