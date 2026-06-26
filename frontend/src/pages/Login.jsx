@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import API from '../services/api';
 import { Link } from 'react-router-dom';
+import '../styles/auth.css';
+
+const heroSrc = '/image001.png';
 
 const Login = ({ onLogin, darkMode, toggleTheme }) => {
   const [email, setEmail] = useState('');
@@ -27,6 +30,21 @@ const Login = ({ onLogin, darkMode, toggleTheme }) => {
 
   return (
     <div className="auth-page">
+      <div className="auth-bg">
+        <div className="blob one" />
+        <div className="blob two" />
+        <div className="blob three" />
+
+        <div className="particle-wrap">
+          <div className="particle" style={{ left: '12%', top: '80%', animationDelay: '0s' }} />
+          <div className="particle" style={{ left: '28%', top: '70%', animationDelay: '1.2s' }} />
+          <div className="particle" style={{ left: '48%', top: '88%', animationDelay: '2.4s' }} />
+          <div className="particle" style={{ left: '72%', top: '82%', animationDelay: '3.6s' }} />
+          <div className="particle" style={{ left: '86%', top: '68%', animationDelay: '4.4s' }} />
+        </div>
+
+        <img src={heroSrc} alt="bike hero" className="auth-hero" />
+      </div>
       <div className="auth-card">
         <div className="auth-visual">
           <div className="auth-visual-content">
