@@ -61,14 +61,36 @@ const Profile = ({ onLogout }) => {
     }
   };
 
-  const handleAvatarChange = (e) => {
+  const handleAvatarChange = async (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
+    if (!file.type.startsWith('image/')) {
+      setMessage('Please choose a valid image file.');
+      return;
+    }
+
+    if (file.size > 2 * 1024 * 1024) {
+      setMessage('Please choose an image smaller than 2MB.');
+      return;
+    }
+
     const reader = new FileReader();
-    reader.onloadend = () => {
-      setAvatarPreview(reader.result);
+    reader.onloadend = async () => {
+      const dataUrl = reader.result;
+      setAvatarPreview(dataUrl);
       setAvatarFileName(file.name);
+
+      try {
+        const response = await API.post('/auth/avatar', { avatar_url: dataUrl });
+        const updatedUser = response.data.user;
+        setProfile(updatedUser);
+        setMessage('Profile photo saved to your database 📸');
+        localStorage.setItem('user', JSON.stringify(updatedUser));
+      } catch (error) {
+        console.error(error);
+        setMessage('Photo upload failed');
+      }
     };
     reader.readAsDataURL(file);
   };
