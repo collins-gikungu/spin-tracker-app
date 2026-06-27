@@ -1,6 +1,4 @@
 import {
-  LineChart,
-  Line,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -10,19 +8,7 @@ import {
   AreaChart
 } from 'recharts';
 
-const ProgressChart = ({ data, theme,}) => {
-
-  const formattedData = data.map(
-    (item) => ({
-      week: new Date(
-        item.week_start
-      ).toLocaleDateString(),
-
-      distance: Number(
-        item.total_distance_km
-      ),
-    })
-  );
+const ProgressChart = ({ data, theme }) => {
 
   return (
     <div
