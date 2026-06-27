@@ -1,12 +1,97 @@
 .sidebar {
-  width: 250px;
+  width: 270px;
+  max-width: 80vw;
   min-height: 100vh;
-  background: #fff;
-  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
-  padding: 20px;
+  padding: 24px 18px;
   position: sticky;
   top: 0;
   transition: transform 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: linear-gradient(180deg, var(--surface-soft) 0%, var(--surface) 100%);
+  border-right: 1px solid var(--border);
+  backdrop-filter: blur(18px);
+  box-shadow: 8px 0 30px rgba(15, 23, 42, 0.06);
+}
+
+.sidebar .brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 6px 20px;
+  margin-bottom: 8px;
+}
+
+.sidebar .brand-badge {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  color: white;
+  font-size: 1.1rem;
+  box-shadow: 0 10px 24px rgba(79, 124, 255, 0.24);
+}
+
+.sidebar .brand h2 {
+  margin: 0;
+  font-size: 1.06rem;
+  color: var(--text);
+}
+
+.sidebar .brand p {
+  margin: 2px 0 0;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.sidebar .nav-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  text-decoration: none;
+  color: var(--text);
+  font-weight: 700;
+  transition: all 0.23s ease;
+}
+
+.sidebar .nav-link:hover {
+  background: rgba(79, 124, 255, 0.08);
+  transform: translateX(2px);
+}
+
+.sidebar .nav-link.active {
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  color: white;
+  box-shadow: 0 10px 24px rgba(79, 124, 255, 0.2);
+}
+
+.sidebar .nav-icon {
+  display: inline-flex;
+  width: 32px;
+  height: 32px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.16);
+  font-size: 0.95rem;
+}
+
+.sidebar .logout-btn {
+  margin-top: auto;
+  width: 100%;
+  padding: 12px 14px;
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  font-weight: 700;
+  color: white;
+  background: linear-gradient(135deg, #f87171, #ef4444);
+  box-shadow: 0 10px 24px rgba(239, 68, 68, 0.2);
 }
 
 .mobile-menu-btn {
@@ -15,7 +100,6 @@
 
 /* Mobile Layout */
 @media (max-width: 768px) {
-
   .mobile-menu-btn {
     display: block !important;
   }
@@ -38,23 +122,17 @@
 }
 
 @media (max-width: 768px) {
-
   .sidebar-overlay {
     display: block;
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.45);
+    background: rgba(2, 8, 23, 0.55);
     z-index: 998;
   }
-
 }
 
 body,
 html {
   overflow-x: hidden;
   max-width: 100%;
-}
-.sidebar {
-  width: 260px;
-  max-width: 80vw;
 }
