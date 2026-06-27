@@ -19,8 +19,8 @@ achievements
       style={{
         display:'grid',
 gridTemplateColumns:
-'repeat(3,1fr)',
-        gap:'20px'
+'repeat(auto-fit, minmax(220px, 1fr))',
+        gap:'16px'
       }}
     >
 
