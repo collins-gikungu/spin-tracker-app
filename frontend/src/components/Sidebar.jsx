@@ -19,17 +19,7 @@ const Sidebar = ({ onLogout, theme }) => {
     return location.pathname.startsWith(path);
   };
 
-  const navStyle = (path) => ({
-    display: 'block',
-    padding: '12px 16px',
-    marginBottom: '10px',
-    borderRadius: '8px',
-    textDecoration: 'none',
-    backgroundColor: isActiveRoute(path) ? effectiveTheme.primary : 'transparent',
-    color: isActiveRoute(path) ? '#ffffff' : effectiveTheme.text,
-    fontWeight: '700',
-    transition: 'all 0.3s ease',
-  });
+  const navClassName = (path) => `nav-link ${isActiveRoute(path) ? 'active' : ''}`;
 
   return (
     <>
@@ -52,81 +42,59 @@ const Sidebar = ({ onLogout, theme }) => {
         ☰
       </button>
 
-      {isOpen && (
-  <div
-    className="sidebar-overlay"
-    onClick={() => setIsOpen(false)}
-  />
-)}
+      {isOpen && <div className="sidebar-overlay" onClick={() => setIsOpen(false)} />}
 
       <div
         className={isOpen ? 'sidebar open' : 'sidebar'}
         style={{
-          padding: '20px',
-          boxShadow: '2px 0 10px rgba(0,0,0,0.08)',
           background: effectiveTheme.card,
           color: effectiveTheme.text,
         }}
       >
-        <h2 style={{ marginBottom: '30px', color: effectiveTheme.primary }}>
-         Spin Tracker 🚴
-        </h2>
+        <div className="brand">
+          <div className="brand-badge">⚡</div>
+          <div>
+            <h2>Spin Tracker</h2>
+            <p>Fitness OS</p>
+          </div>
+        </div>
 
-        <Link
-  to="/"
-  style={navStyle('/')}
-  onClick={() => setIsOpen(false)}
->
-          🏠 Dashboard
+        <Link to="/" className={navClassName('/')} onClick={() => setIsOpen(false)}>
+          <span className="nav-icon">🏠</span>
+          <span>Dashboard</span>
         </Link>
 
-        <Link to="/history" style={navStyle('/history')}
-        onClick={() => setIsOpen(false)}>
-          📜 History
+        <Link to="/history" className={navClassName('/history')} onClick={() => setIsOpen(false)}>
+          <span className="nav-icon">📜</span>
+          <span>History</span>
         </Link>
 
-        <Link to="/workouts" style={navStyle('/workouts')}
-        onClick={() => setIsOpen(false)}>
-          🚴 Workouts
+        <Link to="/workouts" className={navClassName('/workouts')} onClick={() => setIsOpen(false)}>
+          <span className="nav-icon">🚴</span>
+          <span>Workouts</span>
         </Link>
 
-        <Link to="/analytics" style={navStyle('/analytics')}
-        onClick={() => setIsOpen(false)}>
-          📊 Analytics
+        <Link to="/analytics" className={navClassName('/analytics')} onClick={() => setIsOpen(false)}>
+          <span className="nav-icon">📊</span>
+          <span>Analytics</span>
         </Link>
 
-        <Link to="/goals" style={navStyle('/goals')}
-        onClick={() => setIsOpen(false)}>
-          🎯 Goals
+        <Link to="/goals" className={navClassName('/goals')} onClick={() => setIsOpen(false)}>
+          <span className="nav-icon">🎯</span>
+          <span>Goals</span>
         </Link>
 
-        <Link to="/achievements" style={navStyle('/achievements')}
-        onClick={() => setIsOpen(false)}>
-          🏆 Achievements
+        <Link to="/achievements" className={navClassName('/achievements')} onClick={() => setIsOpen(false)}>
+          <span className="nav-icon">🏆</span>
+          <span>Achievements</span>
         </Link>
 
-        <Link to="/profile" style={navStyle('/profile')}
-        onClick={() => setIsOpen(false)}>
-          👤 Profile
+        <Link to="/profile" className={navClassName('/profile')} onClick={() => setIsOpen(false)}>
+          <span className="nav-icon">👤</span>
+          <span>Profile</span>
         </Link>
 
-        <button
-          onClick={onLogout}
-          style={{
-            width: '100%',
-            padding: '12px',
-            border: 'none',
-            borderRadius: '8px',
-            cursor: 'pointer',
-            marginTop: '20px',
-            background: '#d32f2f',
-            color: 'white',
-            fontWeight: 'bold',
-            transition: 'all 0.3s ease',
-          }}
-          onMouseEnter={(e) => e.currentTarget.style.opacity = '0.8'}
-          onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
-        >
+        <button className="logout-btn" onClick={onLogout}>
           Logout
         </button>
       </div>
