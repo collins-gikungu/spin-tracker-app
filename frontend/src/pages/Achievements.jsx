@@ -7,6 +7,7 @@ import ActivityFeed from "../components/ActivityFeed";
 import StatsCards from "../components/StatsCards";
 import API from '../services/api';
 import { lightTheme, darkTheme } from '../styles/theme';
+import '../styles/dashboard.css';
 
 const Achievements = () => {
   const [achievements, setAchievements] = useState([]);
@@ -109,14 +110,15 @@ const Achievements = () => {
   <AppLayout
     theme={theme}
   >
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-        <div>
+      <div className="page-hero">
+        <div className="page-hero-title">
           <h1 style={{ color: theme.text }}>🏆 Achievements Center</h1>
           <p style={{ color: theme.text }}>
             Celebrate milestones, unlock badges, and track your fitness accomplishments.
           </p>
         </div>
         <button
+          className="page-hero-toggle"
           onClick={toggleTheme}
           style={{
             padding: '10px 16px',
