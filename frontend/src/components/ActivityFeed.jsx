@@ -17,8 +17,9 @@ const ActivityFeed = ({
         display:'flex',
         flexDirection:'column',
         gap:'15px',
-         maxHeight:'500px',
+        maxHeight:'500px',
         overflowY:'auto',
+        paddingRight:'4px',
       }}
     >
 
@@ -40,14 +41,16 @@ const ActivityFeed = ({
               borderRadius:'16px',
 
               display:'flex',
-              alignItems:'center',
-              gap:'15px'
+              alignItems:'flex-start',
+              gap:'15px',
+              flexWrap:'wrap'
             }}
           >
 
             <div
               style={{
-                fontSize:'2rem'
+                fontSize:'2rem',
+                flexShrink: 0,
               }}
             >
               {activity.icon}
