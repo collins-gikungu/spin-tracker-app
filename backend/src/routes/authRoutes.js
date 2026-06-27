@@ -367,6 +367,90 @@ message:
 
 );
 
+router.post(
+
+'/avatar',
+
+authMiddleware,
+
+async(req,res)=>{
+
+try{
+
+const{
+avatar_url
+}=req.body;
+
+if(!avatar_url){
+
+return res
+.status(400)
+.json({
+
+message:
+'Avatar image is required'
+
+});
+
+}
+
+const updatedUser=
+await pool.query(
+
+`
+UPDATE users
+
+SET avatar_url=$1
+
+WHERE id=$2
+
+RETURNING
+
+id,
+username,
+email,
+avatar_url,
+created_at
+`,
+
+[
+avatar_url,
+req.user.id
+]
+
+);
+
+res.json({
+
+message:
+'Avatar updated successfully',
+
+user:
+updatedUser.rows[0]
+
+});
+
+}
+
+catch(error){
+
+console.error(error);
+
+res
+.status(500)
+.json({
+
+message:
+'Server error'
+
+});
+
+}
+
+}
+
+);
+
 router.put(
 
 '/profile',
