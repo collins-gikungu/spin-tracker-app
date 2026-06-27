@@ -17,6 +17,19 @@ const jwt =
 const pool =
   require('../config/db');
 
+const ensureAvatarColumn = async () => {
+  try {
+    await pool.query(`
+      ALTER TABLE users
+      ADD COLUMN IF NOT EXISTS avatar_url TEXT
+    `);
+  } catch (error) {
+    console.error('Could not ensure avatar column exists:', error);
+  }
+};
+
+ensureAvatarColumn();
+
 router.post(
 '/register',
 
@@ -310,6 +323,7 @@ SELECT
 id,
 username,
 email,
+avatar_url,
 created_at
 
 FROM users
@@ -365,7 +379,8 @@ try{
 
 const{
 username,
-email
+email,
+avatar_url
 }=req.body;
 
 const updatedUser=
@@ -377,21 +392,24 @@ UPDATE users
 SET
 
 username=$1,
-email=$2
+email=$2,
+avatar_url=$3
 
-WHERE id=$3
+WHERE id=$4
 
 RETURNING
 
 id,
 username,
 email,
+avatar_url,
 created_at
 `,
 
 [
 username,
 email,
+avatar_url || null,
 req.user.id
 ]
 
@@ -414,6 +432,136 @@ catch(error){
 console.error(
 error
 );
+
+res
+.status(500)
+.json({
+
+message:
+'Server error'
+
+});
+
+}
+
+}
+
+);
+
+router.put(
+
+'/password',
+
+authMiddleware,
+
+async(req,res)=>{
+
+try{
+
+const{
+currentPassword,
+newPassword
+}=req.body;
+
+if(
+!currentPassword ||
+!newPassword
+){
+
+return res
+.status(400)
+.json({
+
+message:
+'Current and new password are required'
+
+});
+
+}
+
+const userResult=
+await pool.query(
+
+`
+SELECT password_hash
+FROM users
+WHERE id=$1
+`,
+
+[
+req.user.id
+]
+
+);
+
+const foundUser=
+userResult.rows[0];
+
+if(!foundUser){
+
+return res
+.status(404)
+.json({
+
+message:
+'User not found'
+
+});
+
+}
+
+const validPassword=
+await bcrypt.compare(
+currentPassword,
+foundUser.password_hash
+);
+
+if(!validPassword){
+
+return res
+.status(401)
+.json({
+
+message:
+'Current password is incorrect'
+
+});
+
+}
+
+const hashedPassword=
+await bcrypt.hash(
+newPassword,
+10
+);
+
+await pool.query(
+
+`
+UPDATE users
+SET password_hash=$1
+WHERE id=$2
+`,
+
+[
+hashedPassword,
+req.user.id
+]
+
+);
+
+res.json({
+
+message:
+'Password updated successfully'
+
+});
+
+}
+
+catch(error){
+
+console.error(error);
 
 res
 .status(500)
