@@ -7,7 +7,13 @@ const authRoutes = require('./src/routes/authRoutes');
 
 const allowedOrigins = [
   'http://localhost:3000',
+  'http://127.0.0.1:3000',
   'http://192.168.0.104:3000',
+
+  // Netlify Production
+  'https://spinbiketracker.netlify.app',
+
+  // Environment Variable (optional)
   process.env.FRONTEND_URL,
 ].filter(Boolean);
 
