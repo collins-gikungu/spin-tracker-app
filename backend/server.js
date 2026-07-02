@@ -35,12 +35,22 @@ const isLocalDevOrigin = (origin) => {
 app.use(
   cors({
     origin: (origin, callback) => {
-      if (!origin || allowedOrigins.includes(origin) || isLocalDevOrigin(origin)) {
-        callback(null, true);
-      } else {
-        callback(null, false);
-      }
-    },
+  console.log("Incoming Origin:", origin);
+
+  if (
+    !origin ||
+    allowedOrigins.includes(origin) ||
+    isLocalDevOrigin(origin)
+  ) {
+    return callback(null, true);
+  }
+
+  console.log("Blocked Origin:", origin);
+
+  return callback(
+    new Error(`Origin ${origin} not allowed by CORS`)
+  );
+},
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
