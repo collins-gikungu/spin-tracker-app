@@ -661,5 +661,247 @@ message:
 }
 
 );
-module.exports =
-router;
+
+router.post(
+'/forgot-password',
+async(req,res)=>{
+
+try{
+
+const{
+email
+}=req.body;
+
+if(!email){
+
+return res
+.status(400)
+.json({
+
+message:
+'Email is required'
+
+});
+
+}
+
+const user=
+await pool.query(
+
+`
+SELECT id, email
+FROM users
+WHERE email=$1
+`,
+
+[email]
+
+);
+
+if(!user.rows.length){
+
+return res
+.status(404)
+.json({
+
+message:
+'User not found'
+
+});
+
+}
+
+const foundUser=
+user.rows[0];
+
+const resetToken=
+jwt.sign(
+
+{
+id:
+foundUser.id,
+
+email:
+foundUser.email,
+
+type:
+'password-reset'
+
+},
+
+process.env.JWT_SECRET,
+
+{
+expiresIn:'1h'
+}
+
+);
+
+const resetLink=
+`${process.env.FRONTEND_URL || 'http://localhost:3000'}/reset-password?token=${resetToken}`;
+
+console.log('Password reset link:', resetLink);
+
+res.json({
+
+message:
+'Password reset email sent. Check your email for instructions.',
+
+resetLink
+
+});
+
+}
+
+catch(error){
+
+console.error(error);
+
+res
+.status(500)
+.json({
+
+message:
+'Server error'
+
+});
+
+}
+
+}
+
+);
+
+router.post(
+
+'/reset-password',
+
+async(req,res)=>{
+
+try{
+
+const{
+token,
+newPassword
+}=req.body;
+
+if(
+!token ||
+!newPassword
+){
+
+return res
+.status(400)
+.json({
+
+message:
+'Token and new password are required'
+
+});
+
+}
+
+if(newPassword.length < 6){
+
+return res
+.status(400)
+.json({
+
+message:
+'Password must be at least 6 characters'
+
+});
+
+}
+
+let decoded;
+
+try{
+
+decoded=
+jwt.verify(
+
+token,
+process.env.JWT_SECRET
+
+);
+
+}
+
+catch(error){
+
+return res
+.status(401)
+.json({
+
+message:
+'Invalid or expired reset token'
+
+});
+
+}
+
+if(
+decoded.type !==
+'password-reset'
+){
+
+return res
+.status(401)
+.json({
+
+message:
+'Invalid token'
+
+});
+
+}
+
+const hashedPassword=
+await bcrypt.hash(
+newPassword,
+10
+);
+
+await pool.query(
+
+`
+UPDATE users
+SET password_hash=$1
+WHERE id=$2
+`,
+
+[
+hashedPassword,
+decoded.id
+]
+
+);
+
+res.json({
+
+message:
+'Password reset successfully'
+
+});
+
+}
+
+catch(error){
+
+console.error(error);
+
+res
+.status(500)
+.json({
+
+message:
+'Server error'
+
+});
+
+}
+
+}
+
+);
