@@ -94,6 +94,8 @@ const Login = ({ onLogin, darkMode, toggleTheme }) => {
 
             <div className="auth-footer">
               No account yet? <Link to="/register">Create one now</Link>
+              <br />
+              <Link to="/forgot-password" style={{ fontSize: '0.9em', marginTop: '8px', display: 'block' }}>Forgot password?</Link>
             </div>
           </div>
         </div>
