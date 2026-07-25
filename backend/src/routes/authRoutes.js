@@ -905,3 +905,5 @@ message:
 }
 
 );
+
+module.exports = router;
