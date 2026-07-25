@@ -17,6 +17,9 @@ const jwt =
 const pool =
   require('../config/db');
 
+const { sendPasswordResetEmail } =
+  require('../services/emailService');
+
 const ensureAvatarColumn = async () => {
   try {
     await pool.query(`
@@ -740,14 +743,21 @@ expiresIn:'1h'
 const resetLink=
 `${process.env.FRONTEND_URL || 'http://localhost:3000'}/reset-password?token=${resetToken}`;
 
-console.log('Password reset link:', resetLink);
+try {
+  await sendPasswordResetEmail(email, resetToken);
+} catch (emailError) {
+  console.error('Failed to send email:', emailError);
+  return res
+    .status(500)
+    .json({
+      message: 'Failed to send password reset email. Please try again later.'
+    });
+}
 
 res.json({
 
 message:
 'Password reset email sent. Check your email for instructions.',
-
-resetLink
 
 });
 
