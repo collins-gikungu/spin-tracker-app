@@ -9,6 +9,8 @@ import {
 import Dashboard from './pages/Dashboard';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import ForgotPassword from './pages/ForgotPassword';
+import ResetPassword from './pages/ResetPassword';
 import Profile from './pages/Profile';
 import WorkoutHistory from './pages/WorkoutHistory';
 import WorkoutDetails from './pages/WorkoutDetails';
@@ -86,6 +88,36 @@ element={
     ) : (
       <Register
         onRegister={() => window.location.href = '/login'}
+        theme={theme}
+        darkMode={darkMode}
+        toggleTheme={toggleTheme}
+      />
+    )
+  }
+/>
+
+<Route
+  path="/forgot-password"
+  element={
+    user ? (
+      <Navigate to="/" />
+    ) : (
+      <ForgotPassword
+        theme={theme}
+        darkMode={darkMode}
+        toggleTheme={toggleTheme}
+      />
+    )
+  }
+/>
+
+<Route
+  path="/reset-password"
+  element={
+    user ? (
+      <Navigate to="/" />
+    ) : (
+      <ResetPassword
         theme={theme}
         darkMode={darkMode}
         toggleTheme={toggleTheme}
