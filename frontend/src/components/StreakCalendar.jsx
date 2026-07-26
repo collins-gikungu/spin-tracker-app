@@ -1,0 +1,116 @@
+import { useMemo } from 'react';
+
+const msPerDay = 24 * 60 * 60 * 1000;
+
+const formatDate = (date) => date.toISOString().slice(0, 10);
+
+const StreakCalendar = ({ workouts = [], theme = {} }) => {
+  const dateSet = useMemo(() => {
+    const s = new Set();
+    workouts.forEach((w) => {
+      try {
+        const d = new Date(w.created_at);
+        s.add(formatDate(d));
+      } catch (e) {}
+    });
+    return s;
+  }, [workouts]);
+
+  const today = new Date();
+  const startAnchor = new Date(today);
+  startAnchor.setDate(startAnchor.getDate() - 364);
+  // move back to previous Sunday so weeks align vertically like Duolingo/GitHub
+  const start = new Date(startAnchor);
+  start.setDate(start.getDate() - start.getDay());
+
+  const weeks = [];
+  // build weeks (columns)
+  for (let w = 0; w < 53; w++) {
+    const week = [];
+    for (let d = 0; d < 7; d++) {
+      const dt = new Date(start);
+      dt.setDate(start.getDate() + w * 7 + d);
+      const iso = formatDate(dt);
+      const inRange = dt >= startAnchor && dt <= today;
+      week.push({ date: dt, iso, hasWorkout: dateSet.has(iso), inRange });
+    }
+    weeks.push(week);
+  }
+
+  // compute current streak
+  let currentStreak = 0;
+  for (let i = 0; i < 365; i++) {
+    const dt = new Date();
+    dt.setDate(today.getDate() - i);
+    const iso = formatDate(dt);
+    if (dateSet.has(iso)) currentStreak++;
+    else break;
+  }
+
+  // compute longest streak
+  let longest = 0;
+  let run = 0;
+  // iterate from oldest to newest
+  for (let i = 364; i >= 0; i--) {
+    const dt = new Date();
+    dt.setDate(today.getDate() - i);
+    const iso = formatDate(dt);
+    if (dateSet.has(iso)) {
+      run++;
+      longest = Math.max(longest, run);
+    } else {
+      run = 0;
+    }
+  }
+
+  const cellSize = 12;
+
+  return (
+    <div style={{ marginTop: 18 }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
+        <div>
+          <h3 style={{ margin: 0, color: theme.text }}>Streak Calendar</h3>
+          <p style={{ margin: '6px 0 0', color: theme.text, fontSize: 13 }}>
+            Current streak: <strong style={{ color: theme.primary }}>{currentStreak}</strong> days • Longest: <strong style={{ color: theme.primary }}>{longest}</strong>
+          </p>
+        </div>
+        <div style={{ color: theme.text, fontSize: 12 }}>
+          Showing last 365 days
+        </div>
+      </div>
+
+      <div style={{ display: 'flex', gap: 6 }}>
+        {weeks.map((week, wi) => (
+          <div key={wi} style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+            {week.map((day, di) => {
+              const bg = !day.inRange
+                ? 'transparent'
+                : day.hasWorkout
+                ? theme.primary || '#2f9e44'
+                : theme.cardBackground || '#f0f0f0';
+              const border = day.inRange ? `1px solid ${theme.border || '#e6e6e6'}` : '1px solid transparent';
+              return (
+                <div
+                  key={di}
+                  title={`${day.iso}${day.hasWorkout ? ' — workout' : ''}`}
+                  style={{
+                    width: cellSize,
+                    height: cellSize,
+                    borderRadius: 3,
+                    background: bg,
+                    border,
+                    boxSizing: 'border-box',
+                    opacity: day.inRange ? 1 : 0.2,
+                    cursor: day.inRange ? 'default' : 'not-allowed'
+                  }}
+                />
+              );
+            })}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default StreakCalendar;
