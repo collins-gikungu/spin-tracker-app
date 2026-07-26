@@ -1,19 +1,21 @@
-import { useMemo } from 'react';
+import { useMemo, useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const msPerDay = 24 * 60 * 60 * 1000;
 
 const formatDate = (date) => date.toISOString().slice(0, 10);
 
 const StreakCalendar = ({ workouts = [], theme = {} }) => {
-  const dateSet = useMemo(() => {
-    const s = new Set();
+  const dateCounts = useMemo(() => {
+    const m = new Map();
     workouts.forEach((w) => {
       try {
         const d = new Date(w.created_at);
-        s.add(formatDate(d));
+        const iso = formatDate(d);
+        m.set(iso, (m.get(iso) || 0) + 1);
       } catch (e) {}
     });
-    return s;
+    return m;
   }, [workouts]);
 
   const today = new Date();
@@ -32,7 +34,8 @@ const StreakCalendar = ({ workouts = [], theme = {} }) => {
       dt.setDate(start.getDate() + w * 7 + d);
       const iso = formatDate(dt);
       const inRange = dt >= startAnchor && dt <= today;
-      week.push({ date: dt, iso, hasWorkout: dateSet.has(iso), inRange });
+      const count = dateCounts.get(iso) || 0;
+      week.push({ date: dt, iso, count, hasWorkout: count > 0, inRange });
     }
     weeks.push(week);
   }
@@ -43,7 +46,7 @@ const StreakCalendar = ({ workouts = [], theme = {} }) => {
     const dt = new Date();
     dt.setDate(today.getDate() - i);
     const iso = formatDate(dt);
-    if (dateSet.has(iso)) currentStreak++;
+    if ((dateCounts.get(iso) || 0) > 0) currentStreak++;
     else break;
   }
 
@@ -55,7 +58,7 @@ const StreakCalendar = ({ workouts = [], theme = {} }) => {
     const dt = new Date();
     dt.setDate(today.getDate() - i);
     const iso = formatDate(dt);
-    if (dateSet.has(iso)) {
+    if ((dateCounts.get(iso) || 0) > 0) {
       run++;
       longest = Math.max(longest, run);
     } else {
@@ -63,7 +66,23 @@ const StreakCalendar = ({ workouts = [], theme = {} }) => {
     }
   }
 
-  const cellSize = 12;
+  const navigate = useNavigate();
+
+  const [cellSize, setCellSize] = useState(12);
+  useEffect(() => {
+    const calc = () => {
+      const w = window.innerWidth;
+      if (w < 420) setCellSize(10);
+      else if (w < 768) setCellSize(12);
+      else setCellSize(14);
+    };
+    calc();
+    window.addEventListener('resize', calc);
+    return () => window.removeEventListener('resize', calc);
+  }, []);
+
+  // color scale like GitHub heatmap (0..4)
+  const colors = [theme.cardBackground || '#ebedf0', '#c6e48b', '#7bc96f', '#239a3b', '#196127'];
 
   return (
     <div style={{ marginTop: 18 }}>
@@ -83,16 +102,19 @@ const StreakCalendar = ({ workouts = [], theme = {} }) => {
         {weeks.map((week, wi) => (
           <div key={wi} style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
             {week.map((day, di) => {
-              const bg = !day.inRange
-                ? 'transparent'
-                : day.hasWorkout
-                ? theme.primary || '#2f9e44'
-                : theme.cardBackground || '#f0f0f0';
+              const count = day.count || 0;
+              const level = Math.min(count, colors.length - 1);
+              const bg = !day.inRange ? 'transparent' : colors[level];
               const border = day.inRange ? `1px solid ${theme.border || '#e6e6e6'}` : '1px solid transparent';
+              const title = `${day.iso} — ${count} workout${count !== 1 ? 's' : ''}`;
               return (
                 <div
                   key={di}
-                  title={`${day.iso}${day.hasWorkout ? ' — workout' : ''}`}
+                  title={title}
+                  onClick={() => {
+                    if (!day.inRange) return;
+                    navigate(`/history?date=${day.iso}`);
+                  }}
                   style={{
                     width: cellSize,
                     height: cellSize,
@@ -101,7 +123,7 @@ const StreakCalendar = ({ workouts = [], theme = {} }) => {
                     border,
                     boxSizing: 'border-box',
                     opacity: day.inRange ? 1 : 0.2,
-                    cursor: day.inRange ? 'default' : 'not-allowed'
+                    cursor: day.inRange ? 'pointer' : 'not-allowed'
                   }}
                 />
               );
