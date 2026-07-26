@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import AppLayout from '../components/AppLayout';
+import StreakCalendar from '../components/StreakCalendar';
 import API from '../services/api';
 import { lightTheme, darkTheme } from '../styles/theme';
 
@@ -93,6 +94,8 @@ const WorkoutHistory = () => {
       <div style={{ padding: '24px' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
           <div>
+          {/* Streak calendar */}
+          <StreakCalendar workouts={workouts} theme={theme} />
             <h1 style={{ color: theme.text }}>📜 Workout History</h1>
             <p style={{ color: theme.text }}>
               Total Workouts: {workouts.length}
