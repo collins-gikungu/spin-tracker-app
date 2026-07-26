@@ -1,8 +1,6 @@
 import { useMemo, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const msPerDay = 24 * 60 * 60 * 1000;
-
 const formatDate = (date) => date.toISOString().slice(0, 10);
 
 const StreakCalendar = ({ workouts = [], theme = {} }) => {
