@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import AppLayout from '../components/AppLayout';
 import StreakCalendar from '../components/StreakCalendar';
@@ -8,6 +8,7 @@ import { lightTheme, darkTheme } from '../styles/theme';
 
 const WorkoutHistory = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [workouts, setWorkouts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
@@ -16,6 +17,7 @@ const WorkoutHistory = () => {
   const [darkMode, setDarkMode] = useState(() => {
     return localStorage.getItem('darkMode') === 'true';
   });
+  const [selectedDate, setSelectedDate] = useState(null);
   const theme = darkMode ? darkTheme : lightTheme;
 
   const workoutsPerPage = 6;
@@ -23,6 +25,14 @@ const WorkoutHistory = () => {
   useEffect(() => {
     fetchWorkouts();
   }, []);
+
+  // read date from querystring when present
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const date = params.get('date');
+    if (date) setSelectedDate(date);
+    else setSelectedDate(null);
+  }, [location.search]);
 
   // Reset to page 1 when search or filter changes
   useEffect(() => {
@@ -74,10 +84,15 @@ const WorkoutHistory = () => {
     return (matchesSearch && matchesTime);
   });
 
+  // If a date is selected via ?date=YYYY-MM-DD, filter to that date
+  const filteredByDate = selectedDate
+    ? filteredWorkouts.filter((w) => new Date(w.created_at).toISOString().slice(0, 10) === selectedDate)
+    : filteredWorkouts;
+
   const indexOfLastWorkout = currentPage * workoutsPerPage;
   const indexOfFirstWorkout = indexOfLastWorkout - workoutsPerPage;
-  const currentWorkouts = filteredWorkouts.slice(indexOfFirstWorkout, indexOfLastWorkout);
-  const totalPages = Math.ceil(filteredWorkouts.length / workoutsPerPage);
+  const currentWorkouts = filteredByDate.slice(indexOfFirstWorkout, indexOfLastWorkout);
+  const totalPages = Math.ceil(filteredByDate.length / workoutsPerPage);
 
   if (loading) {
     return (
@@ -116,6 +131,23 @@ const WorkoutHistory = () => {
             {darkMode ? '☀️ Light Mode' : '🌙 Dark Mode'}
           </button>
         </div>
+
+        {selectedDate && (
+          <div style={{ marginBottom: 12, display: 'flex', gap: 8, alignItems: 'center' }}>
+            <div style={{ color: theme.text }}>
+              Showing workouts for <strong style={{ color: theme.primary }}>{selectedDate}</strong>
+            </div>
+            <button
+              onClick={() => {
+                setSelectedDate(null);
+                navigate('/history');
+              }}
+              style={{ padding: '6px 10px', borderRadius: 8, border: `1px solid ${theme.border || '#ddd'}`, background: theme.cardBackground, color: theme.text }}
+            >
+              Clear
+            </button>
+          </div>
+        )}
 
         <input
           type="text"
