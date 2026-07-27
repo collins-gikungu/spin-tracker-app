@@ -4,6 +4,7 @@ require('dotenv').config();
 
 const app = express();
 const authRoutes = require('./src/routes/authRoutes');
+const socialRoutes = require('./src/routes/socialRoutes');
 
 const allowedOrigins = [
   'http://localhost:3000',
@@ -63,6 +64,7 @@ const workoutRoutes = require('./src/routes/workoutRoutes');
 
 app.use('/api/workouts', workoutRoutes);
 app.use('/api/auth', authRoutes);
+app.use('/api/social', socialRoutes);
 
 // Test Route
 app.get('/', (req, res) => {
