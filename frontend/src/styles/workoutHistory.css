@@ -1,0 +1,73 @@
+.workout-history-page {
+  max-width: 100%;
+  min-width: 0;
+}
+
+.workout-history-page .history-header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.workout-history-page .history-header-left {
+  flex: 1 1 100%;
+  min-width: 0;
+}
+
+.workout-history-page .history-header-right {
+  flex: 0 0 auto;
+  min-width: 120px;
+}
+
+.workout-history-page .history-filter-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.workout-history-page .history-filter-row select {
+  flex: 1 1 240px;
+  min-width: 0;
+}
+
+.workout-history-page .history-search {
+  width: 100%;
+  max-width: 100%;
+}
+
+.workout-history-page .history-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  margin-top: 30px;
+}
+
+.workout-history-page .history-card {
+  min-width: 0;
+  width: 100%;
+}
+
+.workout-history-page .history-calendar {
+  width: 100%;
+  overflow-x: auto;
+  padding-bottom: 8px;
+}
+
+.workout-history-page .history-calendar .calendar-grid {
+  display: flex;
+  gap: 6px;
+  min-width: calc(10px * 53 + 6px * 52);
+}
+
+@media (max-width: 520px) {
+  .workout-history-page .history-card {
+    padding: 16px;
+  }
+
+  .workout-history-page .history-filter-row {
+    gap: 12px;
+  }
+}
