@@ -83,8 +83,8 @@ const StreakCalendar = ({ workouts = [], theme = {} }) => {
   const colors = [theme.cardBackground || '#ebedf0', '#c6e48b', '#7bc96f', '#239a3b', '#196127'];
 
   return (
-    <div style={{ marginTop: 18 }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
+    <div style={{ marginTop: 18, minWidth: 0 }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8, flexWrap: 'wrap', gap: '8px' }}>
         <div>
           <h3 style={{ margin: 0, color: theme.text }}>Streak Calendar</h3>
           <p style={{ margin: '6px 0 0', color: theme.text, fontSize: 13 }}>
@@ -96,38 +96,40 @@ const StreakCalendar = ({ workouts = [], theme = {} }) => {
         </div>
       </div>
 
-      <div style={{ display: 'flex', gap: 6 }}>
-        {weeks.map((week, wi) => (
-          <div key={wi} style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-            {week.map((day, di) => {
-              const count = day.count || 0;
-              const level = Math.min(count, colors.length - 1);
-              const bg = !day.inRange ? 'transparent' : colors[level];
-              const border = day.inRange ? `1px solid ${theme.border || '#e6e6e6'}` : '1px solid transparent';
-              const title = `${day.iso} — ${count} workout${count !== 1 ? 's' : ''}`;
-              return (
-                <div
-                  key={di}
-                  title={title}
-                  onClick={() => {
-                    if (!day.inRange) return;
-                    navigate(`/history?date=${day.iso}`);
-                  }}
-                  style={{
-                    width: cellSize,
-                    height: cellSize,
-                    borderRadius: 3,
-                    background: bg,
-                    border,
-                    boxSizing: 'border-box',
-                    opacity: day.inRange ? 1 : 0.2,
-                    cursor: day.inRange ? 'pointer' : 'not-allowed'
-                  }}
-                />
-              );
-            })}
-          </div>
-        ))}
+      <div className="calendar-scroll" style={{ overflowX: 'auto', paddingBottom: 8, WebkitOverflowScrolling: 'touch' }}>
+        <div className="calendar-grid" style={{ display: 'flex', gap: 6, minWidth: 650 }}>
+          {weeks.map((week, wi) => (
+            <div key={wi} style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+              {week.map((day, di) => {
+                const count = day.count || 0;
+                const level = Math.min(count, colors.length - 1);
+                const bg = !day.inRange ? 'transparent' : colors[level];
+                const border = day.inRange ? `1px solid ${theme.border || '#e6e6e6'}` : '1px solid transparent';
+                const title = `${day.iso} — ${count} workout${count !== 1 ? 's' : ''}`;
+                return (
+                  <div
+                    key={di}
+                    title={title}
+                    onClick={() => {
+                      if (!day.inRange) return;
+                      navigate(`/history?date=${day.iso}`);
+                    }}
+                    style={{
+                      width: cellSize,
+                      height: cellSize,
+                      borderRadius: 3,
+                      background: bg,
+                      border,
+                      boxSizing: 'border-box',
+                      opacity: day.inRange ? 1 : 0.2,
+                      cursor: day.inRange ? 'pointer' : 'not-allowed'
+                    }}
+                  />
+                );
+              })}
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
