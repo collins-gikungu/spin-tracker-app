@@ -94,6 +94,11 @@ const Sidebar = ({ onLogout, theme }) => {
           <span>Profile</span>
         </Link>
 
+        <Link to="/community" className={navClassName('/community')} onClick={() => setIsOpen(false)}>
+          <span className="nav-icon">🤝</span>
+          <span>Community</span>
+        </Link>
+
         <button className="logout-btn" onClick={onLogout}>
           Logout
         </button>
