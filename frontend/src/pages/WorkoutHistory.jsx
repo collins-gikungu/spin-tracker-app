@@ -5,6 +5,7 @@ import AppLayout from '../components/AppLayout';
 import StreakCalendar from '../components/StreakCalendar';
 import API from '../services/api';
 import { lightTheme, darkTheme } from '../styles/theme';
+import '../styles/workoutHistory.css';
 
 const WorkoutHistory = () => {
   const navigate = useNavigate();
@@ -106,30 +107,37 @@ const WorkoutHistory = () => {
 
   return (
     <AppLayout theme={theme}>
-      <div style={{ padding: '24px' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-          <div>
-          {/* Streak calendar */}
-          <StreakCalendar workouts={workouts} theme={theme} />
-            <h1 style={{ color: theme.text }}>📜 Workout History</h1>
-            <p style={{ color: theme.text }}>
-              Total Workouts: {workouts.length}
-            </p>
+      <div className="workout-history-page" style={{ padding: '24px' }}>
+        <div className="history-header" style={{ marginBottom: '20px' }}>
+          <div className="history-header-left">
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
+              <StreakCalendar workouts={workouts} theme={theme} />
+              <div>
+                <h1 style={{ margin: 0, color: theme.text }}>📜 Workout History</h1>
+                <p style={{ margin: '8px 0 0', color: theme.text }}>
+                  Total Workouts: {workouts.length}
+                </p>
+              </div>
+            </div>
           </div>
-          <button
-            onClick={toggleTheme}
-            style={{
-              padding: '10px 16px',
-              border: 'none',
-              borderRadius: '8px',
-              cursor: 'pointer',
-              backgroundColor: theme.cardBackground,
-              color: theme.primary,
-              fontWeight: 'bold',
-            }}
-          >
-            {darkMode ? '☀️ Light Mode' : '🌙 Dark Mode'}
-          </button>
+          <div className="history-header-right">
+            <button
+              onClick={toggleTheme}
+              style={{
+                padding: '10px 16px',
+                border: 'none',
+                borderRadius: '8px',
+                cursor: 'pointer',
+                backgroundColor: theme.cardBackground,
+                color: theme.primary,
+                fontWeight: 'bold',
+                width: '100%',
+                minWidth: 120
+              }}
+            >
+              {darkMode ? '☀️ Light Mode' : '🌙 Dark Mode'}
+            </button>
+          </div>
         </div>
 
         {selectedDate && (
@@ -154,8 +162,8 @@ const WorkoutHistory = () => {
           placeholder="🔍 Search by ID, distance, calories, or date"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
+          className="history-search"
           style={{
-            width: '100%',
             padding: '14px',
             borderRadius: '12px',
             border: `1px solid ${theme.border || '#ddd'}`,
@@ -166,12 +174,7 @@ const WorkoutHistory = () => {
           }}
         />
 
-        <div style={{
-          display: 'flex',
-          gap: '10px',
-          marginTop: '15px',
-          flexWrap: 'wrap'
-        }}>
+        <div className="history-filter-row" style={{ marginTop: '15px' }}>
           <select
             value={timeFilter}
             onChange={(e) => setTimeFilter(e.target.value)}
@@ -195,7 +198,7 @@ const WorkoutHistory = () => {
 
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
           gap: '20px',
           marginTop: '30px'
         }}>
