@@ -16,16 +16,17 @@ const StreakCalendar = ({ workouts = [], theme = {} }) => {
     return m;
   }, [workouts]);
 
+  const [weekCount, setWeekCount] = useState(53);
   const today = new Date();
   const startAnchor = new Date(today);
-  startAnchor.setDate(startAnchor.getDate() - 364);
+  startAnchor.setDate(startAnchor.getDate() - (weekCount * 7 - 1));
   // move back to previous Sunday so weeks align vertically like Duolingo/GitHub
   const start = new Date(startAnchor);
   start.setDate(start.getDate() - start.getDay());
 
   const weeks = [];
   // build weeks (columns)
-  for (let w = 0; w < 53; w++) {
+  for (let w = 0; w < weekCount; w++) {
     const week = [];
     for (let d = 0; d < 7; d++) {
       const dt = new Date(start);
@@ -70,20 +71,32 @@ const StreakCalendar = ({ workouts = [], theme = {} }) => {
   useEffect(() => {
     const calc = () => {
       const w = window.innerWidth;
-      if (w < 420) setCellSize(10);
-      else if (w < 768) setCellSize(12);
-      else setCellSize(14);
+      if (w < 360) {
+        setCellSize(8);
+        setWeekCount(18);
+      } else if (w < 520) {
+        setCellSize(9);
+        setWeekCount(20);
+      } else if (w < 768) {
+        setCellSize(10);
+        setWeekCount(28);
+      } else {
+        setCellSize(12);
+        setWeekCount(53);
+      }
     };
     calc();
     window.addEventListener('resize', calc);
     return () => window.removeEventListener('resize', calc);
   }, []);
 
+  const calendarMinWidth = Math.max(240, cellSize * weekCount + 6 * (weekCount - 1));
+
   // color scale like GitHub heatmap (0..4)
   const colors = [theme.cardBackground || '#ebedf0', '#c6e48b', '#7bc96f', '#239a3b', '#196127'];
 
   return (
-    <div style={{ marginTop: 18, minWidth: 0 }}>
+    <div className="history-calendar" style={{ marginTop: 18, minWidth: 0 }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8, flexWrap: 'wrap', gap: '8px' }}>
         <div>
           <h3 style={{ margin: 0, color: theme.text }}>Streak Calendar</h3>
@@ -96,8 +109,8 @@ const StreakCalendar = ({ workouts = [], theme = {} }) => {
         </div>
       </div>
 
-      <div className="calendar-scroll" style={{ overflowX: 'auto', paddingBottom: 8, WebkitOverflowScrolling: 'touch' }}>
-        <div className="calendar-grid" style={{ display: 'flex', gap: 6, minWidth: 650 }}>
+      <div className="calendar-scroll" style={{ overflowX: 'auto', paddingBottom: 8, WebkitOverflowScrolling: 'touch', width: '100%', maxWidth: '100%' }}>
+        <div className="calendar-grid" style={{ display: 'flex', gap: 6, minWidth: calendarMinWidth, width: '100%' }}>
           {weeks.map((week, wi) => (
             <div key={wi} style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
               {week.map((day, di) => {
