@@ -144,6 +144,16 @@ const StreakCalendar = ({ workouts = [], theme = {} }) => {
           ))}
         </div>
       </div>
+
+      <div style={{ marginTop: 12, display: 'flex', flexWrap: 'wrap', gap: 10, alignItems: 'center' }}>
+        {colors.map((color, index) => (
+          <div key={index} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+            <span style={{ width: 14, height: 14, background: color, borderRadius: 3, border: `1px solid ${theme.border || '#e6e6e6'}` }} />
+            <span style={{ color: theme.text, fontSize: 12 }}>{index === 0 ? '0' : `${index}+'}`}</span>
+          </div>
+        ))}
+        <span style={{ color: theme.text, fontSize: 12, marginLeft: 'auto' }}>Workouts per day</span>
+      </div>
     </div>
   );
 };
