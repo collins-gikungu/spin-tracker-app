@@ -18,6 +18,7 @@ import Analytics from "./pages/Analytics";
 import Goals from "./pages/Goals";
 import Achievements from "./pages/Achievements";
 import Workouts from "./pages/Workouts";
+import Community from "./pages/Community";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { lightTheme, darkTheme } from './styles/theme';
 
@@ -200,6 +201,15 @@ element={
   element={
     <ProtectedRoute user={user}>
       <Workouts />
+    </ProtectedRoute>
+  }
+/>
+
+<Route
+  path="/community"
+  element={
+    <ProtectedRoute user={user}>
+      <Community onLogout={handleLogout} />
     </ProtectedRoute>
   }
 />
