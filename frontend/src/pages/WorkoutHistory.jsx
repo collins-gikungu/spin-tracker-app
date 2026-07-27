@@ -183,7 +183,8 @@ const WorkoutHistory = () => {
               borderRadius: '12px',
               border: `1px solid ${theme.border || '#ddd'}`,
               backgroundColor: theme.input || '#fff',
-              color: theme.text
+              color: theme.text,
+              minWidth: 120
             }}
           >
             <option value="all">All Time</option>
@@ -196,19 +197,14 @@ const WorkoutHistory = () => {
           Showing {filteredWorkouts.length} of {workouts.length} workouts
         </p>
 
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
-          gap: '20px',
-          marginTop: '30px'
-        }}>
+        <div className="history-grid" style={{ marginTop: '30px' }}>
           {currentWorkouts.map((workout, index) => (
             <motion.div
               key={workout.id}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3, delay: index * 0.05 }}
-              className="stat-card"
+              className="stat-card history-card"
               onClick={() => navigate(`/history/${workout.id}`)}
               style={{
                 cursor: 'pointer',

@@ -59,7 +59,7 @@
 .workout-history-page .history-calendar .calendar-grid {
   display: flex;
   gap: 6px;
-  min-width: calc(10px * 53 + 6px * 52);
+  min-width: 520px;
 }
 
 @media (max-width: 520px) {
