@@ -164,7 +164,10 @@ const Community = ({ onLogout }) => {
             {loading ? <div>Loading...</div> : users.map((user) => (
               <div key={user.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '8px 0', borderBottom: '1px solid #e5e7eb' }}>
                 <span>{user.username}</span>
-                <button style={themeStyles.button} onClick={() => sendRequest(user.id)}>Add friend</button>
+                <div style={{ display: 'flex', gap: '8px' }}>
+                  <button style={{ ...themeStyles.button, background: '#0f766e' }} onClick={() => window.location.href = `/profile/${user.id}`}>View profile</button>
+                  <button style={themeStyles.button} onClick={() => sendRequest(user.id)}>Add friend</button>
+                </div>
               </div>
             ))}
           </div>
@@ -185,7 +188,10 @@ const Community = ({ onLogout }) => {
           {friends.map((friend) => (
             <div key={friend.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '8px 0' }}>
               <span>{friend.username}</span>
-              <button style={themeStyles.button} onClick={() => shareStats(friend.id)}>Share stats</button>
+              <div style={{ display: 'flex', gap: '8px' }}>
+                <button style={{ ...themeStyles.button, background: '#0f766e' }} onClick={() => window.location.href = `/profile/${friend.id}`}>View profile</button>
+                <button style={themeStyles.button} onClick={() => shareStats(friend.id)}>Share stats</button>
+              </div>
             </div>
           ))}
         </div>
@@ -210,9 +216,22 @@ const Community = ({ onLogout }) => {
         <div style={themeStyles.card}>
           <h3 style={{ marginTop: 0 }}>Shared stats</h3>
           {shares.received.map((share) => (
-            <div key={share.id} style={{ padding: '8px 0', borderBottom: '1px solid #e5e7eb' }}>
-              <strong>{share.sender_name}</strong> shared a snapshot with {share.payload?.snapshot?.workouts || 0} workouts and {share.payload?.snapshot?.distanceKm || 0} km.
-              {share.message ? <div style={{ color: theme.secondaryText }}>{share.message}</div> : null}
+            <div key={share.id} style={{ padding: '12px 0', borderBottom: '1px solid #e5e7eb' }}>
+              <strong>{share.sender_name}</strong> sent a richer summary.
+              <div style={{ marginTop: '6px', color: theme.secondaryText }}>
+                {share.payload?.snapshot?.workouts || 0} workouts • {share.payload?.snapshot?.distanceKm || 0} km • {share.payload?.snapshot?.calories || 0} kcal • {share.payload?.snapshot?.hours || 0} hours
+              </div>
+              {share.payload?.snapshot?.streak ? (
+                <div style={{ marginTop: '6px', color: theme.secondaryText }}>
+                  Streak: {share.payload.snapshot.streak.currentStreak} day current • {share.payload.snapshot.streak.longestStreak} day best
+                </div>
+              ) : null}
+              {share.payload?.snapshot?.personalRecords ? (
+                <div style={{ marginTop: '6px', color: theme.secondaryText }}>
+                  PRs: {share.payload.snapshot.personalRecords.longestDistanceKm} km • {share.payload.snapshot.personalRecords.highestCalories} kcal • {share.payload.snapshot.personalRecords.highestRpm} rpm
+                </div>
+              ) : null}
+              {share.message ? <div style={{ marginTop: '6px', color: theme.secondaryText }}>{share.message}</div> : null}
             </div>
           ))}
           {shares.sent.map((share) => (
