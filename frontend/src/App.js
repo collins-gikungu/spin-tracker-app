@@ -19,6 +19,7 @@ import Goals from "./pages/Goals";
 import Achievements from "./pages/Achievements";
 import Workouts from "./pages/Workouts";
 import Community from "./pages/Community";
+import PublicProfile from "./pages/PublicProfile";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { lightTheme, darkTheme } from './styles/theme';
 
@@ -210,6 +211,15 @@ element={
   element={
     <ProtectedRoute user={user}>
       <Community onLogout={handleLogout} />
+    </ProtectedRoute>
+  }
+/>
+
+<Route
+  path="/profile/:userId"
+  element={
+    <ProtectedRoute user={user}>
+      <PublicProfile onLogout={handleLogout} />
     </ProtectedRoute>
   }
 />
