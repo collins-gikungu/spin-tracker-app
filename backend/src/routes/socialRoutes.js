@@ -4,6 +4,68 @@ const pool = require('../config/db');
 const authMiddleware = require('../middleware/authMiddleware');
 const { formatStatsSnapshot } = require('../utils/socialUtils');
 
+const getUserStatsSummary = async (userId) => {
+  const statsResult = await pool.query(
+    `
+      SELECT
+        COUNT(*) AS total_workouts,
+        COALESCE(SUM(calories), 0) AS total_calories,
+        COALESCE(SUM(distance_km), 0) AS total_distance_km,
+        COALESCE(SUM(duration_seconds), 0) AS total_duration_seconds,
+        COALESCE(AVG(rpm), 0) AS average_rpm,
+        COALESCE(AVG(power), 0) AS average_power,
+        MAX(distance_km) AS longest_distance,
+        MAX(calories) AS highest_calories,
+        MAX(rpm) AS highest_rpm,
+        MAX(power) AS highest_power
+      FROM workouts
+      WHERE user_id = $1
+    `,
+    [userId]
+  );
+
+  const streakResult = await pool.query(
+    `
+      SELECT DISTINCT DATE(created_at) AS workout_day
+      FROM workouts
+      WHERE user_id = $1
+      ORDER BY workout_day ASC
+    `,
+    [userId]
+  );
+
+  const workoutDays = streakResult.rows.map((row) => new Date(row.workout_day));
+  let currentStreak = 0;
+  let longestStreak = 0;
+
+  if (workoutDays.length) {
+    currentStreak = 1;
+    longestStreak = 1;
+
+    for (let index = 1; index < workoutDays.length; index += 1) {
+      const previous = new Date(workoutDays[index - 1]);
+      const current = new Date(workoutDays[index]);
+      const diffDays = (current - previous) / (1000 * 60 * 60 * 24);
+
+      if (diffDays === 1) {
+        currentStreak += 1;
+        longestStreak = Math.max(longestStreak, currentStreak);
+      } else {
+        currentStreak = 1;
+      }
+    }
+  }
+
+  return {
+    stats: statsResult.rows[0],
+    streak: {
+      currentStreak,
+      longestStreak,
+      activeDays: workoutDays.length,
+    },
+  };
+};
+
 const ensureSocialTables = async () => {
   try {
     await pool.query(`
@@ -76,6 +138,34 @@ router.get('/users', authMiddleware, async (req, res) => {
     );
 
     res.json({ users: result.rows });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+router.get('/profile/:userId', authMiddleware, async (req, res) => {
+  try {
+    const targetId = Number(req.params.userId);
+    if (!targetId) {
+      return res.status(400).json({ message: 'A valid user id is required.' });
+    }
+
+    const userResult = await pool.query(
+      `
+        SELECT id, username, email, avatar_url, created_at
+        FROM users
+        WHERE id = $1
+      `,
+      [targetId]
+    );
+
+    if (!userResult.rows.length) {
+      return res.status(404).json({ message: 'User not found.' });
+    }
+
+    const summary = await getUserStatsSummary(targetId);
+    res.json({ user: userResult.rows[0], summary });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Server error' });
@@ -365,20 +455,15 @@ router.post('/share', authMiddleware, async (req, res) => {
       return res.status(400).json({ message: 'Select at least one friend to share with.' });
     }
 
-    const statsResult = await pool.query(
-      `
-        SELECT
-          COUNT(*) AS total_workouts,
-          COALESCE(SUM(calories), 0) AS total_calories,
-          COALESCE(SUM(distance_km), 0) AS total_distance_km,
-          COALESCE(SUM(duration_seconds), 0) AS total_duration_seconds
-        FROM workouts
-        WHERE user_id = $1
-      `,
-      [req.user.id]
-    );
-
-    const snapshot = formatStatsSnapshot(statsResult.rows[0]);
+    const summary = await getUserStatsSummary(req.user.id);
+    const snapshot = formatStatsSnapshot(summary.stats);
+    snapshot.streak = summary.streak;
+    snapshot.personalRecords = {
+      longestDistanceKm: Number(summary.stats.longest_distance || 0),
+      highestCalories: Number(summary.stats.highest_calories || 0),
+      highestRpm: Number(summary.stats.highest_rpm || 0),
+      highestPower: Number(summary.stats.highest_power || 0),
+    };
     const inserted = [];
 
     for (const recipientId of recipient_ids) {
