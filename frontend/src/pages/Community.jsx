@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import AppLayout from '../components/AppLayout';
 import API from '../services/api';
 import { lightTheme, darkTheme } from '../styles/theme';
@@ -18,7 +18,7 @@ const Community = ({ onLogout }) => {
   const [loading, setLoading] = useState(true);
   const theme = darkMode ? darkTheme : lightTheme;
 
-  const loadCommunityData = async () => {
+  const loadCommunityData = useCallback(async () => {
     try {
       const [usersRes, friendsRes, groupsRes, sharesRes] = await Promise.all([
         API.get('/social/users', { params: { q: search || 'a' } }),
@@ -38,7 +38,7 @@ const Community = ({ onLogout }) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [search]);
 
   useEffect(() => {
     loadCommunityData();
