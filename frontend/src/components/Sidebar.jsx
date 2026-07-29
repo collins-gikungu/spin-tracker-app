@@ -52,7 +52,7 @@ const Sidebar = ({ onLogout, theme }) => {
         }}
       >
         <div className="brand">
-          <div className="brand-badge">⚡</div>
+          <div className="brand-badge">🚴</div>
           <div>
             <h2>Spin Tracker</h2>
             <p>Fitness OS</p>
@@ -70,7 +70,7 @@ const Sidebar = ({ onLogout, theme }) => {
         </Link>
 
         <Link to="/workouts" className={navClassName('/workouts')} onClick={() => setIsOpen(false)}>
-          <span className="nav-icon">🚴</span>
+          <span className="nav-icon">⚙️</span>
           <span>Workouts</span>
         </Link>
 
