@@ -76,7 +76,7 @@ html, body {
   width: 100%;
   max-width: 100%;
   overflow-x: hidden;
-  background: linear-gradient(135deg, var(--surface-soft) 0%, rgba(255,255,255,0.8) 100%);
+  background: linear-gradient(135deg, rgba(255,255,255,0.82) 0%, rgba(241,247,255,0.9) 100%);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   padding: 24px;
@@ -84,7 +84,17 @@ html, body {
   box-shadow: var(--shadow);
   margin-bottom: 24px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  border: 1px solid var(--border);
+  border: 1px solid rgba(255,255,255,0.78);
+  position: relative;
+}
+
+.page-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(120deg, rgba(79,124,255,0.08), transparent 40%, rgba(25,195,125,0.06));
+  pointer-events: none;
 }
 
 .dark-theme .page-section {
