@@ -131,11 +131,44 @@ const Login = ({ onLogin, darkMode, toggleTheme }) => {
           <div className="particle" style={{ left: '86%', top: '68%', animationDelay: '4.4s' }} />
         </div>
 
+        <div className="auth-speedlines" aria-hidden="true">
+          <div className="auth-speedline" style={{ top: '18%', left: '8%', animationDuration: '7.2s' }} />
+          <div className="auth-speedline" style={{ top: '38%', left: '12%', animationDuration: '9.4s' }} />
+          <div className="auth-speedline" style={{ top: '64%', left: '6%', animationDuration: '8.8s' }} />
+          <div className="auth-speedline" style={{ top: '24%', left: '36%', animationDuration: '10.2s' }} />
+        </div>
+
         <img src={heroSrc} alt="bike hero" className="auth-hero" />
       </div>
       <div className="auth-card">
         <div className="auth-visual">
-          <img src={heroSrc} alt="bike" className="auth-visual-hero-inline" />
+          <svg viewBox="0 0 640 420" className="auth-visual-hero-inline" role="img" aria-label="Cycling dashboard illustration">
+            <defs>
+              <linearGradient id="trackGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#7dd3fc" />
+                <stop offset="50%" stopColor="#2563eb" />
+                <stop offset="100%" stopColor="#8b5cf6" />
+              </linearGradient>
+              <linearGradient id="panelGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#ffffff" stopOpacity="0.85" />
+                <stop offset="100%" stopColor="#cbd5e1" stopOpacity="0.55" />
+              </linearGradient>
+            </defs>
+            <rect x="40" y="44" width="560" height="332" rx="24" fill="rgba(10, 13, 28, 0.65)" stroke="rgba(255,255,255,0.18)" />
+            <path d="M110 300C180 180 250 150 320 150C390 150 460 190 530 300" stroke="url(#trackGlow)" strokeWidth="10" strokeLinecap="round" fill="none" />
+            <circle cx="180" cy="240" r="46" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.2)" strokeWidth="8" />
+            <circle cx="450" cy="240" r="46" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.2)" strokeWidth="8" />
+            <circle cx="180" cy="240" r="16" fill="#fff" />
+            <circle cx="450" cy="240" r="16" fill="#fff" />
+            <rect x="205" y="164" width="152" height="94" rx="18" fill="url(#panelGlow)" opacity="0.96" />
+            <path d="M250 180L302 180L328 214L302 248H250L224 214Z" fill="#0f172a" opacity="0.7" />
+            <path d="M330 176L390 176" stroke="#fff" strokeWidth="8" strokeLinecap="round" />
+            <path d="M295 242L340 272" stroke="#fff" strokeWidth="8" strokeLinecap="round" />
+            <rect x="108" y="88" width="116" height="36" rx="18" fill="rgba(255,255,255,0.16)" />
+            <rect x="412" y="86" width="86" height="28" rx="14" fill="rgba(255,255,255,0.16)" />
+            <path d="M120 104H196" stroke="#fff" strokeWidth="6" strokeLinecap="round" opacity="0.9" />
+            <path d="M430 100H470" stroke="#fff" strokeWidth="6" strokeLinecap="round" opacity="0.9" />
+          </svg>
           <div className="auth-visual-content">
             <span className="feature-chip">Modern ride tracking</span>
             <h3>Take every spin further</h3>
