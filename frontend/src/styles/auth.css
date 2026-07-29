@@ -90,14 +90,15 @@
 
 .auth-speedline {
   position: absolute;
-  width: 340px;
+  width: 360px;
   height: 2px;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.58), transparent);
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.86), transparent);
   border-radius: 999px;
   transform-origin: left center;
-  animation: speedline 8s linear infinite;
-  opacity: 0.5;
-  filter: blur(0.4px);
+  animation: speedline 5.2s linear infinite;
+  opacity: 0.7;
+  filter: blur(0.3px);
+  box-shadow: 0 0 18px rgba(125, 211, 252, 0.28);
 }
 
 .auth-speedline::after {
