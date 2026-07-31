@@ -17,9 +17,10 @@ const ActivityFeed = ({
         display:'flex',
         flexDirection:'column',
         gap:'15px',
-        maxHeight:'500px',
+        maxHeight:'560px',
         overflowY:'auto',
         paddingRight:'4px',
+        paddingBottom:'4px',
       }}
     >
 
@@ -28,7 +29,7 @@ const ActivityFeed = ({
 
           <div
             key={index}
-            className="stat-card"
+            className="stat-card stat-card--pulse activity-feed-card"
             style={{
               background:
                 theme.cardBackground,
