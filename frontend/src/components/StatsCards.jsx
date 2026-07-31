@@ -17,7 +17,7 @@ const StatsCards = ({ stats, theme }) => {
         marginBottom: '25px',
       }}
     >
-      <div className="stat-card stat-card--pulse" style={getCardStyle(theme)}>
+      <div className="stat-card" style={getCardStyle(theme)}>
         <h3>Total Workouts</h3>
         <p style={valueStyle(theme)}>
           <CountUp
@@ -29,7 +29,7 @@ const StatsCards = ({ stats, theme }) => {
         </p>
       </div>
 
-      <div className="stat-card stat-card--pulse" style={getCardStyle(theme)}>
+      <div className="stat-card" style={getCardStyle(theme)}>
         <h3>Total Calories</h3>
         <p style={valueStyle(theme)}>
           <CountUp
@@ -41,7 +41,7 @@ const StatsCards = ({ stats, theme }) => {
         </p>
       </div>
 
-      <div className="stat-card stat-card--pulse" style={getCardStyle(theme)}>
+      <div className="stat-card" style={getCardStyle(theme)}>
         <h3>Total Distance</h3>
         <p style={valueStyle(theme)}>
           <CountUp
@@ -53,7 +53,7 @@ const StatsCards = ({ stats, theme }) => {
         </p>
       </div>
 
-      <div className="stat-card stat-card--pulse" style={getCardStyle(theme)}>
+      <div className="stat-card" style={getCardStyle(theme)}>
         <h3>Total Time</h3>
         <p style={valueStyle(theme)}>
           {formatDuration(stats.total_duration_seconds || 0)}
