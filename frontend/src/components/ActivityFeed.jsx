@@ -29,7 +29,7 @@ const ActivityFeed = ({
 
           <div
             key={index}
-            className="stat-card stat-card--pulse activity-feed-card"
+            className="stat-card activity-feed-card"
             style={{
               background:
                 theme.cardBackground,
