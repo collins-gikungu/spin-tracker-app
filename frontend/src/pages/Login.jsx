@@ -165,6 +165,40 @@ const Login = ({ onLogin, darkMode, toggleTheme }) => {
               </button>
             </div>
 
+            <div className="auth-telemetry-panel" aria-label="Live ride telemetry">
+              <div className="auth-speedometer">
+                <div className="auth-speedometer__ring">
+                  <span>85</span>
+                </div>
+                <div className="auth-speedometer__meta">
+                  <strong>Live cadence</strong>
+                  <span>92 rpm</span>
+                </div>
+              </div>
+
+              <div className="auth-rpm-row">
+                <span>RPM</span>
+                <div className="auth-rpm-bars">
+                  <span style={{ '--fill': '74%' }} />
+                  <span style={{ '--fill': '86%' }} />
+                  <span style={{ '--fill': '69%' }} />
+                  <span style={{ '--fill': '92%' }} />
+                </div>
+                <strong>92</strong>
+              </div>
+
+              <div className="auth-rpm-row">
+                <span>CAD</span>
+                <div className="auth-rpm-bars">
+                  <span style={{ '--fill': '65%' }} />
+                  <span style={{ '--fill': '78%' }} />
+                  <span style={{ '--fill': '81%' }} />
+                  <span style={{ '--fill': '88%' }} />
+                </div>
+                <strong>88</strong>
+              </div>
+            </div>
+
             {error && (
               <div style={{ color: '#ef4444', marginBottom: '14px' }}>{error}</div>
             )}
