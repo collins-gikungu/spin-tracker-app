@@ -135,6 +135,30 @@ html, body {
   overflow: hidden;
 }
 
+.stat-card--pulse {
+  animation: cardPulse 3.2s ease-in-out infinite;
+}
+
+.stat-card--pulse::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background: radial-gradient(circle at top right, rgba(34, 211, 238, 0.18), transparent 42%);
+  pointer-events: none;
+  opacity: 0.9;
+}
+
+.activity-feed-card {
+  min-width: 0;
+  width: 100%;
+}
+
+@keyframes cardPulse {
+  0%, 100% { box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08), 0 0 0 0 rgba(34, 211, 238, 0.12); }
+  50% { box-shadow: 0 14px 36px rgba(15, 23, 42, 0.12), 0 0 0 6px rgba(34, 211, 238, 0.06); }
+}
+
 .stat-card::before {
   content: '';
   position: absolute;
