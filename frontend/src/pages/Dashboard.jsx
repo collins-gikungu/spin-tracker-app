@@ -27,6 +27,24 @@ const Dashboard = ({ user, onLogout, theme, darkMode, toggleTheme }) => {
   const [milestones, setMilestones] = useState([]);
   const [activities, setActivities] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [loadingMessageIndex, setLoadingMessageIndex] = useState(0);
+
+  const loadingMessages = [
+    'Loading stats…',
+    'Syncing data…',
+    'Analyzing trends…',
+    'Preparing insights…'
+  ];
+
+  useEffect(() => {
+    if (!loading) return;
+
+    const messageTimer = setInterval(() => {
+      setLoadingMessageIndex((prev) => (prev + 1) % loadingMessages.length);
+    }, 1200);
+
+    return () => clearInterval(messageTimer);
+  }, [loading, loadingMessages.length]);
 
   useEffect(() => {
     const loadDashboard = async () => {
@@ -126,15 +144,87 @@ const Dashboard = ({ user, onLogout, theme, darkMode, toggleTheme }) => {
 
   if (loading) {
     return (
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          minHeight: "100vh",
-        }}
-      >
-        <h2>🚴 Loading Dashboard...</h2>
+      <div className="dashboard-loader-shell">
+        <div className="loader-particles" aria-hidden="true">
+          {Array.from({ length: 18 }).map((_, index) => (
+            <span
+              key={index}
+              className="loader-particle"
+              style={{
+                left: `${(index * 13) % 100}%`,
+                top: `${(index * 17) % 100}%`,
+                width: `${(index % 3) + 4}px`,
+                height: `${(index % 3) + 4}px`,
+                animationDelay: `${index * 0.28}s`,
+              }}
+            />
+          ))}
+        </div>
+
+        <motion.div
+          className="dashboard-loader"
+          initial={{ opacity: 0, scale: 0.96, y: 16 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          exit={{ opacity: 0, scale: 0.98 }}
+          transition={{ duration: 0.5, ease: 'easeOut' }}
+        >
+          <motion.div
+            className="loader-cyclist-wrap"
+            animate={{ y: [0, -8, 0], rotate: [0, -7, 6, 0] }}
+            transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+          >
+            <span className="loader-cyclist">🚴</span>
+          </motion.div>
+
+          <motion.div
+            className="loader-orbit"
+            animate={{ rotate: 360 }}
+            transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}
+          >
+            <span className="orbit-dot dot-one" />
+            <span className="orbit-dot dot-two" />
+            <span className="orbit-dot dot-three" />
+          </motion.div>
+
+          <motion.div
+            className="loader-badge"
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.15, duration: 0.4 }}
+          >
+            <span className="loader-icon">⚡</span>
+            <span>Spin Tracker</span>
+          </motion.div>
+
+          <motion.h2
+            className="loader-title"
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.25, duration: 0.4 }}
+          >
+            Preparing your dashboard
+          </motion.h2>
+
+          <motion.p
+            key={loadingMessages[loadingMessageIndex]}
+            className="loader-subtitle"
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.35 }}
+          >
+            {loadingMessages[loadingMessageIndex]}
+          </motion.p>
+
+          <div className="loader-bar">
+            <motion.div
+              className="loader-bar-fill"
+              initial={{ width: '12%' }}
+              animate={{ width: ['12%', '42%', '72%', '100%'] }}
+              transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut' }}
+            />
+          </div>
+        </motion.div>
       </div>
     );
   }
