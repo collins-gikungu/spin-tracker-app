@@ -191,6 +191,7 @@ Spin Tracker follows a separated full-stack architecture:
                     └─────────────────────────┘
 ---
 
+
 ## ⚙️ Installation & Local Development
 
 ### 📋 Prerequisites
@@ -208,4 +209,188 @@ You can verify your Node.js and npm installations with:
 bash
 node --version
 npm --version
-                    
+
+
+### 📥 Clone the Repository
+
+Clone the repository to your local machine:
+
+bash
+git clone https://github.com/collins-gikungu/spin-tracker-app.git
+
+
+Navigate into the project:
+
+bash
+cd spin-tracker-app
+
+
+### 🔧 Backend Setup
+
+Navigate to the backend directory:
+
+bash
+cd backend
+
+
+Install the backend dependencies:
+
+bash
+npm install
+
+
+### 🔐 Environment Variables
+
+Create a `.env` file inside the `backend` directory:
+
+
+backend/
+└── .env
+
+
+Add the required environment variables:
+
+env
+PORT=5000
+
+DATABASE_URL=your_postgresql_connection_string
+
+JWT_SECRET=your_jwt_secret
+
+FRONTEND_URL=http://localhost:3000
+
+
+> ⚠️ **Security:** Never commit your `.env` file or expose database credentials, JWT secrets, or other private credentials publicly.
+
+For local PostgreSQL configurations that do not use `DATABASE_URL`, the backend also supports individual database settings:
+
+env
+DB_USER=your_database_user
+DB_PASSWORD=your_database_password
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=your_database_name
+
+
+The application prioritizes `DATABASE_URL` when it is available.
+
+### ▶️ Start the Backend
+
+From the `backend` directory:
+
+bash
+npm start
+
+
+The API will run locally on:
+
+http://localhost:5000
+
+
+You can verify that the backend is running by visiting:
+
+
+http://localhost:5000
+
+
+You should receive:
+
+
+Spin Tracker API is running 🚴
+
+
+### 💻 Frontend Setup
+
+Open a second terminal and navigate to the frontend directory:
+
+bash
+cd frontend
+
+
+Install the frontend dependencies:
+
+bash
+npm install
+
+
+Start the React development server:
+
+bash
+npm start
+
+
+The frontend will normally be available at:
+
+http://localhost:3000
+
+
+### 🔄 Running the Full Application Locally
+
+Spin Tracker requires both the frontend and backend to be running.
+
+#### Terminal 1 — Backend
+
+bash
+cd backend
+npm start
+
+
+#### Terminal 2 — Frontend
+
+bash
+cd frontend
+npm start
+
+
+Then open:
+
+
+http://localhost:3000
+
+
+### 🏗️ Creating a Production Frontend Build
+
+To create an optimized production build:
+
+bash
+cd frontend
+npm run build
+
+
+The compiled application will be generated inside:
+
+
+frontend/build/
+
+
+The production build can then be deployed to a static hosting platform such as Netlify.
+
+### 🧪 Testing
+
+The frontend test script can be executed with:
+
+bash
+cd frontend
+npm test
+
+
+The backend API can be tested using an API testing client such as Thunder Client.
+
+### 🔒 Environment & Security Notes
+
+Production credentials must never be stored directly in the source code.
+
+The following types of information should remain private:
+
+* Database connection strings
+* Database passwords
+* JWT secrets
+* Email credentials
+* API keys
+* Other deployment secrets
+
+For production deployments, configure these values through the hosting platform's environment-variable settings.
+
+---
+
+
