@@ -189,3 +189,23 @@ Spin Tracker follows a separated full-stack architecture:
                     │                         │
                     │   Production Database   │
                     └─────────────────────────┘
+---
+
+## ⚙️ Installation & Local Development
+
+### 📋 Prerequisites
+
+Before running Spin Tracker locally, make sure you have the following installed:
+
+- Node.js
+- npm
+- PostgreSQL
+- Git
+- Visual Studio Code (recommended)
+
+You can verify your Node.js and npm installations with:
+
+bash
+node --version
+npm --version
+                    
