@@ -393,4 +393,454 @@ For production deployments, configure these values through the hosting platform'
 
 ---
 
+## 🔌 API Overview
+
+Spin Tracker uses a RESTful backend API built with **Node.js** and **Express**.
+
+The API handles:
+
+- 🔐 User authentication
+- 👤 User profiles
+- 🏋️ Workout tracking
+- 📊 Workout statistics
+- 🏆 Achievements and milestones
+- 🔥 Workout streaks
+- 📈 Performance trends
+- 🧠 Fitness insights and coaching
+- 📅 Weekly and monthly summaries
+- 🔑 Password management and password recovery
+
+### 🌐 API Base URL
+
+#### Local Development
+
+
+http://localhost:5000/api
+
+
+#### Production
+
+
+https://spin-tracker-api.onrender.com/api
+
+
+> ℹ️ The production API is currently hosted on Render, while the production PostgreSQL database is hosted on Neon.
+
+---
+
+## 🔐 Authentication Endpoints
+
+Authentication endpoints are available under:
+
+
+/api/auth
+
+
+### Register
+
+Create a new Spin Tracker account.
+
+http
+POST /api/auth/register
+
+
+Request body:
+
+json
+{
+  "username": "your_username",
+  "email": "you@example.com",
+  "password": "your_password"
+}
+
+
+---
+
+### Login
+
+Authenticate an existing user and receive a JWT access token.
+
+http
+POST /api/auth/login
+
+
+Request body:
+
+json
+{
+  "email": "you@example.com",
+  "password": "your_password"
+}
+
+
+The returned token is used to authenticate protected API requests.
+
+---
+
+### Get Profile
+
+Retrieve the authenticated user's profile.
+
+http
+GET /api/auth/profile
+
+
+Requires:
+
+http
+Authorization: Bearer <token>
+
+
+---
+
+### Update Profile
+
+Update the authenticated user's profile information.
+
+http
+PUT /api/auth/profile
+
+
+Requires:
+
+http
+Authorization: Bearer <token>
+
+
+---
+
+### Update Avatar
+
+Update the authenticated user's profile avatar.
+
+http
+POST /api/auth/avatar
+
+
+Requires:
+
+http
+Authorization: Bearer <token>
+
+
+---
+
+### Change Password
+
+Change the authenticated user's password.
+
+http
+PUT /api/auth/password
+
+
+Requires:
+
+http
+Authorization: Bearer <token>
+
+
+---
+
+### Forgot Password
+
+Request a password-reset email.
+
+http
+POST /api/auth/forgot-password
+
+
+Request body:
+
+json
+{
+  "email": "you@example.com"
+}
+
+
+---
+
+### Reset Password
+
+Reset a user's password using a valid password-reset token.
+
+http
+POST /api/auth/reset-password
+
+
+Request body:
+
+json
+{
+  "token": "password_reset_token",
+  "newPassword": "new_password"
+}
+
+
+---
+
+## 🚴 Workout Endpoints
+
+Workout endpoints are available under:
+
+
+/api/workouts
+
+
+All workout endpoints require authentication unless otherwise stated.
+
+### Get All Workouts
+
+Retrieve the authenticated user's workout history.
+
+http
+GET /api/workouts
+
+
+Requires:
+
+http
+Authorization: Bearer <token>
+
+
+---
+
+### Create Workout
+
+Record a new cycling workout.
+
+http
+POST /api/workouts
+
+
+Requires:
+
+http
+Authorization: Bearer <token>
+
+
+---
+
+### Get Workout by ID
+
+Retrieve details for a specific workout.
+
+http
+GET /api/workouts/:id
+
+
+Requires:
+
+http
+Authorization: Bearer <token>
+
+
+---
+
+## 📊 Statistics & Performance Endpoints
+
+### Workout Statistics
+
+Retrieve overall workout statistics.
+
+http
+GET /api/workouts/stats
+
+
+---
+
+### Personal Records
+
+Retrieve the user's personal workout records.
+
+http
+GET /api/workouts/records
+
+
+---
+
+### Workout Streaks
+
+Retrieve current and historical workout streak information.
+
+http
+GET /api/workouts/streaks
+
+
+---
+
+### Weekly Summary
+
+Retrieve weekly workout performance data.
+
+http
+GET /api/workouts/weekly
+
+
+---
+
+### Monthly Summary
+
+Retrieve monthly workout performance data.
+
+http
+GET /api/workouts/monthly
+
+
+---
+
+### Fitness Insights
+
+Retrieve workout-based fitness insights.
+
+http
+GET /api/workouts/insights
+
+
+---
+
+### Smart Coaching
+
+Retrieve personalized coaching recommendations.
+
+http
+GET /api/workouts/coaching
+
+
+---
+
+### Milestones
+
+Retrieve workout milestones and progress.
+
+http
+GET /api/workouts/milestones
+
+
+---
+
+### Performance Trends
+
+Retrieve workout performance trend data.
+
+http
+GET /api/workouts/trends
+
+
+---
+
+### Achievements
+
+Retrieve earned and available workout achievements.
+
+http
+GET /api/workouts/achievements
+
+
+---
+
+### Recent Activity
+
+Retrieve recent workout activity.
+
+http
+GET /api/workouts/activity
+
+
+---
+
+## 🔒 API Authentication
+
+Protected endpoints use **JSON Web Tokens (JWT)**.
+
+After successful authentication, the frontend stores the returned token and includes it in subsequent API requests using the following HTTP header:
+
+http
+Authorization: Bearer <token>
+
+
+The backend validates the token before allowing access to protected resources.
+
+This keeps user-specific workout data isolated between accounts.
+
+---
+
+## 🧪 API Testing
+
+The API can be tested locally using **Thunder Client** or another REST API testing tool.
+
+A typical authentication flow is:
+
+
+1. Register a user
+       ↓
+2. Login
+       ↓
+3. Receive JWT token
+       ↓
+4. Include token in protected requests
+       ↓
+5. Access workouts and analytics
+
+
+Example production health check:
+
+https://spin-tracker-api.onrender.com
+
+
+Expected response:
+
+
+Spin Tracker API is running 🚴
+
+
+---
+
+## 🗂️ API Route Summary
+
+| Category          | Endpoint                     | Method | Authentication |
+| ----------------- | ---------------------------- | -----: | :------------: |
+| Authentication    | `/api/auth/register`         |   POST |        ❌       |
+| Authentication    | `/api/auth/login`            |   POST |        ❌       |
+| Profile           | `/api/auth/profile`          |    GET |        ✅       |
+| Profile           | `/api/auth/profile`          |    PUT |        ✅       |
+| Avatar            | `/api/auth/avatar`           |   POST |        ✅       |
+| Password          | `/api/auth/password`         |    PUT |        ✅       |
+| Password Recovery | `/api/auth/forgot-password`  |   POST |        ❌       |
+| Password Recovery | `/api/auth/reset-password`   |   POST |        ❌       |
+| Workouts          | `/api/workouts`              |    GET |        ✅       |
+| Workouts          | `/api/workouts`              |   POST |        ✅       |
+| Workout Details   | `/api/workouts/:id`          |    GET |        ✅       |
+| Statistics        | `/api/workouts/stats`        |    GET |        ✅       |
+| Records           | `/api/workouts/records`      |    GET |        ✅       |
+| Streaks           | `/api/workouts/streaks`      |    GET |        ✅       |
+| Weekly Summary    | `/api/workouts/weekly`       |    GET |        ✅       |
+| Monthly Summary   | `/api/workouts/monthly`      |    GET |        ✅       |
+| Insights          | `/api/workouts/insights`     |    GET |        ✅       |
+| Coaching          | `/api/workouts/coaching`     |    GET |        ✅       |
+| Milestones        | `/api/workouts/milestones`   |    GET |        ✅       |
+| Trends            | `/api/workouts/trends`       |    GET |        ✅       |
+| Achievements      | `/api/workouts/achievements` |    GET |        ✅       |
+| Activity          | `/api/workouts/activity`     |    GET |        ✅       |
+
+---
+
+## 🛡️ Security
+
+Spin Tracker uses several security measures to protect user accounts and application data:
+
+* JWT-based authentication
+* Password hashing with bcrypt
+* Protected API routes
+* Authenticated user-specific database queries
+* Environment variables for sensitive configuration
+* CORS configuration for approved frontend origins
+* HTTPS for production communication
+
+Sensitive credentials are never intended to be stored in the repository.
+
+---
+
+
+
+
 
