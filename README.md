@@ -840,20 +840,11 @@ Sensitive credentials are never intended to be stored in the repository.
 
 ---
 
-Absolutely 😎💜 **Part D — Production Deployment & Live Application** is next.
-
-This section will document the actual deployment architecture we finished, including **Netlify → Render → Neon**, the production URLs, deployment flow, and important production notes.
-
-As before, **copy the entire block below** and paste it directly underneath Part C.
-
-````markdown
----
 
 ## 🌍 Production Deployment
 
 Spin Tracker is deployed using a separated production architecture.
 
-```text
 ┌──────────────────────────────────────────────┐
 │              Spin Tracker App                │
 └──────────────────────────────────────────────┘
@@ -877,7 +868,6 @@ Spin Tracker is deployed using a separated production architecture.
               │      Neon       │
               │   PostgreSQL    │
               └─────────────────┘
-````
 
 ### 🖥️ Frontend — Netlify
 
@@ -919,9 +909,7 @@ The API health-check endpoint is available at:
 
 Expected response:
 
-```text
 Spin Tracker API is running 🚴
-```
 
 ---
 
@@ -945,7 +933,6 @@ This allows the application backend to continue using PostgreSQL while avoiding 
 
 When a user interacts with the live application, requests follow this flow:
 
-```text
 User
  │
  ▼
@@ -973,11 +960,9 @@ React Application
  │
  ▼
 User
-```
 
 For example, when a user creates a workout:
 
-```text
 User submits workout
         ↓
 React frontend
@@ -997,7 +982,6 @@ Workout saved
 API response
         ↓
 React UI updated
-```
 
 ---
 
@@ -1007,7 +991,6 @@ The project uses GitHub as the source repository for the application.
 
 The general production workflow is:
 
-```text
 Local Development
        ↓
 Git
@@ -1017,13 +1000,11 @@ GitHub
 Deployment Platform
        ↓
 Production
-```
 
 ### Frontend Deployment
 
 The frontend production workflow is:
 
-```text
 frontend/
     ↓
 npm run build
@@ -1033,13 +1014,11 @@ frontend/build/
 Netlify
     ↓
 Live React Application
-```
 
 ### Backend Deployment
 
 The backend workflow is:
 
-```text
 backend/
     ↓
 GitHub
@@ -1049,17 +1028,14 @@ Render
 Node.js / Express Server
     ↓
 Production API
-```
 
 ### Database
 
 The production backend connects to:
 
-```text
 Render
    ↓
 Neon PostgreSQL
-```
 
 ---
 
@@ -1071,12 +1047,10 @@ Production environment variables are configured through the deployment platforms
 
 The backend requires environment variables for values such as:
 
-```text
 PORT
 DATABASE_URL
 JWT_SECRET
 FRONTEND_URL
-```
 
 Additional environment variables may be required depending on enabled backend services.
 
@@ -1152,7 +1126,6 @@ Before considering the production deployment complete, the application was verif
 
 The complete production flow was successfully verified:
 
-```text
 Register
    ↓
 Login
@@ -1168,7 +1141,6 @@ Save Workout
 Retrieve Workout
    ↓
 Display Statistics & Analytics
-```
 
 ---
 
@@ -1188,28 +1160,3 @@ For future deployments:
 Production database credentials and other secrets should remain configured through the deployment platform's environment-variable system.
 
 ---
-
-````
-
-### ✅ Part D complete
-
-Once you've pasted it, preview the README. You should now have:
-
-**Part A** → 🚴 Project overview & features  
-**Part B** → ⚙️ Installation & local development  
-**Part C** → 🔌 API documentation  
-**Part D** → 🌍 Production deployment  
-
-That's already looking like a serious portfolio repository. 🔥
-
-Suggested commit:
-
-```text
-docs(readme): document production deployment architecture
-````
-
-After you commit Part D, we'll do **Part E — Screenshots, Roadmap, Author & License**. That's the final README section, and then we'll move on to the next piece of **STEP 32.4 Production Polish**. 🚴‍♂️💜
-
-
-
-
