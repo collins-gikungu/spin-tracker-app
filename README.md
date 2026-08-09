@@ -840,6 +840,375 @@ Sensitive credentials are never intended to be stored in the repository.
 
 ---
 
+Absolutely 😎💜 **Part D — Production Deployment & Live Application** is next.
+
+This section will document the actual deployment architecture we finished, including **Netlify → Render → Neon**, the production URLs, deployment flow, and important production notes.
+
+As before, **copy the entire block below** and paste it directly underneath Part C.
+
+````markdown
+---
+
+## 🌍 Production Deployment
+
+Spin Tracker is deployed using a separated production architecture.
+
+```text
+┌──────────────────────────────────────────────┐
+│              Spin Tracker App                │
+└──────────────────────────────────────────────┘
+                       │
+                       ▼
+              ┌─────────────────┐
+              │     Netlify     │
+              │ React Frontend  │
+              └────────┬────────┘
+                       │
+                       │ HTTPS / REST API
+                       ▼
+              ┌─────────────────┐
+              │     Render      │
+              │ Express Backend │
+              └────────┬────────┘
+                       │
+                       │ PostgreSQL
+                       ▼
+              ┌─────────────────┐
+              │      Neon       │
+              │   PostgreSQL    │
+              └─────────────────┘
+````
+
+### 🖥️ Frontend — Netlify
+
+The React frontend is deployed through Netlify.
+
+**Live Application:**
+
+[https://spinbiketracker.netlify.app/](https://spinbiketracker.netlify.app/)
+
+The frontend communicates with the production Express API over HTTPS.
+
+Production frontend configuration uses the deployed backend API rather than the local development server.
+
+---
+
+### ⚙️ Backend — Render
+
+The Node.js and Express backend is deployed through Render.
+
+**Production API:**
+
+[https://spin-tracker-api.onrender.com/](https://spin-tracker-api.onrender.com/)
+
+The backend provides the REST API used by the React frontend for:
+
+* Authentication
+* User profiles
+* Workout management
+* Statistics
+* Analytics
+* Achievements
+* Goals
+* Social features
+* Other application services
+
+The API health-check endpoint is available at:
+
+[https://spin-tracker-api.onrender.com/](https://spin-tracker-api.onrender.com/)
+
+Expected response:
+
+```text
+Spin Tracker API is running 🚴
+```
+
+---
+
+### 🗄️ Database — Neon PostgreSQL
+
+The production database is hosted on Neon PostgreSQL.
+
+The database contains the application's persistent production data, including:
+
+* User accounts
+* Workout records
+* Application-related data
+
+The production PostgreSQL database was migrated from the original Render PostgreSQL database to Neon while preserving the existing application data.
+
+This allows the application backend to continue using PostgreSQL while avoiding dependency on Render's database hosting.
+
+---
+
+## 🔄 Production Request Flow
+
+When a user interacts with the live application, requests follow this flow:
+
+```text
+User
+ │
+ ▼
+Netlify
+ │
+ │ HTTPS
+ ▼
+React Application
+ │
+ │ REST API request
+ ▼
+Render
+ │
+ │ Express API
+ ▼
+Neon PostgreSQL
+ │
+ │ Database response
+ ▼
+Render
+ │
+ │ API response
+ ▼
+React Application
+ │
+ ▼
+User
+```
+
+For example, when a user creates a workout:
+
+```text
+User submits workout
+        ↓
+React frontend
+        ↓
+POST /api/workouts
+        ↓
+Render Express API
+        ↓
+JWT authentication
+        ↓
+PostgreSQL query
+        ↓
+Neon database
+        ↓
+Workout saved
+        ↓
+API response
+        ↓
+React UI updated
+```
+
+---
+
+## 🚀 Deployment Workflow
+
+The project uses GitHub as the source repository for the application.
+
+The general production workflow is:
+
+```text
+Local Development
+       ↓
+Git
+       ↓
+GitHub
+       ↓
+Deployment Platform
+       ↓
+Production
+```
+
+### Frontend Deployment
+
+The frontend production workflow is:
+
+```text
+frontend/
+    ↓
+npm run build
+    ↓
+frontend/build/
+    ↓
+Netlify
+    ↓
+Live React Application
+```
+
+### Backend Deployment
+
+The backend workflow is:
+
+```text
+backend/
+    ↓
+GitHub
+    ↓
+Render
+    ↓
+Node.js / Express Server
+    ↓
+Production API
+```
+
+### Database
+
+The production backend connects to:
+
+```text
+Render
+   ↓
+Neon PostgreSQL
+```
+
+---
+
+## 🔐 Production Environment Variables
+
+Production environment variables are configured through the deployment platforms rather than committed to the repository.
+
+### Backend
+
+The backend requires environment variables for values such as:
+
+```text
+PORT
+DATABASE_URL
+JWT_SECRET
+FRONTEND_URL
+```
+
+Additional environment variables may be required depending on enabled backend services.
+
+### Frontend
+
+The frontend uses the production API configuration to communicate with the deployed backend.
+
+> ⚠️ Never commit production credentials, database passwords, JWT secrets, API keys, or other sensitive values to GitHub.
+
+---
+
+## 🌐 Production URLs
+
+| Service     | Platform | URL                                                                              |
+| ----------- | -------- | -------------------------------------------------------------------------------- |
+| Frontend    | Netlify  | [https://spinbiketracker.netlify.app/](https://spinbiketracker.netlify.app/)     |
+| Backend API | Render   | [https://spin-tracker-api.onrender.com/](https://spin-tracker-api.onrender.com/) |
+| Database    | Neon     | Private production database                                                      |
+
+---
+
+## 📱 Production Compatibility
+
+The production application has been tested across desktop and mobile environments.
+
+The frontend includes responsive layouts intended to support:
+
+* Desktop browsers
+* Tablets
+* Mobile devices
+
+The application also supports:
+
+* Light mode
+* Dark mode
+* Responsive navigation
+* Mobile-friendly dashboard layouts
+* Responsive analytics visualizations
+
+---
+
+## 🩺 Production Verification
+
+Before considering the production deployment complete, the application was verified through the following workflow:
+
+### Backend
+
+* API successfully deployed
+* Production API responding
+* Database connection verified
+* Authentication endpoints operational
+
+### Database
+
+* Production PostgreSQL database connected
+* Existing production data migrated
+* Users preserved
+* Workout records preserved
+* Database tables verified
+
+### Frontend
+
+* React application successfully deployed
+* Netlify deployment operational
+* Production API connection verified
+* User registration tested
+* User login tested
+* User logout tested
+* Workout creation tested
+* Workout persistence tested
+
+### End-to-End
+
+The complete production flow was successfully verified:
+
+```text
+Register
+   ↓
+Login
+   ↓
+Authenticate
+   ↓
+Access Dashboard
+   ↓
+Create Workout
+   ↓
+Save Workout
+   ↓
+Retrieve Workout
+   ↓
+Display Statistics & Analytics
+```
+
+---
+
+## 🛠️ Deployment Notes
+
+For future deployments:
+
+1. Make and test changes locally.
+2. Verify the frontend and backend work together.
+3. Commit the changes to Git.
+4. Push the changes to GitHub.
+5. Allow the configured deployment service to build and deploy the updated application.
+6. Verify the production frontend.
+7. Verify the production API.
+8. Test critical authentication and workout functionality.
+
+Production database credentials and other secrets should remain configured through the deployment platform's environment-variable system.
+
+---
+
+````
+
+### ✅ Part D complete
+
+Once you've pasted it, preview the README. You should now have:
+
+**Part A** → 🚴 Project overview & features  
+**Part B** → ⚙️ Installation & local development  
+**Part C** → 🔌 API documentation  
+**Part D** → 🌍 Production deployment  
+
+That's already looking like a serious portfolio repository. 🔥
+
+Suggested commit:
+
+```text
+docs(readme): document production deployment architecture
+````
+
+After you commit Part D, we'll do **Part E — Screenshots, Roadmap, Author & License**. That's the final README section, and then we'll move on to the next piece of **STEP 32.4 Production Polish**. 🚴‍♂️💜
 
 
 
