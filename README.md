@@ -1160,3 +1160,111 @@ For future deployments:
 Production database credentials and other secrets should remain configured through the deployment platform's environment-variable system.
 
 ---
+---
+
+## 📸 Screenshots
+
+### 🏠 Dashboard
+
+The main dashboard provides a centralized overview of workout performance, statistics, fitness insights, milestones, recent activity, and training progress.
+
+> 📷 Screenshot coming soon.
+
+---
+
+### 📊 Analytics
+
+The analytics section provides visual insights into workout performance and long-term training trends.
+
+> 📷 Screenshot coming soon.
+
+---
+
+### 🚴 Workout Tracking
+
+Users can record and review their indoor cycling workouts and monitor key performance metrics.
+
+> 📷 Screenshot coming soon.
+
+---
+
+### 🏆 Achievements & Goals
+
+Users can track milestones, achievements, workout streaks, and personal goals to stay motivated.
+
+> 📷 Screenshot coming soon.
+
+---
+
+### 📱 Responsive Interface
+
+Spin Tracker includes responsive layouts designed for desktop, tablet, and mobile devices.
+
+> 📷 Screenshot coming soon.
+
+---
+
+## 🗺️ Project Roadmap
+
+Spin Tracker has progressed from a locally developed fitness tracker into a deployed full-stack production application.
+
+### ✅ Completed
+
+- [x] User registration and authentication
+- [x] JWT-based protected routes
+- [x] Secure password hashing
+- [x] User profile management
+- [x] Workout creation and tracking
+- [x] Workout history
+- [x] Workout details
+- [x] Dashboard statistics
+- [x] Personal records
+- [x] Workout streaks
+- [x] Weekly and monthly summaries
+- [x] Fitness insights
+- [x] Smart coaching
+- [x] Milestones
+- [x] Achievements
+- [x] Performance trends
+- [x] Activity tracking
+- [x] Goals
+- [x] Analytics dashboards
+- [x] Dark mode and light mode
+- [x] Responsive mobile layouts
+- [x] Community and social functionality
+- [x] Public user profiles
+- [x] Password recovery and reset
+- [x] Production frontend deployment
+- [x] Production backend deployment
+- [x] Production PostgreSQL database
+- [x] Migration from Render PostgreSQL to Neon
+- [x] Production authentication testing
+- [x] Production workout persistence testing
+
+### 🔮 Future Improvements
+
+Potential future improvements include:
+
+- [ ] Progressive Web App (PWA) support
+- [ ] Advanced workout filtering and search
+- [ ] More detailed performance analytics
+- [ ] Additional achievement types
+- [ ] Expanded social and community features
+- [ ] Improved workout goal automation
+- [ ] Additional fitness integrations
+- [ ] Automated production monitoring
+- [ ] Expanded test coverage
+
+---
+
+## 🤝 Contributing
+
+Spin Tracker is primarily a personal development and portfolio project, but suggestions, feedback, and improvements are welcome.
+
+If you would like to contribute:
+
+1. Fork the repository.
+2. Create a feature branch.
+
+```bash
+git checkout -b feature/your-feature
