@@ -1266,5 +1266,76 @@ If you would like to contribute:
 1. Fork the repository.
 2. Create a feature branch.
 
-```bash
+bash
 git checkout -b feature/your-feature
+
+3. Make your changes.
+4. Test the application locally.
+5. Commit your changes.
+
+bash
+git commit -m "feat: describe your change"
+
+6. Push your branch.
+
+bash
+git push origin feature/your-feature
+
+7. Open a Pull Request.
+
+Please ensure that sensitive information such as `.env` files, database credentials, JWT secrets, and API keys are never included in commits.
+
+---
+
+## 👨‍💻 Author
+
+### Collins Gikungu
+
+Software Developer passionate about building practical applications across web development, software engineering, blockchain/Web3, and emerging technologies.
+
+**GitHub:**
+[https://github.com/collins-gikungu](https://github.com/collins-gikungu)
+
+**Spin Tracker Repository:**
+[https://github.com/collins-gikungu/spin-tracker-app](https://github.com/collins-gikungu/spin-tracker-app)
+
+---
+
+## 💜 About the Project
+
+Spin Tracker was built from the ground up as a practical full-stack software project.
+
+The project evolved through multiple development stages, beginning as a local fitness tracking application and eventually becoming a deployed production system with:
+
+* A React frontend
+* A Node.js / Express backend
+* PostgreSQL data storage
+* JWT authentication
+* RESTful APIs
+* Data visualization
+* Responsive UI
+* Social functionality
+* Cloud deployment
+
+The project demonstrates the complete development lifecycle of a modern web application — from database design and API development to frontend development, authentication, responsive UI design, deployment, and production database migration.
+
+---
+
+## 📄 License
+
+This project is currently provided for educational and portfolio purposes.
+
+Unless otherwise stated, the source code and project assets are not licensed for commercial redistribution or reuse.
+
+---
+
+## ⭐ Support the Project
+
+If you found Spin Tracker interesting or useful, consider giving the repository a ⭐ on GitHub.
+
+Your support and feedback are greatly appreciated! 🚴💜
+
+---
+
+**Built with ❤️ and plenty of 🚴 rides by Collins Gikungu.**
+
